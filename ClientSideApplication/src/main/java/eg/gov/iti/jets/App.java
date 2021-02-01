@@ -34,7 +34,7 @@ public class App extends Application {
     static void setRoot(Parent parent, double x, double y, boolean b) throws IOException {
         Scene scene1 = new Scene(parent, x, y);
         window.setScene(scene1);
-        window.setResizable(b);
+      //  window.setResizable(b);
         window.setMinHeight(320);
         window.setMinWidth(270);
 
@@ -43,8 +43,6 @@ public class App extends Application {
 
     public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LoginView.fxml"));
-
-        // FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/mypkg/secondary.fxml"));
 
         return fxmlLoader.load();
     }
