@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+      
+  <modelVersion>4.0.0</modelVersion>
+<groupId>eg.gov.iti.jets</groupId>
+<artifactId>ChatApplication</artifactId>
+ <packaging>pom</packaging>
+ <version>1.0-SNAPSHOT</version>
+  
+  <name>ChatApplication</name>
+  <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <javafx.version>15.0.1</javafx.version>
+        <ikonli.version>12.1.0</ikonli.version>
+        <bootstrapfx.version>0.4.0</bootstrapfx.version>
+        <controlsfx.version>11.0.3</controlsfx.version>
+        <tilesfx.version>11.47</tilesfx.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.kordamp.bootstrapfx</groupId>
+            <artifactId>bootstrapfx-core</artifactId>
+            <version>${bootstrapfx.version}</version>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
+        <!--    <dependency>-->
+        <!--        <groupId>com.oracle.database.jdbc</groupId>-->
+        <!--        <artifactId>ojdbc10</artifactId>-->
+        <!--        <version>19.8.0.0</version>-->
+        <!--    </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+            <!--            <scope>runtime</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+
+        <!-- jfoenix and Other 3rd Libraries-->
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>${tilesfx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>${controlsfx.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <modules>
+    <module>ClientSideApplication</module>        
+    <module>ServerSideApplication</module>      
+  </modules>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.5</version>
+                <configuration>
+                    <options>
+                        <!--===========================================CONTROL FX CONFIGS============================================-->
+                        <!--                        Opening Controls-->
+                        <option>--add-opens</option>
+                        <option>javafx.controls/javafx.scene.control.skin=org.controlsfx.controls</option>
+                        <!--                        Table Row expander Column-->
+                        <option>--add-opens</option>
+                        <option>javafx.controls/javafx.scene.control.skin=org.controlsfx.controls</option>
+                        <!--                        Notification Pane Adding-->
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.scene=org.controlsfx.controls</option>
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.scene.traversal=org.controlsfx.controls</option>
+                        <!--                        Auto complete binding adding-->
+                        <option>--add-exports</option>
+                        <option>javafx.base/com.sun.javafx.event=org.controlsfx.controls</option>
+                        <!--                        Glyph Font Adding-->
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.css=org.controlsfx.controls</option>
+                        <!--===============================================JFOENIX CONFIGS========================================-->
+                        <option>--add-opens</option>
+                        <option>java.base/java.lang.reflect=com.jfoenix</option>
+                        <option>--add-opens</option>
+                        <option>javafx.graphics/javafx.css=com.jfoenix</option>
+                        <option>--add-opens</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                        <option>--add-opens</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.base/com.sun.javafx.binding=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.stage=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.base/com.sun.javafx.event=com.jfoenix</option>
+                    </options>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
