@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.jets.ui.controllers.loginControllers.FirstLoginController">
+   <children>
+      <GridPane alignment="CENTER" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <GridPane style="-fx-background-color: linear-gradient(#1130a5, #029ee9);" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="270.0" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="381.0" minHeight="10.0" prefHeight="377.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <StackPane GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <children>
+                        <Label text="Chatous" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="308.0" fitWidth="303.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../pictures/loginPicture.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="341.0" fitWidth="384.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../pictures/circle.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+            <GridPane style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="165.0" valignment="TOP" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="412.0" minHeight="2.0" prefHeight="77.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="367.0" minHeight="6.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="370.0" minHeight="10.0" prefHeight="270.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <VBox spacing="30.0">
+                     <children>
+                        <HBox alignment="CENTER" fillHeight="false" spacing="60.0" style="-fx-background-color: #ffffff;">
+                           <children>
+                              <Pane prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: D4E1FF; -fx-background-radius: 50;">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="31.0" fitWidth="28.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../pictures/chat-box.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                           </children>
+                           <padding>
+                              <Insets top="40.0" />
+                           </padding>
+                        </HBox>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="185.0" text="Welcome To  Chatous" textAlignment="CENTER" textFill="#004dfc">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets top="30.0" />
+                     </GridPane.margin>
+                     <children>
+                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
+                        <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
+                     </children>
+                  </HBox>
+                  <Label text="Invalid Phone Number" textFill="#ff2d2d" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="CENTER" prefHeight="534.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <children>
+                        <JFXButton prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Next" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <Label text="OR" />
+                        <JFXButton text="create new account" textFill="#757575" underline="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <Label prefWidth="249.0" text="\@2021 Chatous All right reserver, Design By ITI" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

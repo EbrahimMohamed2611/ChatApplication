@@ -4,12 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class App extends Application {
 
@@ -42,7 +40,7 @@ public class App extends Application {
 
 
     public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LoginView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LoginViews/FirstLoginView.fxml"));
 
         return fxmlLoader.load();
     }
