@@ -6,5 +6,6 @@ module ClientSideApplication {
     requires mysql.connector.java;
 
     exports eg.gov.iti.jets;
+    exports eg.gov.iti.jets.ui.controllers.loginControllers;
 
 }

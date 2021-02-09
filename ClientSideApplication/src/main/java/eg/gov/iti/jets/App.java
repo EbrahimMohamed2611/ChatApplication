@@ -22,8 +22,10 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
         stage.setTitle("ITI Chat App");
+        stage.setMinHeight(600);
+        stage.setMinWidth(900);
         stage.show();
-        stage.setResizable(false);
+//        stage.setResizable(false);
 
 
     }
@@ -33,14 +35,14 @@ public class App extends Application {
         Scene scene1 = new Scene(parent, x, y);
         window.setScene(scene1);
       //  window.setResizable(b);
-        window.setMinHeight(320);
-        window.setMinWidth(270);
+        window.setMinHeight(600);
+        window.setMinWidth(900);
 
     }
 
 
     public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LoginViews/FirstLoginView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/HomeView.fxml"));
 
         return fxmlLoader.load();
     }
