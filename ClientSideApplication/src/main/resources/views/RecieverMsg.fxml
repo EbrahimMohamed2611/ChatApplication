@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<HBox snapToPixel="false" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arabie.ChatMsg">
+<HBox snapToPixel="false" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arabie.ChatMsg">
    <children>
       <Label alignment="TOP_LEFT" maxHeight="Infinity" prefHeight="89.0" prefWidth="49.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <graphic>
-            <ImageView fx:id="senderImg" fitHeight="75.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="senderImg" fitHeight="62.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../pictures/profilePicture.png" />
                </image>
@@ -26,7 +24,7 @@
             <Insets right="10.0" />
          </HBox.margin>
       </Label>
-      <VBox maxHeight="Infinity">
+      <VBox maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
          <children>
             <Label fx:id="senderName" style="-fx-text-fill: #252D3B " text="UserName">
                <font>

@@ -104,12 +104,6 @@
             <!--            <scope>runtime</scope>-->
         </dependency>
 
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-
         <!-- jfoenix and Other 3rd Libraries-->
         <dependency>
             <groupId>com.jfoenix</groupId>
@@ -137,8 +131,9 @@
 
     <modules>
     <module>ClientSideApplication</module>        
-    <module>ServerSideApplication</module>      
-  </modules>
+    <module>ServerSideApplication</module>
+    <module>ClientServerContract</module>
+    </modules>
 
 
 

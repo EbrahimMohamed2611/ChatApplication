@@ -3,22 +3,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
+
+  <dependencies>
+    <dependency>
+      <groupId>eg.gov.iti.jets</groupId>
+      <artifactId>ClientServerContract</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+
   <parent>
     <groupId>eg.gov.iti.jets</groupId>
     <artifactId>ChatApplication</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>eg.gov.iti.jets</groupId>
   <artifactId>ServerSideApplication</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>ServerSideApplication</name>
   <url>http://maven.apache.org</url>
-
-  <dependencies>
-
-
-  </dependencies>
 
 
   <build>
@@ -27,9 +32,9 @@
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.4</version>
-        <configuration>
-          <mainClass>ServerSideApplication/eg.gov.iti.jets.App</mainClass>
-        </configuration>
+<!--        <configuration>-->
+<!--          <mainClass>ServerSideApplication/eg.gov.iti.contract.App</mainClass>-->
+<!--        </configuration>-->
       </plugin>
     </plugins>
   </build>

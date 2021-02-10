@@ -1,11 +1,25 @@
 module ClientSideApplication {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.naming;
-    requires java.sql;
-    requires mysql.connector.java;
+    requires javafx.media;
 
-    exports eg.gov.iti.jets;
-    exports eg.gov.iti.jets.ui.controllers.loginControllers;
+    //For RMI
+    requires java.rmi;
+    requires com.jfoenix;
+    requires org.kordamp.ikonli.materialdesign2;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
+
+
+    requires org.controlsfx.controls;
+    requires org.kordamp.ikonli.fontawesome5;
+
+    requires ClientServerContract;
+    exports eg.gov.iti.contract;
+    exports eg.gov.iti.contract.ui.controllers.loginControllers;
+    opens eg.gov.iti.contract.ui.controllers;
+    exports eg.gov.iti.contract.ui.controllers;
+    exports eg.gov.iti.contract.net;
+
 
 }

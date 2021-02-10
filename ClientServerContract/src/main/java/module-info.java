@@ -1,4 +1,5 @@
-module ServerSideApplication {
+module ClientServerContract {
+
     // For Database Connection
     requires java.naming;
     requires java.sql;
@@ -9,9 +10,11 @@ module ServerSideApplication {
 
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
-    requires ClientServerContract;
 
 
-    exports eg.gov.iti.contract;
+    exports eg.gov.iti.contract.clientServerDTO.dto;
+    exports eg.gov.iti.contract.server.chatRemoteInterfaces;
+    exports eg.gov.iti.contract.client;
+
 
 }
