@@ -1,6 +1,6 @@
-package eg.gov.iti.contract.db.dto;
+package eg.gov.iti.server.db.dto;
 
-import eg.gov.iti.contract.db.entities.Gender;
+import eg.gov.iti.server.db.entities.Gender;
 import javafx.scene.image.ImageView;
 
 import java.io.Serializable;

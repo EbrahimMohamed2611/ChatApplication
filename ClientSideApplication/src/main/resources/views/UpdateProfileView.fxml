@@ -2,11 +2,11 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +17,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -37,8 +36,8 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="270.0" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="381.0" minHeight="10.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="338.0" minHeight="10.0" prefHeight="203.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="497.0" valignment="TOP" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <StackPane GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -50,34 +49,29 @@
                         </Label>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <StackPane prefHeight="434.0" prefWidth="450.0" GridPane.rowIndex="1">
                      <children>
-                        <ImageView fitHeight="308.0" fitWidth="303.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="416.0" fitWidth="279.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 100;" StackPane.alignment="TOP_CENTER">
                            <image>
-                              <Image url="@../../pictures/loginPicture.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="341.0" fitWidth="384.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../pictures/LoginImage.png" />
+                              <Image url="@../pictures/profilePicture.png" />
                            </image>
                         </ImageView>
                      </children>
                   </StackPane>
                </children>
             </GridPane>
-            <GridPane style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <GridPane prefHeight="737.0" prefWidth="450.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="178.0" valignment="TOP" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="434.0" minHeight="10.0" prefHeight="372.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="162.0" valignment="TOP" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="538.0" minHeight="10.0" prefHeight="538.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <VBox spacing="30.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="156.0" prefWidth="185.0" spacing="15.0">
                      <children>
-                        <HBox alignment="CENTER" fillHeight="false" spacing="60.0" style="-fx-background-color: #ffffff;">
+                        <HBox alignment="CENTER" fillHeight="false" prefWidth="185.0" spacing="60.0" style="-fx-background-color: #ffffff;">
                            <children>
                               <Pane prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: D4E1FF; -fx-background-radius: 50;">
                                  <HBox.margin>
@@ -96,75 +90,78 @@
                               <Insets top="40.0" />
                            </padding>
                         </HBox>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="185.0" text="Welcome To  Chatous" textAlignment="CENTER" textFill="#004dfc">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="185.0" text="Your Profile" textAlignment="CENTER" textFill="#004dfc">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="419.0" prefWidth="320.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="419.0" prefWidth="320.0" spacing="20.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <children>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number1" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField editable="false" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-circle" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField editable="false" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2e-email" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField editable="false" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXPasswordField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Password" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-plus" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXPasswordField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
-                        <VBox alignment="CENTER_LEFT" spacing="10.0">
-<!--                           <fx:define>-->
-<!--                              <ToggleGroup fx:id="Gender"/>-->
-<!--                           </fx:define>-->
+                        <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="320.0" spacing="15.0">
                            <children>
-                              <JFXRadioButton text="Male">
-                                 <selectedColor>
-                                    <Color green="0.3019607961177826" blue="0.9882352948188782" />
-                                 </selectedColor>
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="Gender" />
-                                 </toggleGroup>
-                              </JFXRadioButton>
-                              <JFXRadioButton text="Female" toggleGroup="$Gender">
-                                 <selectedColor>
-                                    <Color green="0.3019607961177826" blue="0.9882352948188782" />
-                                 </selectedColor>
-                              </JFXRadioButton>
+                              <JFXButton alignment="CENTER" disable="true" prefHeight="43.0" prefWidth="85.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 5;" text="Add/Change Photo" textFill="WHITE" wrapText="true" />
+                              <HBox alignment="CENTER" prefHeight="31.0" prefWidth="173.0" spacing="10.0">
+                                 <children>
+                                    <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-city-variant" iconSize="20" />
+                                    <JFXTextField editable="false" focusColor="#004dfc" prefHeight="25.0" prefWidth="159.0" promptText="Country" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                                 </children>
+                              </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets left="30.0" />
+                              <Insets />
                            </VBox.margin>
-                        </VBox>
-                        <JFXDatePicker defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" />
-                        <JFXButton prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Next" textFill="WHITE">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <JFXDatePicker defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" styleClass="jfx-date-picker" stylesheets="@../styles.css" />
+                        <HBox prefHeight="59.0" prefWidth="320.0" spacing="10.0">
+                           <children>
+                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-card-account-details" iconSize="20">
+                                 <HBox.margin>
+                                    <Insets top="3.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <JFXTextArea editable="false" focusColor="#004dfc" prefHeight="73.0" prefWidth="320.0" promptText="Bio" unFocusColor="#dae4ee" wrapText="true" />
+                           </children>
+                        </HBox>
+                        <JFXButton prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Update" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </JFXButton>
-                        <Label prefWidth="249.0" text="\@2021 Chatous All right reserver, Design By ITI" />
                      </children>
                   </VBox>
                </children>

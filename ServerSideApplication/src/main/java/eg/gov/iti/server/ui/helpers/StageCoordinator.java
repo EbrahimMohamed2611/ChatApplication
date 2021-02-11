@@ -1,4 +1,4 @@
-package eg.gov.iti.contract.ui.helpers;
+package eg.gov.iti.server.ui.helpers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,11 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StageCoordinator {
-
     private static Stage primaryStage;
     private static final StageCoordinator stageCoordinator = new StageCoordinator();
     private final Map<String, SceneData> scenes = new HashMap<>();
-
 
     private StageCoordinator() { }
 
@@ -44,6 +42,7 @@ public class StageCoordinator {
                 scenes.put("login", loginSceneData);
                 primaryStage.setScene(loginScene);
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("IO Exception: Couldn't load 'Login View' FXML file");
             }
         } else {
@@ -85,24 +84,25 @@ public class StageCoordinator {
             throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
         }
 
-        if (!scenes.containsKey("Home")) {
+        if (!scenes.containsKey("home")) {
             try {
                 System.out.println("Created New Scene");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
                 Parent homeView = fxmlLoader.load();
                 Scene homeScene = new Scene(homeView);
                 SceneData homeSceneData = new SceneData(fxmlLoader, homeView, homeScene);
-                scenes.put("Home", homeSceneData);
+                scenes.put("home", homeSceneData);
                 primaryStage.setScene(homeScene);
             } catch (IOException e) {
-                System.out.println("IO Exception: Couldn't load 'Home View' FXML file");
+                e.printStackTrace();
+                System.out.println("IO Exception: Couldn't load 'Login View' FXML file");
             }
         } else {
             System.out.println("Loaded Existing Scene");
-            SceneData homeSceneData = scenes.get("Home");
+            SceneData homeSceneData = scenes.get("home");
             Scene homeScene = homeSceneData.getScene();
             primaryStage.setScene(homeScene);
         }
-    }
 
+    }
 }

@@ -1,7 +1,7 @@
-package eg.gov.iti.contract.db.dao.daoImpl;
+package eg.gov.iti.server.db.dao.daoImpl;
 
-import eg.gov.iti.contract.db.dao.UserDao;
-import eg.gov.iti.contract.db.entities.User;
+import eg.gov.iti.server.db.dao.UserDao;
+import eg.gov.iti.server.db.entities.User;
 
 import java.rmi.RemoteException;
 import java.util.List;
