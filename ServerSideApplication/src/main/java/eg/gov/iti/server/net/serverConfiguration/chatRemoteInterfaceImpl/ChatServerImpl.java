@@ -27,6 +27,12 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
         clientsVector.remove(clientRef);
         System.out.println("Client removed");
     }
+
+    @Override
+    public void changeStatus(String username, String status) throws RemoteException {
+
+    }
+
     public void tellOthers(UserMessageDto userMessageDto)throws RemoteException
     {
         System.out.println("Message received: "+userMessageDto);
