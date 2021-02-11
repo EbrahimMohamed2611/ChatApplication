@@ -1,4 +1,4 @@
-package eg.gov.iti.contract.net.serverConfiguration.chatRemoteInterfaceImpl;
+package eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl;
 
 import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;

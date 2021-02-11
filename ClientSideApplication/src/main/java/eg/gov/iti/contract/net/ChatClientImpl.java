@@ -19,7 +19,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         Platform.runLater(()->{
           //  chatController.display(userMessage);
         });
-
-
     }
+
+
 }

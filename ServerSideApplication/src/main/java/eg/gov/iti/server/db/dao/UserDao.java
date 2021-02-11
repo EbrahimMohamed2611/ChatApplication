@@ -1,6 +1,6 @@
-package eg.gov.iti.contract.db.dao;
+package eg.gov.iti.server.db.dao;
 
-import eg.gov.iti.contract.db.entities.User;
+import eg.gov.iti.server.db.entities.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

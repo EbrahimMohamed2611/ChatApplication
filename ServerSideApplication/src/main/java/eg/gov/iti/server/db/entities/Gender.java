@@ -1,4 +1,4 @@
-package eg.gov.iti.contract.db.entities;
+package eg.gov.iti.server.db.entities;
 
 public enum Gender {
     MALE,

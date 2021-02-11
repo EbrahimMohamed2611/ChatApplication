@@ -12,6 +12,9 @@ module ServerSideApplication {
     requires ClientServerContract;
 
 
-    exports eg.gov.iti.contract;
+    exports eg.gov.iti.server;
+    exports eg.gov.iti.server.ui.controllers.loginControllers;
+    exports eg.gov.iti.server.ui.controllers;
 
+    opens eg.gov.iti.server.ui.controllers.loginControllers;
 }

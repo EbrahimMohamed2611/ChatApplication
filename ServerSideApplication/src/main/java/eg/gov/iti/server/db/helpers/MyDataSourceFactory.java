@@ -1,4 +1,4 @@
-package eg.gov.iti.contract.db.helpers;
+package eg.gov.iti.server.db.helpers;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
