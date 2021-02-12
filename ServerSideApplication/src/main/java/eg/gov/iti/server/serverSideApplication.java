@@ -2,8 +2,8 @@ package eg.gov.iti.server;
 
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
-import eg.gov.iti.server.db.entities.Gender;
-import eg.gov.iti.server.db.entities.Status;
+import eg.gov.iti.contract.clientServerDTO.enums.Gender;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import eg.gov.iti.server.db.entities.User;
 import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.ChatServerImpl;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
@@ -47,6 +47,8 @@ public class serverSideApplication extends Application {
 
         try {
             UserDao userDao = new UserDaoImpl();
+            //rmi return UserDto
+            //UserDto -> UserEntity
             User user = new User("01005425354", "ArabieIbrahim", "1234", "email@dfd.com", "Egypt", Date.valueOf("1997-02-25"), Gender.MALE, "", Status.AVAILABLE);
             userDao.save(user);
         } catch (RemoteException e) {

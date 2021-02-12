@@ -2,6 +2,7 @@ package eg.gov.iti.contract.net;
 
 
 import eg.gov.iti.contract.client.ChatClient;
+import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import javafx.application.Platform;
 
@@ -34,6 +35,11 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
     @Override
     public void notify(String message, int type) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveUserDto(UserDto userDto) throws RemoteException {
 
     }
 }

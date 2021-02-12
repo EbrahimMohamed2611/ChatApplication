@@ -1,4 +1,4 @@
-package eg.gov.iti.server.db.entities;
+package eg.gov.iti.contract.clientServerDTO.enums;
 
 public enum Status {
     AVAILABLE,

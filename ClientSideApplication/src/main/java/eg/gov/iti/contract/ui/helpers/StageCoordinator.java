@@ -29,7 +29,7 @@ public class StageCoordinator {
         return stageCoordinator;
     }
 
-    public void switchToLoginScene() {
+    public void switchToFirstLoginScene() {
         if (primaryStage == null) {
             throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
         }
@@ -51,6 +51,7 @@ public class StageCoordinator {
             SceneData loginSceneData = scenes.get("login");
             Scene loginScene = loginSceneData.getScene();
             primaryStage.setScene(loginScene);
+
         }
 
     }
@@ -105,4 +106,30 @@ public class StageCoordinator {
         }
     }
 
+    public void switchToSecondLoginScene() {
+        if (primaryStage == null) {
+            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
+        }
+
+        if (!scenes.containsKey("SecondLogin")) {
+            try {
+                System.out.println("Created New Scene");
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/LoginViews/SecondLoginView.fxml"));
+                Parent secondLogin = fxmlLoader.load();
+                Scene secondLoginScene = new Scene(secondLogin);
+                SceneData sceneData = new SceneData(fxmlLoader, secondLogin, secondLoginScene);
+                scenes.put("SecondLogin", sceneData);
+
+                primaryStage.setScene(secondLoginScene);
+            } catch (IOException e) {
+                System.out.println("IO Exception: Couldn't load 'Home View' FXML file");
+            }
+        } else {
+            System.out.println("Loaded Existing Scene");
+            SceneData homeSceneData = scenes.get("Home");
+            Scene homeScene = homeSceneData.getScene();
+            primaryStage.setScene(homeScene);
+        }
+    }
 }

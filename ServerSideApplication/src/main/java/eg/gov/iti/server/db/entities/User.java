@@ -1,5 +1,7 @@
 package eg.gov.iti.server.db.entities;
 
+import eg.gov.iti.contract.clientServerDTO.enums.Gender;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import javafx.scene.image.ImageView;
 
 import java.io.Serializable;

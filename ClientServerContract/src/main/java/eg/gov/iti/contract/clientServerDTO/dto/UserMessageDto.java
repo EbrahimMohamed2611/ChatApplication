@@ -11,7 +11,7 @@ public class UserMessageDto implements Serializable {
     transient private  ImageView userImage;
     private String messageBody;
     private  String imageEncoded;
-    private Date messgaeDate;
+    private Date messageDate;
 
     public UserMessageDto() {
     }
@@ -48,12 +48,12 @@ public class UserMessageDto implements Serializable {
         this.imageEncoded = imageEncoded;
     }
 
-    public Date getMessgaeDate() {
-        return messgaeDate;
+    public Date getMessageDate() {
+        return messageDate;
     }
 
-    public void setMessgaeDate(Date messgaeDate) {
-        this.messgaeDate = messgaeDate;
+    public void setMessageDate(Date messageDate) {
+        this.messageDate = messageDate;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class UserMessageDto implements Serializable {
                 ", userImage=" + userImage +
                 ", messageBody='" + messageBody + '\'' +
                 ", imageEncoded='" + imageEncoded + '\'' +
-                ", messgaeDate=" + messgaeDate +
+                ", messgaeDate=" + messageDate +
                 '}';
     }
 }

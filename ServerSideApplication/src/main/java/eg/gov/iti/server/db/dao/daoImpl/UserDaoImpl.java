@@ -2,7 +2,7 @@ package eg.gov.iti.server.db.dao.daoImpl;
 
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.entities.User;
-import eg.gov.iti.server.db.helpers.MyDataSourceFactory;
+import eg.gov.iti.server.db.helpers.dbFactory.MyDataSourceFactory;
 
 import javax.sql.DataSource;
 import java.rmi.RemoteException;
@@ -71,7 +71,7 @@ public class UserDaoImpl extends UnicastRemoteObject implements UserDao {
     }
 
     @Override
-    public User selectByPhoneNumber(int personPhoneNumber) throws RemoteException {
+    public User selectByPhoneNumber(String personPhoneNumber) throws RemoteException {
         return null;
     }
 

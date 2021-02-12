@@ -1,5 +1,6 @@
 package eg.gov.iti.contract;
 
+import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.application.Application;
@@ -21,8 +22,10 @@ public class ClientSideApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-//        stageCoordinator.switchToLoginScene();
+        stageCoordinator.switchToFirstLoginScene();
 //        stageCoordinator.switchToHomeScene();
+//        ChatClient chatClient;
+//        chatClient.receiveUserDto();
         primaryStage.show();
     }
 
