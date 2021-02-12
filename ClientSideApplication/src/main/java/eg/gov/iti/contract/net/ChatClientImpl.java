@@ -22,4 +22,18 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     }
 
 
+    @Override
+    public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveAnnouncement(String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void notify(String message, int type) throws RemoteException {
+
+    }
 }
