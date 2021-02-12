@@ -1,5 +1,10 @@
 package eg.gov.iti.server;
 
+import eg.gov.iti.server.db.dao.UserDao;
+import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
+import eg.gov.iti.server.db.entities.Gender;
+import eg.gov.iti.server.db.entities.Status;
+import eg.gov.iti.server.db.entities.User;
 import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.ChatServerImpl;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import javafx.application.Application;
@@ -8,6 +13,8 @@ import javafx.stage.Stage;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class serverSideApplication extends Application {
 
@@ -36,6 +43,16 @@ public class serverSideApplication extends Application {
             System.out.println("Server running ......");
         }catch(RemoteException ex){
             ex.printStackTrace();
+        }
+
+        try {
+            UserDao userDao = new UserDaoImpl();
+            User user = new User("01005425354", "ArabieIbrahim", "1234", "email@dfd.com", "Egypt", Date.valueOf("1997-02-25"), Gender.MALE, "", Status.AVAILABLE);
+            userDao.save(user);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

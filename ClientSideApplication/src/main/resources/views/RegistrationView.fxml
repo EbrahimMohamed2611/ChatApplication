@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.loginControllers.FirstLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.registerControllers.RegistrationController">
    <children>
       <GridPane alignment="CENTER" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -54,7 +54,7 @@
                      <children>
                         <ImageView fitHeight="308.0" fitWidth="303.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../pictures/loginPicture.png" />
+                              <Image url="@../pictures/LoginImage.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="341.0" fitWidth="384.0" pickOnBounds="true" preserveRatio="true">
@@ -108,34 +108,34 @@
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number1" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="phoneNumberTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number1" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-circle" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="userNameTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2e-email" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="emailTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="passwordTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-plus" iconSize="20" />
-                              <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="confirmPasswordTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
-                        <VBox alignment="CENTER_LEFT" spacing="10.0">
+                        <VBox fx:id="genderRadioButton" alignment="CENTER_LEFT" spacing="10.0">
 <!--                           <fx:define>-->
 <!--                              <ToggleGroup fx:id="Gender"/>-->
 <!--                           </fx:define>-->
@@ -158,8 +158,8 @@
                               <Insets left="30.0" />
                            </VBox.margin>
                         </VBox>
-                        <JFXDatePicker defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" />
-                        <JFXButton prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Next" textFill="WHITE">
+                        <JFXDatePicker fx:id="dateOfBirthDatePicker" defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" styleClass="jfx-date-picker" stylesheets="@../styles.css" />
+                        <JFXButton fx:id="nextButton" onAction="#signUp" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Sign Up" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>

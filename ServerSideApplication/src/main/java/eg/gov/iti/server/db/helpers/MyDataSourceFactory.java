@@ -24,6 +24,7 @@ public class MyDataSourceFactory {
                 //   fis = new FileInputStream(MainEntryPoint.class.getResource("/db.properties").getFile());
              //   fis = new FileInputStream("D:\\ITI\\Java Project Specification\\ChatApplication\\ServerSideApplication\\src\\main\\resources\\databaseConfiguration\\databaseProperties.properties");
                 fis = new FileInputStream("databaseProperties.properties");
+
                 //   fis = (FileInputStream) MyDataSourceFactory.class.getClassLoader().getResourceAsStream("db.properties");
                 props.load(fis);
                 mysqlDS = new MysqlDataSource();

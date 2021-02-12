@@ -22,7 +22,7 @@ public class ClientSideApplication extends Application {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToLoginScene();
-        stageCoordinator.switchToHomeScene();
+//        stageCoordinator.switchToHomeScene();
         primaryStage.show();
     }
 
