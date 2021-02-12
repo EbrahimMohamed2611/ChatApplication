@@ -7,22 +7,19 @@ import eg.gov.iti.server.db.helpers.dbFactory.MyDataSourceFactory;
 import javax.sql.DataSource;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
-public class UserDaoImpl extends UnicastRemoteObject implements UserDao {
+public class UserDaoImpl implements UserDao {
     DataSource dataSource = MyDataSourceFactory.getMySQLDataSource();
     Connection connection;
 
-    public UserDaoImpl() throws RemoteException, SQLException {
+    public UserDaoImpl() throws SQLException {
         connection = dataSource.getConnection();
     }
 
     @Override
-    public Boolean save(User user) throws RemoteException {
+    public Boolean save(User user) {
 
         try {
             Statement statement = connection.createStatement();
@@ -33,7 +30,6 @@ public class UserDaoImpl extends UnicastRemoteObject implements UserDao {
         final String SQL_INSERT = "INSERT INTO user (`phone_number`, `user_name`, `email`, `password`, `gender`, `country`, `date_of_birth`, `bio`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
-
             preparedStatement.setString(1,user.getPhoneNumber());
             preparedStatement.setString(2,user.getUserName());
             preparedStatement.setString(3,user.getEmail());
@@ -53,30 +49,52 @@ public class UserDaoImpl extends UnicastRemoteObject implements UserDao {
             if(row != 0){
                 return true;
             }
-        } catch (SQLException throwables) {
-            System.err.format("SQL State: ", throwables.getSQLState(), throwables.getMessage());
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            System.err.format("SQL State: ", e.getSQLState(), e.getMessage());
+            e.printStackTrace();
         }
 
         return false;    }
 
     @Override
-    public User update(User person) throws RemoteException {
+    public User update(User person){
+
         return null;
     }
 
     @Override
-    public Boolean delete(User person) throws RemoteException {
+    public Boolean delete(User person){
+
+        return null;
+    }
+
+
+    @Override
+    public User selectByPhoneNumber(String personPhoneNumber) {
+
         return null;
     }
 
     @Override
-    public User selectByPhoneNumber(String personPhoneNumber) throws RemoteException {
+    public List<User> selectAll() {
         return null;
     }
 
     @Override
-    public List<User> selectAll() throws RemoteException {
-        return null;
+    public Boolean isExisted(String phoneNumber) {
+        try {
+
+            final String SQL_SELECT = "Select * from user where phone_number = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
+            preparedStatement.setString(1,phoneNumber);
+            ResultSet rs=preparedStatement.executeQuery();
+            while (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 }

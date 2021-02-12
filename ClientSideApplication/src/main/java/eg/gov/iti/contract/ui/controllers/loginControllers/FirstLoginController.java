@@ -32,6 +32,8 @@ public class FirstLoginController implements Initializable {
     public void switchToSecondLoginScene() {
         coordinator.switchToSecondLoginScene();
 
+        //(Boolean)serverLoginService.checkPhoneNumber(userAuthDto);
+        //thread
     }
 
 

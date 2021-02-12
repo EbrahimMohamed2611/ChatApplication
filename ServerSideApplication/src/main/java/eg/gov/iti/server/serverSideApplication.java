@@ -1,5 +1,6 @@
 package eg.gov.iti.server;
 
+import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.contract.clientServerDTO.enums.Gender;
@@ -47,6 +48,8 @@ public class serverSideApplication extends Application {
 
         try {
             UserDao userDao = new UserDaoImpl();
+//            ChatClient chatClient;
+//            chatClient.receiveUserDto();
             //rmi return UserDto
             //UserDto -> UserEntity
             User user = new User("01005425354", "ArabieIbrahim", "1234", "email@dfd.com", "Egypt", Date.valueOf("1997-02-25"), Gender.MALE, "", Status.AVAILABLE);

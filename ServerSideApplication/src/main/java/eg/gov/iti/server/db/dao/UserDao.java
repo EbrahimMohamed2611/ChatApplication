@@ -7,10 +7,13 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface UserDao extends Remote {
-    public Boolean save(User person) throws RemoteException;
-    public User update(User person) throws  RemoteException;
-    public Boolean delete(User person) throws  RemoteException;
-    public User selectByPhoneNumber(String personPhoneNumber) throws  RemoteException;
-    public List<User> selectAll() throws  RemoteException;
+    Boolean save(User person);
+    User update(User person);
+    Boolean delete(User person);
+    User selectByPhoneNumber(String phoneNumber) ;
+    List<User> selectAll() ;
+
+    Boolean isExisted(String phoneNumber);
+
 
 }
