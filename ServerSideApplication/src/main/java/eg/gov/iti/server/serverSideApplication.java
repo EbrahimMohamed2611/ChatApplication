@@ -29,8 +29,8 @@ public class serverSideApplication extends Application {
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-//        stageCoordinator.switchToLoginScene();
-        stageCoordinator.switchToHomeScene();
+        stageCoordinator.switchToLoginScene();
+//        stageCoordinator.switchToHomeScene();
         primaryStage.show();
     }
 
