@@ -9,5 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 public interface LoginServiceInterface extends Remote {
 
     boolean  checkPhoneNumber(UserAuthDto userAuthDto) throws RemoteException;
+    boolean  checkPassword(UserAuthDto userAuthDto) throws RemoteException;
+
 
 }

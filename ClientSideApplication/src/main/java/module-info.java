@@ -25,6 +25,7 @@ module ClientSideApplication {
 
         exports eg.gov.iti.contract;
     exports eg.gov.iti.contract.ui.controllers.loginControllers;
+    opens eg.gov.iti.contract.ui.controllers.loginControllers;
     opens eg.gov.iti.contract.ui.controllers;
     exports eg.gov.iti.contract.ui.controllers;
     exports eg.gov.iti.contract.net;

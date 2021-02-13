@@ -14,9 +14,20 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     DataSource dataSource = MyDataSourceFactory.getMySQLDataSource();
     Connection connection;
+    private static UserDaoImpl instance=null;
 
-    public UserDaoImpl() throws SQLException {
+    private UserDaoImpl() throws SQLException {
         connection = dataSource.getConnection();
+    }
+
+    public static UserDaoImpl getInstance() throws SQLException {
+        if(instance == null){
+
+                instance=new UserDaoImpl();
+
+
+        }
+        return instance;
     }
 
     @Override
@@ -215,6 +226,23 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1,phoneNumber);
             ResultSet rs=preparedStatement.executeQuery();
             while (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean isPasswordValid(String phoneNumber,String enteredPassword) {
+        try {
+            final String SQL_SELECT = "Select * from user where phone_number = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
+            preparedStatement.setString(1,phoneNumber);
+            ResultSet rs=preparedStatement.executeQuery();
+            rs.next();
+            if(rs.getString("password").equals(enteredPassword)){
                 return true;
             }
         } catch (SQLException e) {

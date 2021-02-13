@@ -13,4 +13,5 @@ public interface UserDao extends Remote {
     List<User> selectUsersByPhoneNumbers(List<String> phoneNumbers);
     List<User> selectAll() ;
     Boolean isExisted(String phoneNumber);
+    Boolean isPasswordValid(String phoneNumber,String password);
 }
