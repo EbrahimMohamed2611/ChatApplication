@@ -29,7 +29,7 @@ public class SecondLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         coordinator = StageCoordinator.getInstance();
         modelsFactory = ModelsFactory.getInstance();
-        userAuthModel = modelsFactory.getCurrentUserModel();
+        userAuthModel = modelsFactory.getAuthUserModel();
         passwordTxtField.textProperty().bindBidirectional(userAuthModel.passwordProperty());
         loginService = ServicesLocator.getLoginService();
     }

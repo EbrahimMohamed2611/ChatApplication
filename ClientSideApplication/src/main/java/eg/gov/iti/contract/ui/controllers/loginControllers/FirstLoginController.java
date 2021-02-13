@@ -7,7 +7,6 @@ import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -29,7 +28,7 @@ public class FirstLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         coordinator = StageCoordinator.getInstance();
         modelsFactory = ModelsFactory.getInstance();
-        userAuthModel = modelsFactory.getCurrentUserModel();
+        userAuthModel = modelsFactory.getAuthUserModel();
         userPhoneNumberTxtField.textProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
         loginService =ServicesLocator.getLoginService();
     }

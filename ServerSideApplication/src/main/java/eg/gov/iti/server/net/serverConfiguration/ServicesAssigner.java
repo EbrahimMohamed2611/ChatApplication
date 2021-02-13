@@ -49,9 +49,11 @@ public class ServicesAssigner {
     }
     public void startConnection() {
         try {
-
+            //bind service
             registry.rebind("chatApplication", chatClient);
+
             registry.rebind("loginService",loginService);
+
             System.out.println("Server running ......");
 
         }catch (Exception e){

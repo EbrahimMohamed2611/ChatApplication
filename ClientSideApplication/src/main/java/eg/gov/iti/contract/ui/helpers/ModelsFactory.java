@@ -15,7 +15,7 @@ public class ModelsFactory {
         return instance;
     }
 
-    public UserAuthModel getCurrentUserModel() {
+    public UserAuthModel getAuthUserModel() {
         if (userAuthModel == null) {
             userAuthModel = new UserAuthModel();
         }
