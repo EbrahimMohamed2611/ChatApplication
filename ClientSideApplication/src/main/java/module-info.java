@@ -14,7 +14,8 @@ module ClientSideApplication {
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.fontawesome5;
 
-
+    exports eg.gov.iti.contract.ui.controllers.registerControllers;
+    opens eg.gov.iti.contract.ui.controllers.registerControllers to javafx.fxml;
     requires ClientServerContract;
 //    exports eg.gov.iti.contract;
 

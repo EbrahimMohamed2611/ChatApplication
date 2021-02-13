@@ -30,6 +30,9 @@ public class FirstLoginController implements Initializable {
 
 
     public void switchToSecondLoginScene() {
+
+
+
         coordinator.switchToSecondLoginScene();
 
     }

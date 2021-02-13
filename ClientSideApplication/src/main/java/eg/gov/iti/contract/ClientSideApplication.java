@@ -22,8 +22,8 @@ public class ClientSideApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToFirstLoginScene();
-//        stageCoordinator.switchToHomeScene();
+//        stageCoordinator.switchToFirstLoginScene();
+        stageCoordinator.switchToSignupScene();
 //        ChatClient chatClient;
 //        chatClient.receiveUserDto();
         primaryStage.show();
