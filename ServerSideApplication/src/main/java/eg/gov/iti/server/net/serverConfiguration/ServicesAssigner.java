@@ -2,6 +2,8 @@ package eg.gov.iti.server.net.serverConfiguration;
 
 import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.ChatServerImpl;
 import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.LoginServiceImpl;
+import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.LogoutServiceImpl;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,6 +14,7 @@ public class ServicesAssigner {
     private Registry registry;
     private ChatServerImpl chatClient = new ChatServerImpl();
     private LoginServiceImpl loginService =LoginServiceImpl.getInstance();
+    private LogoutServiceImpl logoutService = LogoutServiceImpl.getInstance();
 
     private ServicesAssigner() throws RemoteException {
     }
@@ -19,18 +22,13 @@ public class ServicesAssigner {
     public static synchronized ServicesAssigner getInstance()  {
         if (instance == null) {
             try {
-
                 instance = new ServicesAssigner();
-
             } catch (RemoteException e) {
-
                 e.printStackTrace();
-
             }
         }
         return instance;
     }
-
 
     public boolean initConnection() {
         if (registry == null) {
@@ -47,12 +45,15 @@ public class ServicesAssigner {
             return true;
         }
     }
+
     public void startConnection() {
         try {
             //bind service
             registry.rebind("chatApplication", chatClient);
 
             registry.rebind("loginService",loginService);
+
+            registry.rebind("logoutService", logoutService);
 
             System.out.println("Server running ......");
 

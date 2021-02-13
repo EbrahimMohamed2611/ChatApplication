@@ -25,9 +25,9 @@ public class ClientSideApplication extends Application {
         stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToFirstLoginScene();
 
-//        stageCoordinator.switchToHomeScene();
+        stageCoordinator.switchToHomeScene();
 
-        stageCoordinator.switchToSignupScene();
+//        stageCoordinator.switchToSignupScene();
 //        ChatClient chatClient;
 //        chatClient.receiveUserDto();
         primaryStage.show();

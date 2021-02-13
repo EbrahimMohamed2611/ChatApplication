@@ -48,6 +48,7 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
     public boolean checkPassword(UserAuthDto userAuthDto) throws RemoteException {
         try {
             userDao=UserDaoImpl.getInstance();
+
             return userDao.isPasswordValid(userAuthDto.getPhoneNumber(),userAuthDto.getPassword());
 
         } catch (SQLException e) {
