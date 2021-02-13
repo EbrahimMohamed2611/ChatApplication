@@ -47,12 +47,12 @@ public class serverSideApplication extends Application {
 
         try {
             UserDao userDao = new UserDaoImpl();
+//            ChatClient chatClient;
+//            chatClient.receiveUserDto();
             //rmi return UserDto
             //UserDto -> UserEntity
             User user = new User("01005425354", "ArabieIbrahim", "1234", "email@dfd.com", "Egypt", Date.valueOf("1997-02-25"), Gender.MALE, "", Status.AVAILABLE);
             userDao.save(user);
-        } catch (RemoteException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
