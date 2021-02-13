@@ -36,15 +36,15 @@ public class StageCoordinator {
 
         if (!scenes.containsKey("login")) {
             try {
-                System.out.println("Created New Scene");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/LoginViews/FirstLoginView.fxml"));
                 Parent loginView = fxmlLoader.load();
+                System.out.println("Created New Scene");
                 Scene loginScene = new Scene(loginView);
                 SceneData loginSceneData = new SceneData(fxmlLoader, loginView, loginScene);
                 scenes.put("login", loginSceneData);
                 primaryStage.setScene(loginScene);
             } catch (IOException e) {
-                System.out.println("IO Exception: Couldn't load 'Login View' FXML file");
+                System.out.println("IO Exception: Couldn't load 'First Login View' FXML file");
             }
         } else {
             System.out.println("Loaded Existing Scene");
@@ -64,7 +64,7 @@ public class StageCoordinator {
             if (!scenes.containsKey("signUp")) {
                 try {
                     System.out.println("Created New Scene");
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegistrationView.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegisterationView.fxml"));
                     Parent signUpView = fxmlLoader.load();
                     Scene signUpScene = new Scene(signUpView);
                     SceneData signUpSceneData = new SceneData(fxmlLoader, signUpView, signUpScene);
@@ -73,6 +73,7 @@ public class StageCoordinator {
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("IO Exception: Couldn't load 'signUp View' FXML file");
+                    e.printStackTrace();
                 }
             } else {
                 System.out.println("Loaded Existing Scene");
@@ -124,11 +125,11 @@ public class StageCoordinator {
 
                 primaryStage.setScene(secondLoginScene);
             } catch (IOException e) {
-                System.out.println("IO Exception: Couldn't load 'Home View' FXML file");
+                System.out.println("IO Exception: Couldn't load 'Second Login Scene' FXML file");
             }
         } else {
             System.out.println("Loaded Existing Scene");
-            SceneData homeSceneData = scenes.get("Home");
+            SceneData homeSceneData = scenes.get("SecondLogin");
             Scene homeScene = homeSceneData.getScene();
             primaryStage.setScene(homeScene);
         }

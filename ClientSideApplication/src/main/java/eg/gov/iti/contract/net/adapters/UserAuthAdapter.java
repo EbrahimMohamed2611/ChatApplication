@@ -4,9 +4,9 @@ import eg.gov.iti.contract.clientServerDTO.dto.UserAuthDto;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 
 public class UserAuthAdapter {
-    UserAuthDto userAuthDto;
+    private static UserAuthDto userAuthDto;
 //    UserAuthModel userAuthEntity;
-    private UserAuthDto getUserAuthDtoFromModelAdapter(UserAuthModel userAuthModel){
+    public static UserAuthDto getUserAuthDtoFromModelAdapter(UserAuthModel userAuthModel){
 
         userAuthDto =new UserAuthDto();
 

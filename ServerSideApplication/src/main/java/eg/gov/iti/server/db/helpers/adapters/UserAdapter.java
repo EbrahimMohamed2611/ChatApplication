@@ -4,9 +4,9 @@ import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.server.db.entities.User;
 
 public class UserAdapter {
-    UserDto userDto;
-    User userEntity;
-    private UserDto getUserDtoFromEntityAdapter(User userEntity){
+    private static UserDto userDto;
+    private static User userEntity;
+    public static UserDto getUserDtoFromEntityAdapter(User userEntity){
 
         userDto =new UserDto();
         userDto.setUserId(userEntity.getUserId());
@@ -24,7 +24,7 @@ public class UserAdapter {
         System.out.println(userDto);
         return userDto;
     }
-    private User getUserEntityFromUserDtoAdapter(UserDto userDto){
+    public static User getUserEntityFromUserDtoAdapter(UserDto userDto){
 
         userEntity =new User();
         userEntity.setUserId(userDto.getUserId());
