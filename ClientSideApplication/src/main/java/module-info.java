@@ -16,12 +16,15 @@ module ClientSideApplication {
 
 
     requires ClientServerContract;
+    requires java.sql;
 //    exports eg.gov.iti.contract;
 
 //    requires eg.gov.iti.contract.clientServerDTO.dto;
 //    requires eg.gov.iti.contract.server.chatRemoteInterfaces;
 //    requires eg.gov.iti.contract.client;
 
+    exports eg.gov.iti.contract.ui.controllers.registerControllers;
+    opens eg.gov.iti.contract.ui.controllers.registerControllers to javafx.fxml;
 
         exports eg.gov.iti.contract;
     exports eg.gov.iti.contract.ui.controllers.loginControllers;

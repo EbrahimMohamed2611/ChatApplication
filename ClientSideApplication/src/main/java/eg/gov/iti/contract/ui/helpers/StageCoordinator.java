@@ -64,7 +64,7 @@ public class StageCoordinator {
             if (!scenes.containsKey("signUp")) {
                 try {
                     System.out.println("Created New Scene");
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegistrationView.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegisterationView.fxml"));
                     Parent signUpView = fxmlLoader.load();
                     Scene signUpScene = new Scene(signUpView);
                     SceneData signUpSceneData = new SceneData(fxmlLoader, signUpView, signUpScene);
@@ -72,6 +72,7 @@ public class StageCoordinator {
                     primaryStage.setScene(signUpScene);
                 } catch (IOException e) {
                     System.out.println("IO Exception: Couldn't load 'signUp View' FXML file");
+                    e.printStackTrace();
                 }
             } else {
                 System.out.println("Loaded Existing Scene");

@@ -24,7 +24,7 @@ public class UserDto implements Serializable {
 
     public UserDto(int userId, String phoneNumber, String fullName,
                    String password, String email, String country,
-                   Date dateOfBirth, Gender userGender, String bio,
+                    Date dateOfBirth, Gender userGender, String bio,
                    String imageEncoded, Status status) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
@@ -126,4 +126,8 @@ public class UserDto implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+
+
+
 }
