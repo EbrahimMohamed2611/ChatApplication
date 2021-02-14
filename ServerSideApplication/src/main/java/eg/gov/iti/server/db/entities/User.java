@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import java.io.Serializable;
 import java.sql.Date;
 
+import static java.lang.String.valueOf;
+
 public class User implements Serializable {
     private int userId;
     private String phoneNumber;
@@ -144,6 +146,7 @@ public class User implements Serializable {
         this.imageEncoded = imageEncoded;
         this.status = status;
     }
+
 
     public User(String phoneNumber, String userName, String password, String email, String country, Date dateOfBirth, Gender userGender, String bio, Status status) {
         this.phoneNumber = phoneNumber;

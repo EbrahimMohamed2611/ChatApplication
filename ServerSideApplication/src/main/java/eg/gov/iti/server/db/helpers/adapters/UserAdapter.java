@@ -21,7 +21,6 @@ public class UserAdapter {
         userDto.setImageEncoded(userEntity.getImageEncoded());
         userDto.setStatus(userEntity.getStatus());
 
-        System.out.println(userDto);
         return userDto;
     }
     public static User getUserEntityFromUserDtoAdapter(UserDto userDto){

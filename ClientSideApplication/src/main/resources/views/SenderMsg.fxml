@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" prefHeight="100.0" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
+<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
    <children>
-      <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" prefWidth="369.0">
+      <VBox alignment="TOP_RIGHT" maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
          <children>
             <Label fx:id="senderName" text="UserName" textAlignment="RIGHT" textFill="#252d3b">
                <font>
@@ -24,7 +24,7 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </Label>
-            <Label fx:id="msgBody" maxHeight="1.7976931348623157E308" style="-fx-text-fill: white; -fx-background-color: #1A233B; -fx-background-radius: 5;" text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" textAlignment="RIGHT" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
+            <Label fx:id="msgBody" style="-fx-text-fill: white; -fx-background-color: #1A233B; -fx-background-radius: 5;" text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" textAlignment="RIGHT" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="11.0" />
                </font>

@@ -15,10 +15,13 @@ module ClientSideApplication {
     requires org.kordamp.ikonli.fontawesome5;
 
     exports eg.gov.iti.contract.ui.controllers.registerControllers;
-    opens eg.gov.iti.contract.ui.controllers.registerControllers to javafx.fxml;
+    opens eg.gov.iti.contract.ui.controllers.registerControllers;
+
+   // opens eg.gov.iti.contract.ui.controllers.registerControllers to javafx.fxml;
     requires ClientServerContract;
     requires java.sql;
 //    exports eg.gov.iti.contract;
+
 //    requires eg.gov.iti.contract.clientServerDTO.dto;
 //    requires eg.gov.iti.contract.server.chatRemoteInterfaces;
 //    requires eg.gov.iti.contract.client;

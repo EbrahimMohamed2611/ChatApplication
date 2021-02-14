@@ -2,11 +2,7 @@ package eg.gov.iti.contract.net;
 
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
-
-import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
-
-import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
-
+import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -18,11 +14,8 @@ public class ServicesLocator {
     //services instances
     private static ChatServerInterface chatServerInterface;
     private static LoginServiceInterface loginService;
+    private static RegisterServiceInterface registerServiceInterface;
 
-    private static ServerMessageServiceInterface friendMessageServiceInterface;
-
-
-    private static LogoutServiceInterface logoutService;
 
     private static boolean connectionEstablished;
     private ServicesLocator(){
@@ -42,17 +35,11 @@ public class ServicesLocator {
         return chatServerInterface;
     }
 
-    public static ServerMessageServiceInterface getFriendMessageServiceInterface() {
-        return friendMessageServiceInterface;
-    }
-
     public static LoginServiceInterface getLoginService() {
         return loginService;
     }
 
-    public static LogoutServiceInterface getLogoutService() {
-        return logoutService;
-    }
+    public static RegisterServiceInterface getRegisterService(){return registerServiceInterface;}
 
     public static boolean servicesInit(){
         if(!connectionEstablished){
@@ -63,11 +50,7 @@ public class ServicesLocator {
                 //services lookup
                 chatServerInterface = (ChatServerInterface) registry.lookup("chatApplication");
                 loginService = (LoginServiceInterface) registry.lookup("loginService");
-
-                friendMessageServiceInterface = (ServerMessageServiceInterface) registry.lookup("messageService");
-
-
-                logoutService = (LogoutServiceInterface) registry.lookup("logoutService");
+                registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
 
 
                 connectionEstablished = true;

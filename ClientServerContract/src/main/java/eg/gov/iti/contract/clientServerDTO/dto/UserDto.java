@@ -128,6 +128,20 @@ public class UserDto implements Serializable {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "userId=" + userId +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", userGender=" + userGender +
+                ", bio='" + bio + '\'' +
+                ", imageEncoded='" + imageEncoded + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

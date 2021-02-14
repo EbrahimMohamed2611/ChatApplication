@@ -18,7 +18,6 @@ public class UserDaoImpl implements UserDao {
 
     private UserDaoImpl() throws SQLException {
         connection = dataSource.getConnection();
-        System.out.println("Databases is running  ....");
     }
 
     public static UserDaoImpl getInstance() throws SQLException {
@@ -33,9 +32,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Boolean save(User user) {
+
+
         final String SQL_INSERT = "INSERT INTO user (`phone_number`, `user_name`, `email`, `password`, `gender`, `country`, `date_of_birth`, `bio`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try{
+            System.out.println(user);
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
             preparedStatement.setString(1,user.getPhoneNumber());
             preparedStatement.setString(2,user.getUserName());
@@ -46,6 +48,8 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setDate(7,user.getDateOfBirth());
             preparedStatement.setString(8,user.getBio());
             preparedStatement.setString(9,user.getStatus().toString());
+
+
 
             System.out.println(user);
 
