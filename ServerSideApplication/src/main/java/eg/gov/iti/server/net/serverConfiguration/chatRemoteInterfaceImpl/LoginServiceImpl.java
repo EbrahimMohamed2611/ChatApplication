@@ -30,6 +30,8 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         }
         return instance;
     }
+
+
     @Override
     public boolean checkPhoneNumber(UserAuthDto userAuthDto) throws RemoteException {
 

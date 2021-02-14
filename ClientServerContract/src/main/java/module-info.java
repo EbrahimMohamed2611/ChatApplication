@@ -16,4 +16,5 @@ module ClientServerContract {
     exports eg.gov.iti.contract.server.chatRemoteInterfaces;
     exports eg.gov.iti.contract.client;
     exports eg.gov.iti.contract.clientServerDTO.enums;
+    exports eg.gov.iti.contract.server.messageServices;
 }

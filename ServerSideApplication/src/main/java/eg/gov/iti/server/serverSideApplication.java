@@ -28,9 +28,9 @@ public class serverSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
-        stageCoordinator.initStage(primaryStage);
+     //   stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToLoginScene();
-        stageCoordinator.switchToHomeScene();
+       // stageCoordinator.switchToHomeScene();
         primaryStage.show();
     }
 
@@ -38,22 +38,10 @@ public class serverSideApplication extends Application {
     public void init() {
         // MyDataSourceFactory myDataSourceFactory = (MyDataSourceFactory) MyDataSourceFactory.getMySQLDataSource();
         //  System.out.println(myDataSourceFactory);
-//        try{
 
-//            ChatServerImpl chatClient = new ChatServerImpl();
-//            LoginServiceImpl loginService =LoginServiceImpl.getInstance();
-//
-//            Registry registry = LocateRegistry.createRegistry(1099);
-//
-//            registry.rebind("chatApplication", chatClient);
-//            registry.rebind("loginService",loginService);
-//            System.out.println("Server running ......");
-//
             ServicesAssigner.getInstance().initConnection();
             ServicesAssigner.getInstance().startConnection();
-//        }catch(RemoteException ex){
-//            ex.printStackTrace();
-//        }
+
 
 //        try {
 //            UserDao userDao = new UserDaoImpl();

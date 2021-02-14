@@ -19,7 +19,6 @@ module ClientSideApplication {
     requires ClientServerContract;
     requires java.sql;
 //    exports eg.gov.iti.contract;
-
 //    requires eg.gov.iti.contract.clientServerDTO.dto;
 //    requires eg.gov.iti.contract.server.chatRemoteInterfaces;
 //    requires eg.gov.iti.contract.client;
