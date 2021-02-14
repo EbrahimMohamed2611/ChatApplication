@@ -10,6 +10,8 @@ import eg.gov.iti.contract.ui.models.UserAuthModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -22,6 +24,8 @@ public class SecondLoginController implements Initializable {
     LoginServiceInterface loginService;
     @FXML
     private JFXPasswordField passwordTxtField;
+    @FXML
+    private Label wrongPassword;
 
 
 
@@ -38,15 +42,31 @@ public class SecondLoginController implements Initializable {
     void logIn(ActionEvent event) {
         try {
             if(loginService.checkPassword(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
+                wrongPassword.setText("");
+                passwordTxtField.setUnFocusColor(Color.rgb(218, 228, 238));
                 coordinator.switchToHomeScene();
+            }
+            else if(passwordTxtField.getText()==null || passwordTxtField.getText()=="" || passwordTxtField.getText().isEmpty()){
+                wrongPassword.setText("Please add your password");
+                passwordTxtField.setUnFocusColor(Color.RED);
+            }
+
+            else {
+                wrongPassword.setText("Your password is wrong");
+                passwordTxtField.setUnFocusColor(Color.RED);
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
+
+
     @FXML
     void returnBack(ActionEvent event) {
+        wrongPassword.setText("");
+        passwordTxtField.setUnFocusColor(Color.rgb(218, 228, 238));
+        passwordTxtField.setText("");
         coordinator.switchToFirstLoginScene();
     }
 
