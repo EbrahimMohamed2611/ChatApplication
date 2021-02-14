@@ -14,7 +14,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class FirstLoginController implements Initializable {
+public class ServerLoginController implements Initializable {
     StageCoordinator coordinator;
     AdminDao adminDao;
     AdminAuthentication adminAuthModel;

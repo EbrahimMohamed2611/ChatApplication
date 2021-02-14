@@ -11,8 +11,21 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
-    public ChatClientImpl( )throws RemoteException {
+    private static ChatClientImpl instance;
 
+    private ChatClientImpl( )throws RemoteException {
+
+    }
+
+    public static ChatClientImpl getInstance() {
+        if (instance == null) {
+            try {
+                instance = new ChatClientImpl();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return instance;
     }
 
     public void receive(UserMessageDto userMessage)throws RemoteException{

@@ -5,5 +5,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface LogoutServiceInterface extends Remote {
-    boolean  clearCachedData() throws RemoteException;
+    boolean logout() throws RemoteException;
 }

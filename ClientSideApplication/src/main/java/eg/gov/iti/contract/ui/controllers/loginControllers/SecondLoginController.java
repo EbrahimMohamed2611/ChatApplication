@@ -1,6 +1,8 @@
 package eg.gov.iti.contract.ui.controllers.loginControllers;
 
 import com.jfoenix.controls.JFXPasswordField;
+import eg.gov.iti.contract.client.ChatClient;
+import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.UserAuthAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
@@ -14,8 +16,6 @@ import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
 public class SecondLoginController implements Initializable {
@@ -23,6 +23,8 @@ public class SecondLoginController implements Initializable {
     UserAuthModel userAuthModel;
     StageCoordinator coordinator;
     LoginServiceInterface loginService;
+    ChatServerInterface chatService;
+    ChatClient client;
     @FXML
     private JFXPasswordField passwordTxtField;
 
@@ -35,13 +37,17 @@ public class SecondLoginController implements Initializable {
         userAuthModel = modelsFactory.getAuthUserModel();
         passwordTxtField.textProperty().bindBidirectional(userAuthModel.passwordProperty());
         loginService = ServicesLocator.getLoginService();
+        chatService = ServicesLocator.getChatServerInterface();
+
+        client = ChatClientImpl.getInstance();
     }
     @FXML
-    void logIn(ActionEvent event) {
+    void logIn() {
         try {
             if(loginService.checkPassword(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
-
+                chatService.register(client);
                 coordinator.switchToHomeScene();
+                passwordTxtField.clear();
             }
         } catch (RemoteException e) {
             e.printStackTrace();

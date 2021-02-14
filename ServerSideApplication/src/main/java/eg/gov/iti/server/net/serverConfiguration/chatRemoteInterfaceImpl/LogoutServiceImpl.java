@@ -12,7 +12,7 @@ public class LogoutServiceImpl extends UnicastRemoteObject implements LogoutServ
     }
 
     @Override
-    public boolean clearCachedData() throws RemoteException {
+    public boolean logout() throws RemoteException {
         return true;
     }
 
