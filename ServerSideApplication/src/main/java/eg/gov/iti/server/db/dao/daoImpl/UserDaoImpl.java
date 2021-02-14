@@ -18,6 +18,7 @@ public class UserDaoImpl implements UserDao {
 
     private UserDaoImpl() throws SQLException {
         connection = dataSource.getConnection();
+        System.out.println("Databases is running  ....");
     }
 
     public static UserDaoImpl getInstance() throws SQLException {

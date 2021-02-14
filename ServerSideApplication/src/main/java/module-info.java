@@ -10,6 +10,7 @@ module ServerSideApplication {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
     requires ClientServerContract;
+    requires com.jfoenix;
 
 
     exports eg.gov.iti.server;
@@ -18,4 +19,7 @@ module ServerSideApplication {
     exports eg.gov.iti.server.db.dao;
 
     opens eg.gov.iti.server.ui.controllers.loginControllers;
+    opens eg.gov.iti.server.ui.controllers;
+
+
 }

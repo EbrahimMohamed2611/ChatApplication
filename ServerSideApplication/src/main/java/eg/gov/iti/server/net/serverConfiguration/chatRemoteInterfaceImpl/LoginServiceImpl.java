@@ -30,6 +30,8 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         }
         return instance;
     }
+
+
     @Override
     public boolean checkPhoneNumber(UserAuthDto userAuthDto) throws RemoteException {
 
@@ -48,6 +50,7 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
     public boolean checkPassword(UserAuthDto userAuthDto) throws RemoteException {
         try {
             userDao=UserDaoImpl.getInstance();
+
             return userDao.isPasswordValid(userAuthDto.getPhoneNumber(),userAuthDto.getPassword());
 
         } catch (SQLException e) {

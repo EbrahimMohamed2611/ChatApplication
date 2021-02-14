@@ -71,6 +71,7 @@ public class StageCoordinator {
                     scenes.put("signUp", signUpSceneData);
                     primaryStage.setScene(signUpScene);
                 } catch (IOException e) {
+                    e.printStackTrace();
                     System.out.println("IO Exception: Couldn't load 'signUp View' FXML file");
                     e.printStackTrace();
                 }
@@ -98,6 +99,7 @@ public class StageCoordinator {
                 primaryStage.setScene(homeScene);
             } catch (IOException e) {
                 System.out.println("IO Exception: Couldn't load 'Home View' FXML file");
+                e.printStackTrace();
             }
         } else {
             System.out.println("Loaded Existing Scene");

@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.server.ui.controllers.loginControllers.SecondLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.server.ui.controllers.loginControllers.ServerLoginController">
     <children>
         <GridPane alignment="CENTER" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -68,9 +68,10 @@
                         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="165.0" valignment="TOP" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="412.0" minHeight="2.0" prefHeight="77.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="80.0" minHeight="6.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="165.0" valignment="TOP" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="70.0" valignment="TOP" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="412.0" minHeight="2.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="80.0" minHeight="6.0" prefHeight="77.0" valignment="TOP" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="270.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -98,17 +99,28 @@
                                 </HBox>
                             </children>
                         </VBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets top="30.0" />
-                     </GridPane.margin>
+                  <HBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="1">
                      <children>
-                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-outline" iconSize="20" />
-
-                              <JFXPasswordField focusColor="#004dfc" prefHeight="35.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
+                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-circle" iconSize="20" />
+                        <JFXTextField fx:id="adminPhoneNumberTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" promptText="Admin phone number" style="-fx-text-fill: #004dfc;" unFocusColor="#dae4ee" />
                      </children>
                   </HBox>
-                        <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" GridPane.rowIndex="3">
+                  <Label text="Invalid Phone Number" textFill="#ff2d2d" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
+      
+                              <JFXPasswordField fx:id="adminPasswordTextField" focusColor="#004dfc" prefHeight="35.0" prefWidth="230.0" promptText="Admin password" style="-fx-text-fill: #004dfc;" unFocusColor="#dae4ee" />
+                     </children>
+                  </HBox>
+                        <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" GridPane.rowIndex="4">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -116,9 +128,9 @@
                                 <Insets />
                             </GridPane.margin>
                         </Label>
-                        <VBox alignment="CENTER" prefHeight="275.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="275.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                             <children>
-                                <JFXButton prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Login" textFill="WHITE">
+                                <JFXButton onAction="#login" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Login" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>
@@ -134,12 +146,6 @@
                                 <Insets top="50.0" />
                             </GridPane.margin>
                         </VBox>
-                  <HBox alignment="CENTER" spacing="5.0" GridPane.rowIndex="1">
-                     <children>
-                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                        <JFXTextField focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
-                     </children>
-                  </HBox>
                     </children>
                 </GridPane>
             </children>

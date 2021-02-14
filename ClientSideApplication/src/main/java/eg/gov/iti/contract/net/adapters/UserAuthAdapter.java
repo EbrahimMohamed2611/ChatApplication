@@ -9,6 +9,7 @@ public class UserAuthAdapter {
     public static UserAuthDto getUserAuthDtoFromModelAdapter(UserAuthModel userAuthModel){
 
         userAuthDto =new UserAuthDto();
+
         userAuthDto.setPhoneNumber(userAuthModel.getPhoneNumber());
         userAuthDto.setPassword(userAuthModel.getPassword());
 
