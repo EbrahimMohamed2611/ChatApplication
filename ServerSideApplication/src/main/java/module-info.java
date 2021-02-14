@@ -10,6 +10,7 @@ module ServerSideApplication {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
     requires ClientServerContract;
+    requires com.jfoenix;
 
 
     exports eg.gov.iti.server;

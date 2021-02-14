@@ -164,7 +164,7 @@
                            <children>
                               <StackPane>
                                  <children>
-                                    <JFXButton alignment="BASELINE_CENTER" prefHeight="30.0" prefWidth="96.0" ripplerFill="#bcbfc6" style="-fx-background-color: #004dfc; -fx-background-radius: 5; -fx-border-radius: 5;" text="Log Out" textFill="WHITE">
+                                    <JFXButton alignment="BASELINE_CENTER" onAction="#logout" prefHeight="30.0" prefWidth="96.0" ripplerFill="#bcbfc6" style="-fx-background-color: #004dfc; -fx-background-radius: 5; -fx-border-radius: 5;" text="Log Out" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
