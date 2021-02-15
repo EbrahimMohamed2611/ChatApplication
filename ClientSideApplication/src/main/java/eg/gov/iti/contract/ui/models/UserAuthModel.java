@@ -3,8 +3,8 @@ package eg.gov.iti.contract.ui.models;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class UserAuthModel {
 
+public class UserAuthModel {
     private final StringProperty phoneNumber = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
 

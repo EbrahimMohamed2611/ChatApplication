@@ -27,6 +27,7 @@ databaseProperties.properties
 *.rar
 .settings/
 
+
 ClientSideApplication/target/
 ServerSideApplication/target/
 ClientServerContract/target/

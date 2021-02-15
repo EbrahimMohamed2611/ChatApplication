@@ -3,6 +3,7 @@ package eg.gov.iti.contract;
 import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
+import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,7 +12,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ClientSideApplication extends Application {
-
+    CachedCredentialsData cachedCredentialsData;
 
 
     public static void main(String[] args) {
@@ -23,8 +24,12 @@ public class ClientSideApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToFirstLoginScene();
-//        stageCoordinator.switchToHomeScene();
+
+        cachedCredentialsData = CachedCredentialsData.getInstance();
+        if (cachedCredentialsData.validateCredentials())
+            stageCoordinator.switchToHomeScene();
+        else
+            stageCoordinator.switchToFirstLoginScene();
 
 //        stageCoordinator.switchToSignupScene();
 //        ChatClient chatClient;
