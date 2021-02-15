@@ -123,7 +123,7 @@
                            </font>
                         </JFXButton>
                         <Label text="OR" />
-                        <JFXButton text="create new account" textFill="#757575" underline="true">
+                        <JFXButton onAction="#switchToRegisterScene" text="create new account" textFill="#757575" underline="true">
                            <font>
                               <Font size="15.0" />
                            </font>

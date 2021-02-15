@@ -7,6 +7,7 @@ import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserRegisterModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -15,14 +16,15 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class FirstLoginController implements Initializable {
-    ModelsFactory modelsFactory;
-    UserAuthModel userAuthModel;
+    private ModelsFactory modelsFactory;
+    private UserAuthModel userAuthModel;
+    private UserRegisterModel userRegisterModel;
 
     @FXML
     private JFXTextField userPhoneNumberTxtField;
 
-    StageCoordinator coordinator;
-    LoginServiceInterface loginService;
+    private StageCoordinator coordinator;
+    private LoginServiceInterface loginService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -31,6 +33,7 @@ public class FirstLoginController implements Initializable {
         userAuthModel = modelsFactory.getAuthUserModel();
         userPhoneNumberTxtField.textProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
         loginService =ServicesLocator.getLoginService();
+        userRegisterModel=modelsFactory.getRegisterUserModel();
     }
 
 
@@ -54,6 +57,10 @@ public class FirstLoginController implements Initializable {
         //(Boolean)serverLoginService.checkPhoneNumber(userAuthDto);
         //thread
     }
-
+    @FXML
+    private void switchToRegisterScene() {
+        userRegisterModel.clear();
+        coordinator.switchToSignupScene();
+    }
 
 }

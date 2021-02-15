@@ -1,22 +1,9 @@
 package eg.gov.iti.server;
 
-import eg.gov.iti.server.db.dao.UserDao;
-import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
-import eg.gov.iti.contract.clientServerDTO.enums.Gender;
-import eg.gov.iti.contract.clientServerDTO.enums.Status;
-import eg.gov.iti.server.db.entities.User;
 import eg.gov.iti.server.net.serverConfiguration.ServicesAssigner;
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.ChatServerImpl;
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.LoginServiceImpl;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.sql.Date;
-import java.sql.SQLException;
 
 public class serverSideApplication extends Application {
 

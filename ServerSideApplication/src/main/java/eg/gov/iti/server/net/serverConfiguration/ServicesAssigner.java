@@ -1,11 +1,6 @@
 package eg.gov.iti.server.net.serverConfiguration;
 
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.ChatServerImpl;
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.LoginServiceImpl;
-
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.MessageServiceImpl;
-
-import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.LogoutServiceImpl;
+import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.*;
 
 
 import java.rmi.RemoteException;
@@ -19,6 +14,8 @@ public class ServicesAssigner {
     private final ChatServerImpl chatClient = new ChatServerImpl();
     private final LoginServiceImpl loginService =LoginServiceImpl.getInstance();
     private final MessageServiceImpl messageService = MessageServiceImpl.getInstance();
+    private RegisterServiceImpl registerService = RegisterServiceImpl.getInstance();
+
 
 
     private LogoutServiceImpl logoutService = LogoutServiceImpl.getInstance();
@@ -66,6 +63,7 @@ public class ServicesAssigner {
 
             registry.rebind("logoutService", logoutService);
 
+            registry.rebind("registerService",registerService);
 
             System.out.println("Server running ......");
 
