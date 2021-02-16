@@ -2,9 +2,14 @@ package eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl;
 
 
 import eg.gov.iti.contract.client.ChatClient;
+import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
+import eg.gov.iti.server.db.dao.MessageDao;
 import eg.gov.iti.server.db.dao.UserDao;
+import eg.gov.iti.server.db.dao.daoImpl.MessageDaoImpl;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
+import eg.gov.iti.server.db.entities.MessageEntity;
+import eg.gov.iti.server.db.helpers.adapters.MessageAdapter;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,11 +19,12 @@ import java.util.List;
 
 public class MessageServiceImpl extends UnicastRemoteObject implements ServerMessageServiceInterface {
     List<ChatClient> clientsVector=new ArrayList<>();
-    UserDao userDao ;
+    private final MessageDao messageDao = new MessageDaoImpl();
+    private MessageAdapter messageAdapter;
 
     private static MessageServiceImpl instance;
 
-    protected MessageServiceImpl() throws RemoteException {
+    protected MessageServiceImpl() throws RemoteException, SQLException {
 
 
     }
@@ -27,7 +33,7 @@ public class MessageServiceImpl extends UnicastRemoteObject implements ServerMes
         if (instance == null) {
             try {
                 instance = new MessageServiceImpl();
-            } catch (RemoteException e) {
+            } catch (RemoteException | SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -44,13 +50,28 @@ public class MessageServiceImpl extends UnicastRemoteObject implements ServerMes
 
 
     @Override
-    public void sendToMyFriend(String userMessageDto) throws RemoteException {
+    public void sendToMyFriend(ChatClient senderClient, UserMessageDto userMessageDto) throws RemoteException {
+        String sender = userMessageDto.getSenderPHoneNumber();
 
         try {
-            userDao= UserDaoImpl.getInstance();
+            MessageEntity messageEntityFromMessageDto = MessageAdapter.getMessageEntityFromMessageDto(userMessageDto);
+            UserDao userDao = UserDaoImpl.getInstance();
+            System.out.println("Message " +messageEntityFromMessageDto );
+            messageDao.saveMessage(messageEntityFromMessageDto);
             System.out.println("Message received: "+userMessageDto);
+
+//            clientsVector.stream().filter(e -> e != senderClient ).forEach(e -> {
+//                try {
+//                    e.receiveMessage(userMessageDto);
+//                } catch (RemoteException remoteException) {
+//                    remoteException.printStackTrace();
+//                }
+//            });
+
             for(ChatClient clientRef: clientsVector)
             {
+                System.out.println(clientRef = senderClient);
+               // if(!sender.equals(userMessageDto.getSenderPHoneNumber()))
                 clientRef.receiveMessage(userMessageDto);
 
             }

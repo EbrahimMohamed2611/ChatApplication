@@ -4,7 +4,10 @@ package eg.gov.iti.contract.net;
 import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
+import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.ui.controllers.HomeController;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserMessageModel;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -13,6 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
+    private  String clientPhoneNumber = new UserAuthModel().getPhoneNumber();
     HomeController homeController;
     private static ChatClientImpl instance;
 
@@ -51,11 +55,12 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 //
 //    }
         @Override
-        public void receiveMessage (String userMessage) throws RemoteException {
+        public void receiveMessage (UserMessageDto userMessage) throws RemoteException {
+            UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
             System.out.println(userMessage);
             Platform.runLater(() -> {
                 try {
-                    homeController.displayFriendMessage(userMessage);
+                    homeController.displayFriendMessage(messageModelFromMessageDto);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -26,7 +26,7 @@ databaseProperties.properties
 *.tar.gz
 *.rar
 .settings/
-
+*.properties
 ClientSideApplication/target/
 ServerSideApplication/target/
 ClientServerContract/target/
