@@ -3,6 +3,7 @@ package eg.gov.iti.contract.net;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
 
+import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
@@ -23,6 +24,8 @@ public class ServicesLocator {
 
 
     private static LogoutServiceInterface logoutService;
+
+    private static RegisterServiceInterface registerServiceInterface;
 
     private static boolean connectionEstablished;
     private ServicesLocator(){
@@ -54,6 +57,8 @@ public class ServicesLocator {
         return logoutService;
     }
 
+    public static RegisterServiceInterface getRegisterService(){return registerServiceInterface;}
+
     public static boolean servicesInit(){
         if(!connectionEstablished){
             try {
@@ -69,6 +74,7 @@ public class ServicesLocator {
 
                 logoutService = (LogoutServiceInterface) registry.lookup("logoutService");
 
+                registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
 
                 connectionEstablished = true;
                 return true;

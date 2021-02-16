@@ -64,7 +64,7 @@ public class StageCoordinator {
             if (!scenes.containsKey("signUp")) {
                 try {
                     System.out.println("Created New Scene");
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegisterationView.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RegistrationView.fxml"));
                     Parent signUpView = fxmlLoader.load();
                     Scene signUpScene = new Scene(signUpView);
                     SceneData signUpSceneData = new SceneData(fxmlLoader, signUpView, signUpScene);

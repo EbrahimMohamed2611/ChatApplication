@@ -7,10 +7,10 @@ import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.UserAuthAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
+import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -25,6 +25,7 @@ public class SecondLoginController implements Initializable {
     LoginServiceInterface loginService;
     ChatServerInterface chatService;
     ChatClient client;
+    CachedCredentialsData credentialsData;
     @FXML
     private JFXPasswordField passwordTxtField;
 
@@ -39,6 +40,8 @@ public class SecondLoginController implements Initializable {
         loginService = ServicesLocator.getLoginService();
         chatService = ServicesLocator.getChatServerInterface();
 
+        passwordTxtField.clear();
+
         client = ChatClientImpl.getInstance();
     }
     @FXML
@@ -46,6 +49,10 @@ public class SecondLoginController implements Initializable {
         try {
             if(loginService.checkPassword(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
                 chatService.register(client);
+
+                credentialsData = CachedCredentialsData.getInstance();
+                credentialsData.saveCredentials(userAuthModel);
+
                 coordinator.switchToHomeScene();
                 passwordTxtField.clear();
             }
@@ -55,7 +62,7 @@ public class SecondLoginController implements Initializable {
     }
 
     @FXML
-    void returnBack(ActionEvent event) {
+    void returnBack() {
         coordinator.switchToFirstLoginScene();
     }
 

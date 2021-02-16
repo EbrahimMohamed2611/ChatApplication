@@ -4,19 +4,34 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.enums.Gender;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
+import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.UserRegAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
+import eg.gov.iti.contract.ui.helpers.ModelsFactory;
+import eg.gov.iti.contract.ui.helpers.StageCoordinator;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserRegisterModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.paint.Color;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Date;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 
-public class RegisterationController implements Initializable {
+public class RegistrationController implements Initializable {
+
+    private ModelsFactory modelsFactory;
+    private StageCoordinator coordinator;
+    private UserRegisterModel userRegisterModel;
+    private UserAuthModel userAuthModel;
+
     @FXML
     private JFXTextField  nameText;
     @FXML
@@ -52,7 +67,8 @@ public class RegisterationController implements Initializable {
 
 
     private boolean checkConfirmPass=false;
-    UserDto newUser;
+    UserRegisterModel newUser;
+    RegisterServiceInterface registerService;
 
 
     public Gender genderDetermination(){
@@ -169,7 +185,7 @@ public class RegisterationController implements Initializable {
     public boolean userDataValid() {
 
 
-            return phoneValidation() && userNameValidation() && validateEmail() && validateEmail() && validatePasswordMatch() && strongPassword() && genderSelected() && dateSelected();
+        return phoneValidation() && userNameValidation() && validateEmail() && validateEmail() && validatePasswordMatch() && strongPassword() && genderSelected() && dateSelected();
 
     }
     public void register()  {
@@ -179,7 +195,7 @@ public class RegisterationController implements Initializable {
         }}
 
 
-    public void registeration(UserDto newUser) {
+    public void register(UserRegisterModel newUser) {
 
         if (userDataValid()) {
             newUser.setFullName(nameText.getText());
@@ -188,18 +204,67 @@ public class RegisterationController implements Initializable {
             newUser.setPhoneNumber(phoneText.getText());
             newUser.setUserGender(genderDetermination());
             newUser.setDateOfBirth(Date.valueOf(birthText.getValue()));
+            System.out.println(newUser);
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        coordinator = StageCoordinator.getInstance();
+        modelsFactory = ModelsFactory.getInstance();
+        userRegisterModel = modelsFactory.getRegisterUserModel();
+        userAuthModel = modelsFactory.getAuthUserModel();
+        phoneText.textProperty().bindBidirectional(userRegisterModel.phoneNumberProperty());
+        emailText.textProperty().bindBidirectional(userRegisterModel.emailProperty());
+        passwordText.textProperty().bindBidirectional(userRegisterModel.passwordProperty());
+        nameText.textProperty().bindBidirectional(userRegisterModel.fullNameProperty());
+
+
+
+
+        registerService = ServicesLocator.getRegisterService();
+
 
         registerButton.setOnAction((event) -> {
-            register();
-            newUser = new UserDto();
 
-                registeration(newUser);
+
+            try {
+
+                register();
+                newUser = new UserRegisterModel();
+                register(newUser);
+
+                if(male.isSelected()){
+                    userRegisterModel.setUserGender(Gender.MALE);
+                }else {
+
+                    userRegisterModel.setUserGender(Gender.FEMALE);
+                }
+
+                java.util.Date date = java.util.Date.from(birthText.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                userRegisterModel.setDateOfBirth(sqlDate);
+
+
+                userRegisterModel.setStatus(Status.AVAILABLE);
+
+
+                System.out.println(userRegisterModel.getStatus());
+                if (registerService.addNewUser(
+                        UserRegAdapter.getUserDtoFromModelAdapter(userRegisterModel))) {
+                    userAuthModel.setPhoneNumber(userRegisterModel.getPhoneNumber());
+                    userAuthModel.setPassword("");
+                    coordinator.switchToSecondLoginScene();
+                    wrongPhone.setText("");
+
+                }
+                else {
+                    wrongPhone.setText("This phone is existed");
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
 
 
@@ -208,4 +273,3 @@ public class RegisterationController implements Initializable {
     }
 
 }
-

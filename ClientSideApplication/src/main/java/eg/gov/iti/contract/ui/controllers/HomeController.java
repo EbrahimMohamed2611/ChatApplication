@@ -7,10 +7,15 @@ import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
+
 import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
 import eg.gov.iti.contract.ui.controllers.messages.SenderMessageController;
 import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
+
+import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
+import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,6 +65,8 @@ public class HomeController implements Initializable {
     ChatServerInterface chatService;
 
       ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+
+      CachedCredentialsData credentialsData;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -69,6 +76,8 @@ public class HomeController implements Initializable {
         }
 
         coordinator = StageCoordinator.getInstance();
+
+        credentialsData = CachedCredentialsData.getInstance();
 
         client = ChatClientImpl.getInstance();
         chatService = ServicesLocator.getChatServerInterface();
@@ -163,11 +172,21 @@ public class HomeController implements Initializable {
         try {
             if (logoutService.logout()) {
                 chatService.unRegister(client);
+
+                credentialsData.clearCredentials();
+
                 coordinator.switchToSecondLoginScene();
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         coordinator.switchToSecondLoginScene();
+    }
+
+    // todo complete exit method implementation
+    @FXML
+    void exit() {
+//        Platform.exit();
+        System.exit(0);
     }
 }

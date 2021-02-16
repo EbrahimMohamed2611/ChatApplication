@@ -18,6 +18,9 @@ module ClientSideApplication {
     opens eg.gov.iti.contract.ui.controllers.registerControllers to javafx.fxml;
     requires ClientServerContract;
     requires java.sql;
+    requires java.xml.bind;
+//    requires com.sun.xml.bind;
+
 //    exports eg.gov.iti.contract;
 //    requires eg.gov.iti.contract.clientServerDTO.dto;
 //    requires eg.gov.iti.contract.server.chatRemoteInterfaces;
@@ -31,7 +34,11 @@ module ClientSideApplication {
     exports eg.gov.iti.contract.ui.controllers;
     exports eg.gov.iti.contract.net;
 
+
     exports eg.gov.iti.contract.ui.models;
     exports eg.gov.iti.contract.ui.controllers.messages;
     opens eg.gov.iti.contract.ui.controllers.messages;
+
+    opens eg.gov.iti.contract.ui.models;// to java.xml.bind;
+
 }

@@ -11,7 +11,7 @@
 .mtj.tmp/
 #database info
 databaseProperties.properties
-
+.properties
 # Intellij
 .idea/
 *.iml
@@ -26,7 +26,11 @@ databaseProperties.properties
 *.tar.gz
 *.rar
 .settings/
+
 *.properties
+
+.project
+
 ClientSideApplication/target/
 ServerSideApplication/target/
 ClientServerContract/target/
