@@ -12,6 +12,8 @@ public class UserMessageDto implements Serializable {
     private String messageBody;
     private  String imageEncoded;
     private Date messageDate;
+    private String senderPHoneNumber;
+    private String receiverPhoneNumber;
 
     public UserMessageDto() {
     }
@@ -56,6 +58,22 @@ public class UserMessageDto implements Serializable {
         this.messageDate = messageDate;
     }
 
+    public String getSenderPHoneNumber() {
+        return senderPHoneNumber;
+    }
+
+    public void setSenderPHoneNumber(String senderPHoneNumber) {
+        this.senderPHoneNumber = senderPHoneNumber;
+    }
+
+    public String getReceiverPhoneNumber() {
+        return receiverPhoneNumber;
+    }
+
+    public void setReceiverPhoneNumber(String receiverPhoneNumber) {
+        this.receiverPhoneNumber = receiverPhoneNumber;
+    }
+
     @Override
     public String toString() {
         return "UserMessageDto{" +
@@ -63,7 +81,9 @@ public class UserMessageDto implements Serializable {
                 ", userImage=" + userImage +
                 ", messageBody='" + messageBody + '\'' +
                 ", imageEncoded='" + imageEncoded + '\'' +
-                ", messgaeDate=" + messageDate +
+                ", messageDate=" + messageDate +
+                ", senderPHoneNumber='" + senderPHoneNumber + '\'' +
+                ", receiverPhoneNumber='" + receiverPhoneNumber + '\'' +
                 '}';
     }
 }

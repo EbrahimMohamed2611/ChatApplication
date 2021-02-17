@@ -1,7 +1,11 @@
 package eg.gov.iti.contract.net.adapters;
 
 import eg.gov.iti.contract.clientServerDTO.dto.UserRegDto;
+import eg.gov.iti.contract.clientServerDTO.enums.Gender;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import eg.gov.iti.contract.ui.models.UserRegisterModel;
+
+import java.sql.Date;
 
 public class UserRegAdapter {
 
@@ -13,11 +17,29 @@ public class UserRegAdapter {
 
         userRegDto.setPhoneNumber(userRegisterModel.getPhoneNumber());
         userRegDto.setEmail(userRegisterModel.getEmail());
-        userRegDto.setDateOfBirth(userRegisterModel.getDateOfBirth());
+        userRegDto.setDateOfBirth(Date.valueOf(userRegisterModel.getDateOfBirth()));
         userRegDto.setPassword(userRegisterModel.getPassword());
-        userRegDto.setUserGender(userRegisterModel.getUserGender());
+
+        switch(userRegisterModel.getUserGender()){
+            case "MALE":
+                userRegDto.setUserGender(Gender.MALE);
+                break;
+            case "FEMALE":
+                userRegDto.setUserGender(Gender.FEMALE);
+                break;
+        }
         userRegDto.setFullName(userRegisterModel.getFullName());
-        userRegDto.setStatus(userRegisterModel.getStatus());
+        switch (userRegisterModel.getStatus()){
+            case "AWAY":
+                userRegDto.setStatus(Status.AWAY);
+                break;
+            case "AVAILABLE":
+                userRegDto.setStatus(Status.AVAILABLE);
+                break;
+            case "BUSY":
+                userRegDto.setStatus(Status.BUSY);
+                break;
+        }
 
         return userRegDto;
     }

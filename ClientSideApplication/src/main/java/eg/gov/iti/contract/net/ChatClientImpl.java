@@ -11,6 +11,10 @@ import eg.gov.iti.contract.ui.controllers.HomeController;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 import eg.gov.iti.contract.ui.models.UserInvitationModel;
+import eg.gov.iti.contract.net.adapters.MessageAdapter;
+import eg.gov.iti.contract.ui.controllers.HomeController;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserMessageModel;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -19,6 +23,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
+    private  String clientPhoneNumber = new UserAuthModel().getPhoneNumber();
     HomeController homeController;
     private static ChatClientImpl instance;
     private UserAuthModel userAuthModel;
@@ -56,17 +61,19 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 //    public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
 //
 //    }
-    @Override
-    public void receiveMessage(String userMessage) throws RemoteException {
-        System.out.println(userMessage);
-        Platform.runLater(() -> {
-            try {
-                homeController.displayFriendMessage(userMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+
+        @Override
+        public void receiveMessage (UserMessageDto userMessage) throws RemoteException {
+            UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
+            System.out.println(userMessage);
+            Platform.runLater(() -> {
+                try {
+                    homeController.displayFriendMessage(messageModelFromMessageDto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
 
     @Override
     public void receiveAnnouncement(String message) throws RemoteException {

@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
 import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import eg.gov.iti.contract.net.ServicesLocator;
@@ -18,6 +20,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.paint.Color;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeBrands;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.Date;
@@ -71,10 +77,10 @@ public class RegistrationController implements Initializable {
     RegisterServiceInterface registerService;
 
 
-    public Gender genderDetermination(){
-        if(male.isSelected()){return Gender.MALE;}
+    public String genderDetermination(){
+        if(male.isSelected()){return "MALE";}
         else
-        {return Gender.FEMALE;}
+        {return "FEMALE";}
 
     }
 
@@ -203,7 +209,8 @@ public class RegistrationController implements Initializable {
             newUser.setPassword(passwordText.getText());
             newUser.setPhoneNumber(phoneText.getText());
             newUser.setUserGender(genderDetermination());
-            newUser.setDateOfBirth(Date.valueOf(birthText.getValue()));
+            //todo date toString()
+            newUser.setDateOfBirth(birthText.getValue().toString());
             System.out.println(newUser);
         }
     }
@@ -220,7 +227,11 @@ public class RegistrationController implements Initializable {
         passwordText.textProperty().bindBidirectional(userRegisterModel.passwordProperty());
         nameText.textProperty().bindBidirectional(userRegisterModel.fullNameProperty());
 
-
+//        nameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+//            if(!t1){
+//                nameText.validate();
+//            }
+//        });
 
 
         registerService = ServicesLocator.getRegisterService();
@@ -236,18 +247,18 @@ public class RegistrationController implements Initializable {
                 register(newUser);
 
                 if(male.isSelected()){
-                    userRegisterModel.setUserGender(Gender.MALE);
+                    userRegisterModel.setUserGender("MALE");
                 }else {
 
-                    userRegisterModel.setUserGender(Gender.FEMALE);
+                    userRegisterModel.setUserGender("FEMALE");
                 }
-
+                //todo refactor
                 java.util.Date date = java.util.Date.from(birthText.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                userRegisterModel.setDateOfBirth(sqlDate);
+                userRegisterModel.setDateOfBirth(sqlDate.toString());
 
 
-                userRegisterModel.setStatus(Status.AVAILABLE);
+                userRegisterModel.setStatus("AVAILABLE");
 
 
                 System.out.println(userRegisterModel.getStatus());
@@ -269,7 +280,16 @@ public class RegistrationController implements Initializable {
 
 
         });
-
+//        meth();
     }
+//    void meth(){
+//        RegexValidator regexValidator =new RegexValidator();
+//        regexValidator.setRegexPattern("");
+//        RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
+//        requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+//        requiredFieldValidator.setMessage("fuck jets");
+//        nameText.getValidators().addAll(requiredFieldValidator,regexValidator);
+//
+//    }
 
 }

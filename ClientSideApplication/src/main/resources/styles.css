@@ -1,7 +1,22 @@
-.jfx-date-picker .jfx-text-field{
-        -jfx-unfocus-color: #dae4ee;
+/*.jfx-date-picker .jfx-text-field{*/
+/*        -jfx-unfocus-color: #dae4ee;*/
+/*}*/
+
+/*.image{*/
+/*        -fx-background-radius:100;*/
+/*}*/
+.jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error,.jfx-combo-box:error {
+        -jfx-focus-color:  #004dfc;
+        -jfx-unfocus-color:  #dae4ee;
+        -fx-prompt-text-fill:  #004dfc;
+
+}
+.error-label {
+        -fx-text-fill: #F26101;
+        -fx-font-size: 0.75em;
 }
 
-.image{
-        -fx-background-radius:100;
+.error-icon {
+        -fx-text-fill: #F26101;
+        -fx-font-size: 1em;
 }
