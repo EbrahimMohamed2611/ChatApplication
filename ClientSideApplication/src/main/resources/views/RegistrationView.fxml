@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -87,7 +88,7 @@
                                  <children>
                                     <ImageView fx:id="userImg" fitHeight="31.0" fitWidth="28.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@/pictures/chat-box.png" />
+                                          <Image url="@../pictures/chat-box.png" />
                                        </image>
                                     </ImageView>
                                     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-236.0" layoutY="41.0" prefHeight="70.0" prefWidth="522.0" text="Welcome To  Chatous" textAlignment="CENTER" textFill="#004dfc">
@@ -109,35 +110,40 @@
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                              <JFXTextField fx:id="phoneText" focusColor="#004dfc" prefHeight="49.0" prefWidth="290.0" promptText="Phone Number" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="phoneText" focusColor="#004dfc" labelFloat="true" prefHeight="49.0" prefWidth="290.0" promptText="Phone Number" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-text-field" />
+                                    <String fx:value="error-label" />
+                                    <String fx:value="error-icon" />
+                                 </styleClass></JFXTextField>
                            </children>
                         </HBox>
                         <Label fx:id="wrongPhone" prefHeight="17.0" prefWidth="352.0" textFill="RED" />
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-circle" iconSize="20" />
-                              <JFXTextField fx:id="nameText" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="nameText" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="User Name" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <Label fx:id="wrongUserName" prefHeight="17.0" prefWidth="335.0" textFill="RED" />
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2e-email-outline" iconSize="20" />
-                              <JFXTextField fx:id="emailText" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2e-email" iconSize="20" />
+                              <JFXTextField fx:id="emailText" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <Label fx:id="wrongEmail" prefHeight="17.0" prefWidth="346.0" textFill="RED" />
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-outline" iconSize="20" />
-                              <JFXPasswordField fx:id="passwordText" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
+                              <JFXPasswordField fx:id="passwordText" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <Label fx:id="wrongPassword" prefHeight="17.0" prefWidth="355.0" textFill="RED" />
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-plus-outline" iconSize="20" />
-                              <JFXPasswordField fx:id="confirmText" focusColor="#004dfc" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-plus" iconSize="20" />
+                              <JFXPasswordField fx:id="confirmText" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
                            </children>
                         </HBox>
                         <Label fx:id="wrongConfirm" prefHeight="17.0" prefWidth="360.0" textFill="RED" />
@@ -168,7 +174,7 @@
                         </HBox>
                         <JFXDatePicker fx:id="birthText" defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" />
                         <Label fx:id="DateCheck" prefHeight="17.0" prefWidth="339.0" textFill="RED" />
-                        <JFXButton fx:id="registerButton" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Next" textFill="WHITE">
+                        <JFXButton fx:id="registerButton" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Sign Up" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>

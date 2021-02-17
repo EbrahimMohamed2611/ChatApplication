@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -29,6 +30,8 @@ import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -51,6 +54,9 @@ public class HomeController implements Initializable {
     ScrollPane scrollPane;
 
 
+    @FXML
+    private JFXButton editProfileBtn;
+
     private StageCoordinator coordinator;
     LogoutServiceInterface logoutService;
     ChatClient client;
@@ -66,7 +72,10 @@ public class HomeController implements Initializable {
 
         client = ChatClientImpl.getInstance();
         chatService = ServicesLocator.getChatServerInterface();
-
+        FontIcon editIcon =new FontIcon("mdi2a-account-edit");
+        editIcon.setIconSize(22);
+        editIcon.setIconColor(Color.WHITE);
+        editProfileBtn.setGraphic(editIcon);
         try {
         logoutService = ServicesLocator.getLogoutService();
             register();
@@ -119,7 +128,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void logout(ActionEvent event) {
+    private void logout(ActionEvent event) {
         try {
             if (logoutService.logout()) {
                 chatService.unRegister(client);
@@ -136,8 +145,12 @@ public class HomeController implements Initializable {
 
     // todo complete exit method implementation
     @FXML
-    void exit() {
+    private void exit() {
 //        Platform.exit();
         System.exit(0);
+    }
+    @FXML
+    private void editProfile(ActionEvent event) {
+        coordinator.switchToUpdateProfileScene();
     }
 }

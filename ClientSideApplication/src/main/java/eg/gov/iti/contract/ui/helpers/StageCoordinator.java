@@ -130,9 +130,35 @@ public class StageCoordinator {
             }
         } else {
             System.out.println("Loaded Existing Scene");
-            SceneData homeSceneData = scenes.get("SecondLogin");
-            Scene homeScene = homeSceneData.getScene();
-            primaryStage.setScene(homeScene);
+            SceneData secondLogin = scenes.get("SecondLogin");
+            Scene secondLoginScene = secondLogin.getScene();
+            primaryStage.setScene(secondLoginScene);
+        }
+    }
+    public void switchToUpdateProfileScene(){
+        if (primaryStage == null) {
+            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
+        }
+
+        if (!scenes.containsKey("UpdateProfile")) {
+            try {
+                System.out.println("Created New Scene");
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/UpdateProfileView.fxml"));
+                Parent updateProfile = fxmlLoader.load();
+                Scene updateProfileScene = new Scene(updateProfile);
+                SceneData sceneData = new SceneData(fxmlLoader, updateProfile, updateProfileScene);
+                scenes.put("UpdateProfile", sceneData);
+
+                primaryStage.setScene(updateProfileScene);
+            } catch (IOException e) {
+                System.out.println("IO Exception: Couldn't load 'Update Profile Scene' FXML file");
+            }
+        } else {
+            System.out.println("Loaded Existing Scene");
+            SceneData updateProfileData = scenes.get("UpdateProfile");
+            Scene updateProfileScene = updateProfileData.getScene();
+            primaryStage.setScene(updateProfileScene);
         }
     }
 }

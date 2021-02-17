@@ -1,6 +1,7 @@
 package eg.gov.iti.contract.ui.helpers;
 
 
+import eg.gov.iti.contract.ui.models.CurrentUserModel;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 import eg.gov.iti.contract.ui.models.UserRegisterModel;
 
@@ -10,7 +11,7 @@ public class ModelsFactory {
 
     private UserAuthModel userAuthModel;
     private UserRegisterModel userRegisterModel;
-
+    private CurrentUserModel currentUserModel;
 
     private ModelsFactory () { }
 
@@ -30,5 +31,11 @@ public class ModelsFactory {
             userRegisterModel = new UserRegisterModel();
         }
         return userRegisterModel;
+    }
+    public CurrentUserModel getCurrentUserModel() {
+        if (currentUserModel == null) {
+            currentUserModel = new CurrentUserModel();
+        }
+        return currentUserModel;
     }
 }
