@@ -3,9 +3,11 @@ package eg.gov.iti.server.net.serverConfiguration;
 import eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl.*;
 
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class ServicesAssigner {
 
@@ -89,5 +91,21 @@ public class ServicesAssigner {
 //            System.out.println(">> RMI-Registry Connection Already Closed");
 //        }
 //    }
+public void stopServer(){
+    try {
+        registry.unbind("loginService");
+//        registry.unbind("HandleContactService");
+        UnicastRemoteObject.unexportObject(loginService,true);
+        UnicastRemoteObject.unexportObject(registerService,true);
+        UnicastRemoteObject.unexportObject(logoutService,true);
+        UnicastRemoteObject.unexportObject(messageService,true);
+        UnicastRemoteObject.unexportObject(invitationService,true);
+        UnicastRemoteObject.unexportObject(chatClient,true);
 
+    } catch (RemoteException e) {
+        e.printStackTrace();
+    } catch (NotBoundException e) {
+        e.printStackTrace();
+    }
+}
 }

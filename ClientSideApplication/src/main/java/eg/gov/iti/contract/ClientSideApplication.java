@@ -21,20 +21,32 @@ public class ClientSideApplication extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        StageCoordinator stageCoordinator = StageCoordinator.getInstance();
-        stageCoordinator.initStage(primaryStage);
+    public void start(Stage primaryStage) {
+        try {
+            StageCoordinator stageCoordinator = StageCoordinator.getInstance();
+            stageCoordinator.initStage(primaryStage);
 
-        cachedCredentialsData = CachedCredentialsData.getInstance();
-        if (cachedCredentialsData.validateCredentials())
-            stageCoordinator.switchToHomeScene();
-        else
-            stageCoordinator.switchToFirstLoginScene();
+            try{
+            cachedCredentialsData = CachedCredentialsData.getInstance();
+            if (cachedCredentialsData.validateCredentials())
+                stageCoordinator.switchToHomeScene();}
+            catch (Exception e){
+                System.out.println("Service is off");
+            }
+//            else
+            try {
 
-//        stageCoordinator.switchToSignupScene();
+                stageCoordinator.switchToFirstLoginScene();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+               // stageCoordinator.switchToSignupScene();
 //        ChatClient chatClient;
 //        chatClient.receiveUserDto();
-        primaryStage.show();
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

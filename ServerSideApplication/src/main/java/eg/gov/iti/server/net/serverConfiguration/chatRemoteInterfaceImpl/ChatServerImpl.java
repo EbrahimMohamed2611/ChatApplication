@@ -58,11 +58,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 //
 //        }
 //    }
-    public void tellOthers(String message) throws RemoteException {
-        System.out.println("Message received: " + message);
-        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
-            clientRef.receiveMessage(message);
-        }
-    }
+//    public void tellOthers(String message) throws RemoteException {
+//        System.out.println("Message received: " + message);
+//        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
+//            clientRef.receiveMessage(message);
+//        }
+//    }
 
 }

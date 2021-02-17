@@ -21,8 +21,8 @@ public class serverSideApplication extends Application {
        // stageCoordinator.switchToHomeScene();
 
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToLoginScene();
-//        stageCoordinator.switchToHomeScene();
+      //  stageCoordinator.switchToLoginScene();
+      stageCoordinator.switchToHomeScene();
 
         primaryStage.show();
     }
