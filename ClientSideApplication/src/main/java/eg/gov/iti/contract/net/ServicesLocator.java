@@ -1,12 +1,8 @@
 package eg.gov.iti.contract.net;
 
-import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
-import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.*;
 
-import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
-
-import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
 
 
 import java.rmi.registry.LocateRegistry;
@@ -27,6 +23,7 @@ public class ServicesLocator {
 
     private static RegisterServiceInterface registerServiceInterface;
 
+    private static InvitationServiceInterface invitationServiceInterface;
     private static boolean connectionEstablished;
     private ServicesLocator(){
 
@@ -59,6 +56,10 @@ public class ServicesLocator {
 
     public static RegisterServiceInterface getRegisterService(){return registerServiceInterface;}
 
+    public static InvitationServiceInterface getInvitationService() {
+        return invitationServiceInterface;
+    }
+
     public static boolean servicesInit(){
         if(!connectionEstablished){
             try {
@@ -76,6 +77,7 @@ public class ServicesLocator {
 
                 registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
 
+                invitationServiceInterface = (InvitationServiceInterface) registry.lookup("inviteService");
                 connectionEstablished = true;
                 return true;
             } catch (Exception e) {

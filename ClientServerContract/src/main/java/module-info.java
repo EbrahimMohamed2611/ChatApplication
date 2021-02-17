@@ -17,4 +17,5 @@ module ClientServerContract {
     exports eg.gov.iti.contract.client;
     exports eg.gov.iti.contract.clientServerDTO.enums;
     exports eg.gov.iti.contract.server.messageServices;
+//    exports eg.gov.iti.contract.server.InvitiationsServices;
 }

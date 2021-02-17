@@ -29,8 +29,12 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="35.0" prefWidth="212.0" spacing="20.0" style="-fx-background-radius: 5; -fx-background-color: #D9E4FC;">
                            <children>
-                              <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-search" iconSize="20" />
-                              <JFXTextField promptText="Search" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS" />
+                              <JFXButton onAction="#inviteFriend" prefWidth="46.0" text="B">
+                                 <graphic>
+                                    <FontIcon iconLiteral="mdi2a-account-search" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXTextField fx:id="searchTextField" promptText="Search" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="3.0" left="10.0" right="10.0" top="1.0" />

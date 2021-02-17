@@ -32,5 +32,11 @@ public class UserAuthModel {
         this.password.set(password);
     }
 
-
+    @Override
+    public String toString() {
+        return "UserAuthModel{" +
+                "phoneNumber=" + phoneNumber +
+                ", password=" + password +
+                '}';
+    }
 }

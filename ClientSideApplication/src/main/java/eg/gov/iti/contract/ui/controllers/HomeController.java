@@ -4,15 +4,18 @@ package eg.gov.iti.contract.ui.controllers;
 import com.jfoenix.controls.JFXButton;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
-import javafx.application.Platform;
+import eg.gov.iti.contract.ui.helpers.ModelsFactory;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserInvitationModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -21,14 +24,9 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 
 import eg.gov.iti.contract.client.ChatClient;
-import eg.gov.iti.contract.net.ChatClientImpl;
-import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -39,6 +37,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private TextField messageContentTextField;
+
+    // for invitation handling
+    @FXML
+    private TextField searchTextField;
 
     @FXML
     private VBox chatContentVBox;
@@ -55,6 +57,14 @@ public class HomeController implements Initializable {
     LogoutServiceInterface logoutService;
     ChatClient client;
     ChatServerInterface chatService;
+
+    // Fields for invitation handling
+    ModelsFactory modelsFactory;
+    InvitationServiceInterface invitationService;
+    UserInvitationModel invitationModel;
+    UserAuthModel userAuthModel;
+    //
+
       ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
 
       CachedCredentialsData credentialsData;
@@ -73,6 +83,12 @@ public class HomeController implements Initializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        invitationService = ServicesLocator.getInvitationService();
+        modelsFactory = ModelsFactory.getInstance();
+        invitationModel = modelsFactory.getUserInvitationModel();
+        userAuthModel = modelsFactory.getAuthUserModel();
+        invitationModel.senderPhoneNumberProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
 
 //        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
 
@@ -139,5 +155,24 @@ public class HomeController implements Initializable {
     void exit() {
 //        Platform.exit();
         System.exit(0);
+        try {
+            chatService.unRegister(client);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void inviteFriend() {
+        try {
+            invitationModel.setReceiverPhoneNumber(searchTextField.getText());
+            if (invitationService.sendInvitation(UserInvitationAdapter.getInvitationDtoFromModel(invitationModel))) {
+                System.out.println(invitationModel + " sent.");
+            } else {
+                System.out.println("Not valid invitation!!");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
