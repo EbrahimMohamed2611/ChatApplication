@@ -1,8 +1,11 @@
 package eg.gov.iti.contract.net;
 
 import eg.gov.iti.contract.client.ClientMessageService;
+import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
+import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 import eg.gov.iti.contract.ui.controllers.HomeController;
+import eg.gov.iti.contract.ui.models.UserMessageModel;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -17,11 +20,12 @@ public class ClientMessageServiceImpl extends UnicastRemoteObject implements Cli
     }
 
     @Override
-    public void receiveFromMyFriend(String userMessageDto) throws RemoteException {
+    public void receiveFromMyFriend(UserMessageDto userMessageDto) throws RemoteException {
+        UserMessageModel messageModel= MessageAdapter.getMessageModelFromMessageDto(userMessageDto);
         System.out.println(userMessageDto);
         Platform.runLater(()->{
             try {
-                homeController.displayFriendMessage(userMessageDto);
+                homeController.displayFriendMessage(messageModel);
             } catch (IOException e) {
                 e.printStackTrace();
             }

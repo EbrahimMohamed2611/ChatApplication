@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.SenderMessageController">
    <children>
       <VBox alignment="TOP_RIGHT" maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
          <children>
-            <Label fx:id="senderName" text="UserName" textAlignment="RIGHT" textFill="#252d3b">
+            <Label fx:id="senderNameLabel" text="UserName" textAlignment="RIGHT" textFill="#252d3b">
                <font>
                   <Font size="8.0" />
                </font>
@@ -24,7 +22,7 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </Label>
-            <Label fx:id="msgBody" style="-fx-text-fill: white; -fx-background-color: #1A233B; -fx-background-radius: 5;" text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" textAlignment="RIGHT" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
+            <Label fx:id="senderMessageBodyLabel" style="-fx-text-fill: white; -fx-background-color: #1A233B; -fx-background-radius: 5;" text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" textAlignment="RIGHT" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="11.0" />
                </font>
@@ -42,7 +40,7 @@
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </FontIcon>
-                  <Label fx:id="timeStamp" style="-fx-text-fill: #252D3B;" text="timeStamp" textFill="#252d3b">
+                  <Label fx:id="senderTimeStampLabel" style="-fx-text-fill: #252D3B;" text="timeStamp" textFill="#252d3b">
                      <font>
                         <Font size="8.0" />
                      </font>
@@ -62,9 +60,9 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <graphic>
-            <ImageView fx:id="senderImg" fitHeight="62.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="senderImgView" fitHeight="62.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../pictures/profilePicture.png" />
+                  <Image url="@../../pictures/profilePicture.png" />
                </image>
             </ImageView>
          </graphic>
