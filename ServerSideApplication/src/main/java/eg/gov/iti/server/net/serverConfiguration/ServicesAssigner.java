@@ -15,11 +15,9 @@ public class ServicesAssigner {
     private final LoginServiceImpl loginService =LoginServiceImpl.getInstance();
     private final MessageServiceImpl messageService = MessageServiceImpl.getInstance();
     private RegisterServiceImpl registerService = RegisterServiceImpl.getInstance();
-
-
-
     private LogoutServiceImpl logoutService = LogoutServiceImpl.getInstance();
 
+    private InvitationServiceImpl invitationService = InvitationServiceImpl.getInstance();
 
     private ServicesAssigner() throws RemoteException {
     }
@@ -64,6 +62,8 @@ public class ServicesAssigner {
             registry.rebind("logoutService", logoutService);
 
             registry.rebind("registerService",registerService);
+
+            registry.rebind("inviteService", invitationService);
 
             System.out.println("Server running ......");
 

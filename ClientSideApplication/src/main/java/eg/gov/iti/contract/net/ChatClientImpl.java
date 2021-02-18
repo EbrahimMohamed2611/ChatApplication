@@ -2,8 +2,15 @@ package eg.gov.iti.contract.net;
 
 
 import eg.gov.iti.contract.client.ChatClient;
+import eg.gov.iti.contract.clientServerDTO.dto.UserAuthDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
+import eg.gov.iti.contract.clientServerDTO.dto.UserInvitationDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
+import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
+import eg.gov.iti.contract.ui.controllers.HomeController;
+import eg.gov.iti.contract.ui.helpers.ModelsFactory;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserInvitationModel;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.ui.controllers.HomeController;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
@@ -19,14 +26,15 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     private  String clientPhoneNumber = new UserAuthModel().getPhoneNumber();
     HomeController homeController;
     private static ChatClientImpl instance;
+    private UserAuthModel userAuthModel;
+    private UserInvitationModel userInvitationModel;
 
     public ChatClientImpl(HomeController homeController) throws RemoteException {
         this.homeController = homeController;
-
     }
 
     private ChatClientImpl() throws RemoteException {
-
+        userAuthModel = ModelsFactory.getInstance().getAuthUserModel();
     }
 
     public static ChatClientImpl getInstance() {
@@ -41,7 +49,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     }
 
 
-
 //    public void receiveMessage(String userMessage)throws RemoteException{
 //        System.out.println(userMessage);
 //        Platform.runLater(()->{
@@ -50,10 +57,11 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 //    }
 
 
-//    @Override
+    //    @Override
 //    public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
 //
 //    }
+
         @Override
         public void receiveMessage (UserMessageDto userMessage) throws RemoteException {
             UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
@@ -67,25 +75,21 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
             });
         }
 
-        @Override
-        public void receiveAnnouncement (String message) throws RemoteException {
+    @Override
+    public void receiveAnnouncement(String message) throws RemoteException {
 
-        }
-
-        @Override
-        public void notify (String message,int type) throws RemoteException {
-
-        }
-
-        @Override
-        public void receiveUserDto (UserDto userDto) throws RemoteException {
-
-        }
+    }
 
     @Override
-    public String getPhoneNumber() throws RemoteException {
-        return clientPhoneNumber;
+    public void notify(String message, int type) throws RemoteException {
+
     }
+
+    @Override
+    public void receiveUserDto(UserDto userDto) throws RemoteException {
+
+
+        }
 
 
     @Override
@@ -94,4 +98,19 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
                 "clientPhoneNumber='" + clientPhoneNumber + '\'' +
                 '}';
     }
+
+
+
+    @Override
+    public void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException {
+        userInvitationModel = UserInvitationAdapter.getInvitationModelFromDto(userInvitationDto);
+        System.out.println(userInvitationModel.getSenderPhoneNumber() + " invited you!");
+    }
+
+    // todo replace user auth model with current user model
+    @Override
+    public String getPhoneNumber() throws RemoteException {
+        return userAuthModel.getPhoneNumber();
+    }
+
 }

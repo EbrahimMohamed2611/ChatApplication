@@ -1,7 +1,9 @@
 package eg.gov.iti.contract.ui.helpers;
 
+import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.UserAuthAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
 import eg.gov.iti.contract.ui.models.CachedData;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
@@ -21,6 +23,8 @@ public class CachedCredentialsData {
     LoginServiceInterface loginService;
     ModelsFactory modelsFactory;
     UserAuthModel userAuthModel;
+    private ChatServerInterface chatService;
+    private ChatClientImpl client;
 
     private CachedCredentialsData() {
         loginService = ServicesLocator.getLoginService();
@@ -57,9 +61,13 @@ public class CachedCredentialsData {
             userAuthModel.setPhoneNumber(cachedData.getPhoneNumber());
             userAuthModel.setPassword(cachedData.getPassword());
 
+            chatService = ServicesLocator.getChatServerInterface();
+            client = ChatClientImpl.getInstance();
+
             try {
                 if (loginService.checkPhoneNumber(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))) {
                     if (loginService.checkPassword(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
+                        chatService.register(client);
                         return true;
                     }
                 }

@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXButton;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
@@ -14,13 +16,18 @@ import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
+import eg.gov.iti.contract.ui.helpers.ModelsFactory;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserInvitationModel;
 import javafx.application.Platform;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -34,6 +41,12 @@ import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageIO;
 import java.net.URL;
@@ -48,6 +61,10 @@ public class HomeController implements Initializable {
     @FXML
     private TextField messageContentTextField;
 
+    // for invitation handling
+    @FXML
+    private TextField searchTextField;
+
     @FXML
     private VBox chatContentVBox;
 
@@ -58,11 +75,22 @@ public class HomeController implements Initializable {
     @FXML
     ScrollPane scrollPane;
 
+
+    @FXML
+    private JFXButton editProfileBtn;
+
     BufferedImage img = null;
     private StageCoordinator coordinator;
     LogoutServiceInterface logoutService;
     ChatClient client;
     ChatServerInterface chatService;
+
+    // Fields for invitation handling
+    ModelsFactory modelsFactory;
+    InvitationServiceInterface invitationService;
+    UserInvitationModel invitationModel;
+    UserAuthModel userAuthModel;
+    //
 
       ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
 
@@ -81,13 +109,22 @@ public class HomeController implements Initializable {
 
         client = ChatClientImpl.getInstance();
         chatService = ServicesLocator.getChatServerInterface();
-
+        FontIcon editIcon =new FontIcon("mdi2a-account-edit");
+        editIcon.setIconSize(22);
+        editIcon.setIconColor(Color.WHITE);
+        editProfileBtn.setGraphic(editIcon);
         try {
         logoutService = ServicesLocator.getLogoutService();
             register();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        invitationService = ServicesLocator.getInvitationService();
+        modelsFactory = ModelsFactory.getInstance();
+        invitationModel = modelsFactory.getUserInvitationModel();
+        userAuthModel = modelsFactory.getAuthUserModel();
+        invitationModel.senderPhoneNumberProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
 
 //        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
 
@@ -170,7 +207,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void logout(ActionEvent event) {
+    private void logout(ActionEvent event) {
         try {
             if (logoutService.logout()) {
                 chatService.unRegister(client);
@@ -187,8 +224,31 @@ public class HomeController implements Initializable {
 
     // todo complete exit method implementation
     @FXML
-    void exit() {
+    private void exit() {
 //        Platform.exit();
         System.exit(0);
+        try {
+            chatService.unRegister(client);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void inviteFriend() {
+        try {
+            invitationModel.setReceiverPhoneNumber(searchTextField.getText());
+            if (invitationService.sendInvitation(UserInvitationAdapter.getInvitationDtoFromModel(invitationModel))) {
+                System.out.println(invitationModel + " sent.");
+            } else {
+                System.out.println("Not valid invitation!!");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void editProfile(ActionEvent event) {
+        coordinator.switchToUpdateProfileScene();
     }
 }
