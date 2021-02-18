@@ -115,6 +115,8 @@ public class HomeController implements Initializable {
         userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
 //        System.out.println(ImageConverter.convertToFxImage(img));
         userMessageModel.setName("Ali");
+        userMessageModel.setReceiverPhoneNumber("01024261187");
+        userMessageModel.setSenderPHoneNumber("01024261189");
        // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
         System.out.println("====="+userMessageModel);
         sendMessageToMyFriend(userMessageModel);

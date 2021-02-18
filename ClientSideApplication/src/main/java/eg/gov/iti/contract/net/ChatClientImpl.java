@@ -81,4 +81,17 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         public void receiveUserDto (UserDto userDto) throws RemoteException {
 
         }
+
+    @Override
+    public String getPhoneNumber() throws RemoteException {
+        return clientPhoneNumber;
     }
+
+
+    @Override
+    public String toString() {
+        return "ChatClientImpl{" +
+                "clientPhoneNumber='" + clientPhoneNumber + '\'' +
+                '}';
+    }
+}

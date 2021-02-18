@@ -18,15 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageServiceImpl extends UnicastRemoteObject implements ServerMessageServiceInterface {
-    List<ChatClient> clientsVector=new ArrayList<>();
+
+    private List<ChatClient> clientsVector=new ArrayList<>();
+
     private final MessageDao messageDao = new MessageDaoImpl();
     private MessageAdapter messageAdapter;
-
     private static MessageServiceImpl instance;
 
     protected MessageServiceImpl() throws RemoteException, SQLException {
-
-
     }
 
     public static MessageServiceImpl getInstance() {
@@ -52,28 +51,18 @@ public class MessageServiceImpl extends UnicastRemoteObject implements ServerMes
     @Override
     public void sendToMyFriend(ChatClient senderClient, UserMessageDto userMessageDto) throws RemoteException {
         String sender = userMessageDto.getSenderPHoneNumber();
-
+        System.out.println("Sender : " + sender);
+        System.out.println("senderClient " + senderClient.getPhoneNumber());
         try {
             MessageEntity messageEntityFromMessageDto = MessageAdapter.getMessageEntityFromMessageDto(userMessageDto);
             UserDao userDao = UserDaoImpl.getInstance();
-            System.out.println("Message " +messageEntityFromMessageDto );
+            System.out.println("Message : "  + messageEntityFromMessageDto);
             messageDao.saveMessage(messageEntityFromMessageDto);
-            System.out.println("Message received: "+userMessageDto);
-
-//            clientsVector.stream().filter(e -> e != senderClient ).forEach(e -> {
-//                try {
-//                    e.receiveMessage(userMessageDto);
-//                } catch (RemoteException remoteException) {
-//                    remoteException.printStackTrace();
-//                }
-//            });
 
             for(ChatClient clientRef: clientsVector)
             {
-                System.out.println(clientRef = senderClient);
-               // if(!sender.equals(userMessageDto.getSenderPHoneNumber()))
+                if(clientRef.getPhoneNumber().equals(messageEntityFromMessageDto.getReceiver()))
                 clientRef.receiveMessage(userMessageDto);
-
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
