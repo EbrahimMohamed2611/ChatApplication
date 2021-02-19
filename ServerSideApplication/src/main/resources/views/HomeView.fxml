@@ -33,10 +33,12 @@
 -->
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -123,7 +125,7 @@
                                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                                     </padding>
                                     <children>
-                                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #D9E4FC; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                        <VBox alignment="TOP_CENTER" onMouseClicked="#Statistics" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #D9E4FC; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-chart-bar" iconSize="40" />
                                                 <Label text="Statistics" textFill="#004dfc">
@@ -138,6 +140,46 @@
                                         </VBox>
                                     </children>
                                 </HBox>
+                        <VBox prefHeight="90.0" prefWidth="157.0" spacing="10.0">
+                           <children>
+                              <JFXRadioButton fx:id="lineS" text="on/offline" textFill="#004dfc">
+                                 <selectedColor>
+                                    <Color green="0.3019607961177826" blue="0.9882352948188782" />
+                                 </selectedColor>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                                 <unSelectedColor>
+                                    <Color red="0.8509804010391235" green="0.8941176533699036" blue="0.9882352948188782" />
+                                 </unSelectedColor>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="Stat" />
+                                 </toggleGroup>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="countryS" text="Country" textFill="#004dfc" toggleGroup="$Stat">
+                                 <selectedColor>
+                                    <Color green="0.3019607961177826" blue="0.9882352948188782" />
+                                 </selectedColor>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                                 <unSelectedColor>
+                                    <Color red="0.8509804010391235" green="0.8941176533699036" blue="0.9882352948188782" />
+                                 </unSelectedColor>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="genderS" text="Gender" textFill="#004dfc" toggleGroup="$Stat">
+                                 <selectedColor>
+                                    <Color green="0.3019607961177826" blue="0.9882352948188782" />
+                                 </selectedColor>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                                 <unSelectedColor>
+                                    <Color red="0.8509804010391235" green="0.8941176533699036" blue="0.9882352948188782" />
+                                 </unSelectedColor>
+                              </JFXRadioButton>
+                           </children>
+                        </VBox>
                             </children>
                             <padding>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -147,7 +189,7 @@
                 </AnchorPane>
                 <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                     <content>
-                        <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+                        <AnchorPane id="Content" fx:id="View" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
                             <children>
                                 <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="View" textAlignment="CENTER" wrapText="false">
                                     <font>
