@@ -12,8 +12,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ClientSideApplication extends Application {
-    CachedCredentialsData cachedCredentialsData;
-
+     CachedCredentialsData cachedCredentialsData;
+    private static Stage stage;
 
     public static void main(String[] args) {
         launch();
@@ -22,6 +22,7 @@ public class ClientSideApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        stage = primaryStage;
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToHomeScene();
@@ -59,5 +60,10 @@ public class ClientSideApplication extends Application {
         // Terminate Database & Network Connections
       //  chatServerInterface.unRegister();
     }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
 
 }

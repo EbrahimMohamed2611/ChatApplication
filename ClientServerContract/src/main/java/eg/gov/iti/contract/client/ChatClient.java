@@ -14,7 +14,8 @@ public interface ChatClient extends Remote {
     void receiveUserDto(UserDto userDto)throws RemoteException;
 
     String getPhoneNumber() throws RemoteException;
+   void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException;
 
-    void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException;
+  void receiveFile(byte[] fileContent, String fileName) throws RemoteException;
 
 }

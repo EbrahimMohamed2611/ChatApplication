@@ -66,6 +66,15 @@ public class MessageServiceImpl extends UnicastRemoteObject implements ServerMes
 
     }
 
+    @Override
+    public void sendFile(byte[] fileContent, String fileName, String receiver) throws RemoteException {
+        System.out.println("File name from server "+fileName);
+        OnlineClients onlineClients = OnlineClients.getInstance();
+        Map<String, ChatClient> onlineClients1 = onlineClients.getOnlineClients();
+        ChatClient chatClient = onlineClients1.get(receiver);
+        if(chatClient != null)
+            chatClient.receiveFile( fileContent,  fileName);
+    }
 
 
 }

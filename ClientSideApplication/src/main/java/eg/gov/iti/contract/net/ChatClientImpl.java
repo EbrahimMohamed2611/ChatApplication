@@ -115,6 +115,8 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         System.out.println(userInvitationModel.getSenderPhoneNumber() + " invited you!");
     }
 
+
+
     // todo replace user auth model with current user model
     @Override
     public String getPhoneNumber() throws RemoteException {
@@ -127,5 +129,14 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
+    }
+
+    @Override
+    public void receiveFile(byte [] fileContent, String fileName) throws RemoteException {
+        try {
+            homeController.receiveFile(fileContent, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -2,6 +2,7 @@ package eg.gov.iti.contract.ui.controllers;
 
 
 import com.jfoenix.controls.JFXButton;
+import eg.gov.iti.contract.ClientSideApplication;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
@@ -13,6 +14,7 @@ import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
 import eg.gov.iti.contract.ui.controllers.messages.SenderMessageController;
 import eg.gov.iti.contract.ui.helpers.ImageConverter;
+import eg.gov.iti.contract.ui.models.CurrentUserModel;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
@@ -97,17 +99,17 @@ public class HomeController implements Initializable {
     private InvitationServiceInterface invitationService;
     private UserInvitationModel invitationModel;
     private UserAuthModel userAuthModel;
+    private CurrentUserModel currentUserModel;
     //
 
-    private ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+    private ServerMessageServiceInterface friendMessageServiceInterface;
 
     private CachedCredentialsData credentialsData;
 
-    FileChooser fileChooser = new FileChooser();
-    File file;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
         client = ChatClientImpl.getInstance();
         client.setHomeController(this);
 
@@ -255,63 +257,58 @@ public class HomeController implements Initializable {
 
     @FXML
     private void sendAttachments() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        File file;
         StringBuilder fileContent = new StringBuilder();
-        this.file = fileChooser.showOpenDialog(null);
-        System.out.println("File NAme" + this.file.getName());
-//        String fileExtension = Optional.ofNullable(this.file.getName())
-//                .filter(f -> f.contains("."))
-//                .map(f -> f.substring(this.file.getName().lastIndexOf(".") + 1)).get();
-//        System.out.println("fileExtension" + fileExtension);
-        String result = null;
-
-        DataInputStream reader = new DataInputStream(new FileInputStream(file));
-        int nBytesToRead = reader.available();
-        if(nBytesToRead > 0) {
-            byte[] bytes = new byte[nBytesToRead];
-            reader.read(bytes);
-            result = new String(bytes);
+       file = fileChooser.showOpenDialog(null);
+        FileInputStream fileInputStream = null;
+        byte[] bFile = new byte[(int) file.length()];
+        try
+        {    //convert file into array of bytes
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
         }
-        System.out.println(result);
-        receiveFile(result, this.file.getName());
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+            friendMessageServiceInterface.sendFile( bFile, file.getName(), "01024261188");
+
 
     }
 
 
-        private void receiveFile(String fileContent, String fileName){
-            String line = fileContent;
-            if (this.file != null) {
-                try {
-                        this.file.createNewFile();
+        public void receiveFile(byte[] fileContent, String fileName) throws IOException {
+            System.out.println("file name receiver" + fileName);
 
-                    this.file = fileChooser.showSaveDialog(null);
-                    fileChooser.setInitialFileName(fileName);
-                    FileWriter fileWriter = new FileWriter(new File(this.file.getAbsolutePath()));
-
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-                    bufferedWriter.write(line);
-                    bufferedWriter.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                this.file = this.fileChooser.showSaveDialog(null);
-                fileChooser.setInitialFileName(fileName);
-                if (this.file != null) {
-                    //stage.setTitle(this.file.getName());
-                    try {
-                        if (!this.file.exists()) {
-                            this.file.createNewFile();
-                        }
-                        this.file = this.fileChooser.showSaveDialog(null);
-                        FileWriter fileWriter = new FileWriter(this.file.getAbsoluteFile());
-                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(line);
-                        bufferedWriter.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+        Platform.runLater(() -> {
+            FileChooser fileChooser = new FileChooser();
+            File file;
+            fileChooser.setInitialFileName(fileName);
+            file = fileChooser.showSaveDialog(ClientSideApplication.getStage());
+            FileOutputStream fout= null;
+            try {
+                fout = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+            byte b[]=fileContent;//converting string into byte array
+            try {
+                fout.write(b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fout.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
         }
+
+
+
     }

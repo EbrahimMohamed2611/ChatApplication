@@ -32,4 +32,15 @@ public class ClientMessageServiceImpl extends UnicastRemoteObject implements Cli
         });
     }
 
+    @Override
+    public void receiveFile(byte[] fileContent, String fileName) throws RemoteException {
+        Platform.runLater(()->{
+            try {
+                homeController.receiveFile(fileContent,fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 }
