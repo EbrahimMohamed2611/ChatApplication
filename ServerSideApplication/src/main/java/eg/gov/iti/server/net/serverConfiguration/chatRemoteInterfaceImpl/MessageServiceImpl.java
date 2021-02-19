@@ -10,16 +10,17 @@ import eg.gov.iti.server.db.dao.daoImpl.MessageDaoImpl;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.server.db.entities.MessageEntity;
 import eg.gov.iti.server.db.helpers.adapters.MessageAdapter;
+import eg.gov.iti.server.net.callbackConfiguration.OnlineClients;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MessageServiceImpl extends UnicastRemoteObject implements ServerMessageServiceInterface {
 
-    private List<ChatClient> clientsVector=new ArrayList<>();
 
     private final MessageDao messageDao = new MessageDaoImpl();
     private MessageAdapter messageAdapter;
@@ -41,29 +42,24 @@ public class MessageServiceImpl extends UnicastRemoteObject implements ServerMes
 
 
     @Override
-    public void register(ChatClient clientRef)throws RemoteException
-    {
-        clientsVector.add(clientRef);
-        System.out.println("Client added");
-    }
+    public void sendToMyFriend(  UserMessageDto userMessageDto) throws RemoteException {
 
+        System.out.println("Sender phone number : " +  userMessageDto.getSenderPHoneNumber());
+        System.out.println("Receiver phone number : " +  userMessageDto.getReceiverPhoneNumber());
 
-    @Override
-    public void sendToMyFriend(ChatClient senderClient, UserMessageDto userMessageDto) throws RemoteException {
-        String sender = userMessageDto.getSenderPHoneNumber();
-        System.out.println("Sender : " + sender);
-        System.out.println("senderClient " + senderClient.getPhoneNumber());
         try {
             MessageEntity messageEntityFromMessageDto = MessageAdapter.getMessageEntityFromMessageDto(userMessageDto);
             UserDao userDao = UserDaoImpl.getInstance();
             System.out.println("Message : "  + messageEntityFromMessageDto);
-            messageDao.saveMessage(messageEntityFromMessageDto);
+//            messageDao.saveMessage(messageEntityFromMessageDto);
 
-            for(ChatClient clientRef: clientsVector)
-            {
-                if(clientRef.getPhoneNumber().equals(messageEntityFromMessageDto.getReceiver()))
-                clientRef.receiveMessage(userMessageDto);
-            }
+            OnlineClients onlineClients = OnlineClients.getInstance();
+            Map<String, ChatClient> onlineClients1 = onlineClients.getOnlineClients();
+            ChatClient chatClient = onlineClients1.get(messageEntityFromMessageDto.getReceiver());
+
+            if(chatClient != null)
+                chatClient.receiveMessage(userMessageDto);
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

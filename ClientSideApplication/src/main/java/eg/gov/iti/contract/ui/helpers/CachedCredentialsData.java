@@ -62,7 +62,7 @@ public class CachedCredentialsData {
             userAuthModel.setPassword(cachedData.getPassword());
 
             chatService = ServicesLocator.getChatServerInterface();
-            client = ChatClientImpl.getInstance();
+//            client = ChatClientImpl.getInstance();
 
             try {
                 if (loginService.checkPhoneNumber(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))) {

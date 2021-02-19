@@ -14,7 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ClientMessageServiceImpl extends UnicastRemoteObject implements ClientMessageService {
 
-    HomeController homeController ;
+    private HomeController homeController ;
     public ClientMessageServiceImpl(HomeController homeController)throws RemoteException {
         this.homeController = homeController;
     }

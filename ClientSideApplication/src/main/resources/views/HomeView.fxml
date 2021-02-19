@@ -108,7 +108,7 @@
                               <Insets bottom="10.0" left="5.0" right="5.0" />
                            </VBox.margin>
                            <children>
-                              <FontIcon iconColor="#989eaf" iconLiteral="fas-paperclip" iconSize="26" rotate="90.0" />
+                              <FontIcon iconColor="#989eaf" iconLiteral="fas-paperclip" iconSize="26" onMouseClicked="#sendAttachments" rotate="90.0" />
                               <TextField fx:id="messageContentTextField" prefHeight="31.0" prefWidth="306.0" style="-fx-border-radius: 5; -fx-background-radius: 5;" HBox.hgrow="ALWAYS" />
                               <StackPane>
                                  <children>

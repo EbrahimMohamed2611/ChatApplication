@@ -16,25 +16,37 @@ import eg.gov.iti.contract.ui.controllers.HomeController;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
+    private Notifications notificationBuilder;
+    private Node graphic;
 
-    private  String clientPhoneNumber = new UserAuthModel().getPhoneNumber();
-    HomeController homeController;
+    private HomeController homeController;
     private static ChatClientImpl instance;
     private UserAuthModel userAuthModel;
     private UserInvitationModel userInvitationModel;
 
-    public ChatClientImpl(HomeController homeController) throws RemoteException {
-        this.homeController = homeController;
-    }
+//    public ChatClientImpl(HomeController homeController) throws RemoteException {
+//        this.homeController = homeController;
+//        userAuthModel = ModelsFactory.getInstance().getAuthUserModel();
+//        System.out.println("ChatClientImpl calling : " );
+//    }
 
     private ChatClientImpl() throws RemoteException {
         userAuthModel = ModelsFactory.getInstance().getAuthUserModel();
+        System.out.println("userAuthModel : " + userAuthModel);
     }
 
     public static ChatClientImpl getInstance() {
@@ -49,23 +61,10 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     }
 
 
-//    public void receiveMessage(String userMessage)throws RemoteException{
-//        System.out.println(userMessage);
-//        Platform.runLater(()->{
-//            homeController.displayFriendMessage(userMessage);
-//        });
-//    }
-
-
-    //    @Override
-//    public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
-//
-//    }
-
         @Override
         public void receiveMessage (UserMessageDto userMessage) throws RemoteException {
             UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
-            System.out.println(userMessage);
+            System.out.println("messageModelFromMessageDto " + messageModelFromMessageDto);
             Platform.runLater(() -> {
                 try {
                     homeController.displayFriendMessage(messageModelFromMessageDto);
@@ -78,11 +77,22 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     @Override
     public void receiveAnnouncement(String message) throws RemoteException {
 
+        Platform.runLater(() -> {
+                    notificationBuilder.create()
+                .title("Announcement")
+                .text(message)
+                .graphic(graphic)
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.TOP_RIGHT)
+                .darkStyle()
+                .showInformation();
+        });
+
     }
 
     @Override
     public void notify(String message, int type) throws RemoteException {
-
+        System.out.println("Notification");
     }
 
     @Override
@@ -95,11 +105,9 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     @Override
     public String toString() {
         return "ChatClientImpl{" +
-                "clientPhoneNumber='" + clientPhoneNumber + '\'' +
+                "userAuthModel=" + userAuthModel +
                 '}';
     }
-
-
 
     @Override
     public void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException {
@@ -113,4 +121,11 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         return userAuthModel.getPhoneNumber();
     }
 
+    public HomeController getHomeController() {
+        return homeController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 }

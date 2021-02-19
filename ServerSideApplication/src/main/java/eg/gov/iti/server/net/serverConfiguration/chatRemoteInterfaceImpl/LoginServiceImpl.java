@@ -17,7 +17,6 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
 
     protected LoginServiceImpl() throws RemoteException {
 
-
     }
 
     public static LoginServiceImpl getInstance() {

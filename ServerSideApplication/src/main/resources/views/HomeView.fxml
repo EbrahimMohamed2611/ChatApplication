@@ -90,6 +90,19 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </padding>
                               </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #d3dcef; -fx-background-radius: 5;">
+                                 <children>
+                                    <FontIcon iconColor="#515a71" iconLiteral="mdi2a-account-group-outline" iconSize="40" />
+                                    <Label text="Admins" textFill="#515a71">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">

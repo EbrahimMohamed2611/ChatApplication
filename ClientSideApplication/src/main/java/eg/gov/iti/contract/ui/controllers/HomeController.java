@@ -45,18 +45,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.w3c.dom.events.MouseEvent;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageIO;
 import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
 
     @FXML
     private TextField messageContentTextField;
@@ -81,22 +88,29 @@ public class HomeController implements Initializable {
 
     BufferedImage img = null;
     private StageCoordinator coordinator;
-    LogoutServiceInterface logoutService;
-    ChatClient client;
-    ChatServerInterface chatService;
+    private LogoutServiceInterface logoutService;
+    private ChatClientImpl client;
+    private ChatServerInterface chatService;
 
     // Fields for invitation handling
-    ModelsFactory modelsFactory;
-    InvitationServiceInterface invitationService;
-    UserInvitationModel invitationModel;
-    UserAuthModel userAuthModel;
+    private ModelsFactory modelsFactory;
+    private InvitationServiceInterface invitationService;
+    private UserInvitationModel invitationModel;
+    private UserAuthModel userAuthModel;
     //
 
-      ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+    private ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
 
-      CachedCredentialsData credentialsData;
+    private CachedCredentialsData credentialsData;
+
+    FileChooser fileChooser = new FileChooser();
+    File file;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        client = ChatClientImpl.getInstance();
+        client.setHomeController(this);
+
         try {
             img = ImageIO.read(new File("/pictures/avatar.png"));
             System.out.println(img.toString());
@@ -107,18 +121,17 @@ public class HomeController implements Initializable {
 
         credentialsData = CachedCredentialsData.getInstance();
 
-        client = ChatClientImpl.getInstance();
         chatService = ServicesLocator.getChatServerInterface();
-        FontIcon editIcon =new FontIcon("mdi2a-account-edit");
+        FontIcon editIcon = new FontIcon("mdi2a-account-edit");
         editIcon.setIconSize(22);
         editIcon.setIconColor(Color.WHITE);
         editProfileBtn.setGraphic(editIcon);
-        try {
-        logoutService = ServicesLocator.getLogoutService();
-            register();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+//        try {
+//        logoutService = ServicesLocator.getLogoutService();
+//            register();
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
 
         invitationService = ServicesLocator.getInvitationService();
         modelsFactory = ModelsFactory.getInstance();
@@ -133,29 +146,20 @@ public class HomeController implements Initializable {
     }
 
     public HomeController() throws RemoteException {
-
-
     }
+
 
     @FXML
     private void sendMessage(ActionEvent actionEvent) throws IOException {
-//        String messageText = messageContentTextField.getText();
+
         UserMessageModel userMessageModel = new UserMessageModel();
         userMessageModel.setMessageBody(messageContentTextField.getText());
         userMessageModel.setMessageDate(new Date());
-
-      //  ImageView sourceimage = new ImageView(new Image("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png"));
-      //  Image imageView = new Image(String.valueOf(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
-        //ImageConverter.convertFromImageToString(imageView);
-      //  userMessageModel.setImageView(sourceimage);
-
         userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
-//        System.out.println(ImageConverter.convertToFxImage(img));
-        userMessageModel.setName("Ali");
-        userMessageModel.setReceiverPhoneNumber("01024261187");
-        userMessageModel.setSenderPHoneNumber("01024261189");
-       // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
-        System.out.println("====="+userMessageModel);
+        userMessageModel.setReceiverPhoneNumber("01024261188");
+        userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
+        // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
+        System.out.println("=====" + userMessageModel);
         sendMessageToMyFriend(userMessageModel);
 
         System.out.println("Message Content is " + messageContentTextField.getText());
@@ -180,7 +184,7 @@ public class HomeController implements Initializable {
         this.chatContentVBox.getChildren().add(messageSender);
         UserMessageDto messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
         System.out.println("Message dto" + messageDto);
-        friendMessageServiceInterface.sendToMyFriend(new ChatClientImpl(this),messageDto);
+        friendMessageServiceInterface.sendToMyFriend(messageDto);
     }
 
     public void displayFriendMessage(UserMessageModel friendMessage) throws IOException {
@@ -198,13 +202,8 @@ public class HomeController implements Initializable {
         this.chatContentVBox.getChildren().add(messageReceiver);
 
 
-
     }
 
-    private void register() throws RemoteException {
-       friendMessageServiceInterface.register(new ChatClientImpl(this));
-
-    }
 
     @FXML
     private void logout(ActionEvent event) {
@@ -247,8 +246,72 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void editProfile(ActionEvent event) {
         coordinator.switchToUpdateProfileScene();
     }
-}
+
+
+    @FXML
+    private void sendAttachments() throws IOException {
+        StringBuilder fileContent = new StringBuilder();
+        this.file = fileChooser.showOpenDialog(null);
+        System.out.println("File NAme" + this.file.getName());
+//        String fileExtension = Optional.ofNullable(this.file.getName())
+//                .filter(f -> f.contains("."))
+//                .map(f -> f.substring(this.file.getName().lastIndexOf(".") + 1)).get();
+//        System.out.println("fileExtension" + fileExtension);
+        String result = null;
+
+        DataInputStream reader = new DataInputStream(new FileInputStream(file));
+        int nBytesToRead = reader.available();
+        if(nBytesToRead > 0) {
+            byte[] bytes = new byte[nBytesToRead];
+            reader.read(bytes);
+            result = new String(bytes);
+        }
+        System.out.println(result);
+        receiveFile(result, this.file.getName());
+
+    }
+
+
+        private void receiveFile(String fileContent, String fileName){
+            String line = fileContent;
+            if (this.file != null) {
+                try {
+                        this.file.createNewFile();
+
+                    this.file = fileChooser.showSaveDialog(null);
+                    fileChooser.setInitialFileName(fileName);
+                    FileWriter fileWriter = new FileWriter(new File(this.file.getAbsolutePath()));
+
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                    bufferedWriter.write(line);
+                    bufferedWriter.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.file = this.fileChooser.showSaveDialog(null);
+                fileChooser.setInitialFileName(fileName);
+                if (this.file != null) {
+                    //stage.setTitle(this.file.getName());
+                    try {
+                        if (!this.file.exists()) {
+                            this.file.createNewFile();
+                        }
+                        this.file = this.fileChooser.showSaveDialog(null);
+                        FileWriter fileWriter = new FileWriter(this.file.getAbsoluteFile());
+                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                        bufferedWriter.write(line);
+                        bufferedWriter.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }

@@ -36,12 +36,16 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
                 clientRef.receiveInvitation(UserInvitationAdapter.getInvitationDtoFromInvitation(invitation));
             }
         }
+
+        // Receive Announcement To Client
+        clientRef.receiveAnnouncement("Welcome You are Online");
     }
 
     @Override
     public void unRegister(ChatClient clientRef) throws RemoteException {
         onlineClients.getOnlineClients().remove(clientRef.getPhoneNumber());
         System.out.println("Client removed");
+        clientRef.receiveAnnouncement("You are Offline");
     }
 
     @Override
@@ -58,11 +62,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 //
 //        }
 //    }
-    public void tellOthers(String message) throws RemoteException {
-        System.out.println("Message received: " + message);
-        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
-            clientRef.receiveMessage(message);
-        }
-    }
+//    public void tellOthers(String message) throws RemoteException {
+//        System.out.println("Message received: " + message);
+//        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
+//            clientRef.receiveMessage(message);
+//        }
+//    }
 
 }

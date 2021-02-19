@@ -105,4 +105,30 @@ public class StageCoordinator {
         }
 
     }
+    public void switchToAdministratorInformation() {
+        if (primaryStage == null) {
+            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
+        }
+
+        if (!scenes.containsKey("admins")) {
+            try {
+                System.out.println("Created New Scene");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/AdministratorView.fxml"));
+                Parent adminView = fxmlLoader.load();
+                Scene homeScene = new Scene(adminView);
+                SceneData homeSceneData = new SceneData(fxmlLoader, adminView, homeScene);
+                scenes.put("admins", homeSceneData);
+                primaryStage.setScene(homeScene);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("IO Exception: Couldn't load 'Admin View' FXML file");
+            }
+        } else {
+            System.out.println("Loaded Existing Scene");
+            SceneData adminSceneData = scenes.get("admins");
+            Scene adminsScene = adminSceneData.getScene();
+            primaryStage.setScene(adminsScene);
+        }
+
+    }
 }
