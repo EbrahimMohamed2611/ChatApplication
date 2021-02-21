@@ -2,12 +2,18 @@ package eg.gov.iti.contract.ui.models;
 
 import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.contract.clientServerDTO.enums.Status;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 //todo sql to util Date
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CurrentUserModel {
+    private static CurrentUserModel instance;
     private final IntegerProperty userId = new SimpleIntegerProperty();
     private final StringProperty phoneNumber = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
@@ -19,6 +25,19 @@ public class CurrentUserModel {
     private StringProperty userGender;
     private StringProperty status;
     private ObjectProperty<LocalDate> dateOfBirth;
+
+    ObservableList<FriendModel> friends = FXCollections.observableArrayList();
+    ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
+
+    private CurrentUserModel() {
+    }
+
+    public static CurrentUserModel getInstance() {
+        if (instance == null) {
+            instance = new CurrentUserModel();
+        }
+        return instance;
+    }
 
     public String getCountry() {
         return country.get();
@@ -168,5 +187,13 @@ public class CurrentUserModel {
 //        dateOfBirth.before(null);
 
 
+    }
+
+    public ObservableList<FriendModel> getFriends() {
+        return friends;
+    }
+
+    public ObservableList<UserInvitationModel> getInvitations() {
+        return invitations;
     }
 }

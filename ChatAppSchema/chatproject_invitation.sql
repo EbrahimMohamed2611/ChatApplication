@@ -16,32 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `admin`
+-- Table structure for table `invitation`
 --
 
-DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `invitation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `admin` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) NOT NULL,
-  `phone_number` varchar(11) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `picture` blob,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `phone_number_UNIQUE` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `invitation` (
+  `sender_phoneNumber` varchar(11) NOT NULL,
+  `receiver_phoneNumber` varchar(11) NOT NULL,
+  PRIMARY KEY (`receiver_phoneNumber`,`sender_phoneNumber`),
+  KEY `sender_phoneNumber_idx` (`sender_phoneNumber`),
+  CONSTRAINT `receiver_phoneNumber` FOREIGN KEY (`receiver_phoneNumber`) REFERENCES `user` (`phone_number`),
+  CONSTRAINT `sender_phoneNumber` FOREIGN KEY (`sender_phoneNumber`) REFERENCES `user` (`phone_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `admin`
+-- Dumping data for table `invitation`
 --
 
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'Ahmed','01005425355','1234',NULL);
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+LOCK TABLES `invitation` WRITE;
+/*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-22  0:45:27
+-- Dump completed on 2021-02-22  0:45:25

@@ -44,7 +44,8 @@ public class ModelsFactory {
     }
     public CurrentUserModel getCurrentUserModel() {
         if (currentUserModel == null) {
-            currentUserModel = new CurrentUserModel();
+//            currentUserModel = new CurrentUserModel();
+            currentUserModel = CurrentUserModel.getInstance();
         }
         return currentUserModel;
     }

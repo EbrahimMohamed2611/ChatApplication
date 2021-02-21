@@ -287,7 +287,7 @@ public class RegistrationController implements Initializable {
 //        regexValidator.setRegexPattern("");
 //        RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
 //        requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
-//        requiredFieldValidator.setMessage("fuck jets");
+//        requiredFieldValidator.setMessage("Required");
 //        nameText.getValidators().addAll(requiredFieldValidator,regexValidator);
 //
 //    }

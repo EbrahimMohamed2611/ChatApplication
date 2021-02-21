@@ -1,6 +1,7 @@
 package eg.gov.iti.contract.client;
 
 import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
+import eg.gov.iti.contract.clientServerDTO.dto.UserFriendDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserInvitationDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 
@@ -15,5 +16,7 @@ public interface ChatClient extends Remote {
     void receiveUserDto(UserDto userDto)throws RemoteException;
     void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException;
 
-  String getPhoneNumber() throws RemoteException;
+    void addFriend(UserFriendDto userFriendShipDto) throws RemoteException;
+
+    String getPhoneNumber() throws RemoteException;
 }

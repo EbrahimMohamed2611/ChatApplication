@@ -2,6 +2,7 @@ package eg.gov.iti.server.db.dao.daoImpl;
 
 import eg.gov.iti.server.db.dao.InvitationDao;
 import eg.gov.iti.server.db.entities.Invitation;
+import eg.gov.iti.server.db.entities.User;
 import eg.gov.iti.server.db.helpers.dbFactory.MyDataSourceFactory;
 
 import javax.sql.DataSource;
@@ -33,7 +34,7 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
-    public boolean save(Invitation invitation) {
+    public boolean saveInvitation(Invitation invitation) {
         final String SQL_INSERT = "INSERT INTO invitation (`sender_phoneNumber`, `receiver_phoneNumber`) VALUES (?, ?);";
 
         try {
@@ -92,7 +93,7 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
-    public List<Invitation> retrieveInvitation(String phoneNumber) {
+    public List<Invitation> retrieveInvitations(String phoneNumber) {
         final String SQL_SELECT = "Select * from invitation where receiver_phoneNumber = ?;";
 
         List<Invitation> invitations = new ArrayList<>();
@@ -115,5 +116,29 @@ public class InvitationDaoImpl implements InvitationDao {
             e.printStackTrace();
         }
         return invitations;
+    }
+
+    @Override
+    public Boolean deleteInvitation(Invitation invitation){
+        final  String SQL_DELETE = "DELETE FROM invitation WHERE (`receiver_phoneNumber` = ?) and (`sender_phoneNumber` = ?);";
+
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
+            preparedStatement.setString(1,invitation.getReceiverPhoneNumber());
+            preparedStatement.setString(2,invitation.getSenderPhoneNumber());
+
+            System.out.println("Deleted invitation" + invitation);
+
+            int row = preparedStatement.executeUpdate();
+            System.out.println(row);
+
+            if(row != 0){
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: ", e.getSQLState(), e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 }
