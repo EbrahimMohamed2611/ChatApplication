@@ -152,6 +152,7 @@ public class StageCoordinator {
 
                 primaryStage.setScene(updateProfileScene);
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("IO Exception: Couldn't load 'Update Profile Scene' FXML file");
             }
         } else {

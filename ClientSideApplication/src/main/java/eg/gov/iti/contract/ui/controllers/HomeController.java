@@ -3,12 +3,15 @@ package eg.gov.iti.contract.ui.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import eg.gov.iti.contract.ClientSideApplication;
+import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.CurrentUserAdapter;
 import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
 import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
@@ -47,6 +50,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.w3c.dom.events.MouseEvent;
@@ -77,16 +82,20 @@ public class HomeController implements Initializable {
     @FXML
     private VBox chatContentVBox;
 
-
     @FXML
-    JFXButton SendJFXButton;
-
+    private Circle profilePic;
     @FXML
     ScrollPane scrollPane;
 
 
     @FXML
     private JFXButton editProfileBtn;
+    @FXML
+    private Label userNameLabel;
+
+    @FXML
+    private Label userPhoneNumberLabel;
+
 
     BufferedImage img = null;
     private StageCoordinator coordinator;
@@ -103,16 +112,20 @@ public class HomeController implements Initializable {
     //
 
     private ServerMessageServiceInterface friendMessageServiceInterface;
-
+    private UpdateProfileServiceInterface updateProfileService;
     private CachedCredentialsData credentialsData;
-
+    private Image defaultUserImage;
+    private Image userImage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+        updateProfileService =ServicesLocator.getUpdateProfileService();
+        defaultUserImage= new Image("/pictures/avatar.png");
+        if(updateProfileService==null)
+            System.out.println("fuck");
         client = ChatClientImpl.getInstance();
         client.setHomeController(this);
-
         try {
             img = ImageIO.read(new File("/pictures/avatar.png"));
             System.out.println(img.toString());
@@ -122,25 +135,49 @@ public class HomeController implements Initializable {
         coordinator = StageCoordinator.getInstance();
 
         credentialsData = CachedCredentialsData.getInstance();
+        logoutService = ServicesLocator.getLogoutService();
 
         chatService = ServicesLocator.getChatServerInterface();
         FontIcon editIcon = new FontIcon("mdi2a-account-edit");
         editIcon.setIconSize(22);
         editIcon.setIconColor(Color.WHITE);
         editProfileBtn.setGraphic(editIcon);
-//        try {
-//        logoutService = ServicesLocator.getLogoutService();
-//            register();
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
 
         invitationService = ServicesLocator.getInvitationService();
         modelsFactory = ModelsFactory.getInstance();
         invitationModel = modelsFactory.getUserInvitationModel();
         userAuthModel = modelsFactory.getAuthUserModel();
+        currentUserModel = modelsFactory.getCurrentUserModel();
+        //todo refactor this shit
         invitationModel.senderPhoneNumberProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
+        System.out.println(userAuthModel.getPhoneNumber());
+        UserDto user = null;
+        try {
+            user = updateProfileService.getUser(userAuthModel.getPhoneNumber());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userAuthModel);
+        System.out.println("DB user After"+user);
+        var tempModel= CurrentUserAdapter.getUserModelFromUserDtoAdapter(user);
+        currentUserModel.setFullName(tempModel.getFullName());
+        currentUserModel.setEmail(tempModel.getEmail());
+        currentUserModel.setCountry(tempModel.getCountry());
+        currentUserModel.setBio(tempModel.getBio());
+        currentUserModel.setDateOfBirth(tempModel.getDateOfBirth());
+        currentUserModel.setImageEncoded(tempModel.getImageEncoded());
+        if(currentUserModel.getImageEncoded()==null){
+            currentUserModel.setProfileImage(defaultUserImage);
 
+        }else {
+            userImage=ImageConverter.getDecodedImage(currentUserModel.getImageEncoded());
+            currentUserModel.setProfileImage(userImage);
+        }
+        currentUserModel.setPassword(tempModel.getPassword());
+        currentUserModel.phoneNumberProperty().bind(userAuthModel.phoneNumberProperty());
+        userNameLabel.textProperty().bind(currentUserModel.fullNameProperty());
+        userPhoneNumberLabel.textProperty().bind(userAuthModel.phoneNumberProperty());
+        profilePic.fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
 //        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
 
         scrollPane.vvalueProperty().bind(chatContentVBox.heightProperty());
@@ -157,8 +194,8 @@ public class HomeController implements Initializable {
         UserMessageModel userMessageModel = new UserMessageModel();
         userMessageModel.setMessageBody(messageContentTextField.getText());
         userMessageModel.setMessageDate(new Date());
-        userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
-        userMessageModel.setReceiverPhoneNumber("01024261188");
+        userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("src/main/resources/pictures/avatar.png")));
+        userMessageModel.setReceiverPhoneNumber("01005425354");
         userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
         // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
         System.out.println("=====" + userMessageModel);

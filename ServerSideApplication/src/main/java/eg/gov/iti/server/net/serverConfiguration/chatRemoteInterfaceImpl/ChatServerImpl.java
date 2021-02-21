@@ -17,16 +17,17 @@ import java.util.List;
 
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInterface {
     private InvitationDao invitationDao;
-    private OnlineClients onlineClients;
+    private OnlineClients onlineClients = OnlineClients.getInstance();
 
     public ChatServerImpl() throws RemoteException {
-        onlineClients = OnlineClients.getInstance();
+
     }
 
 
     @Override
     public void register(ChatClient clientRef) throws RemoteException {
-        onlineClients.getOnlineClients().put(clientRef.getPhoneNumber(), clientRef);
+        var test = onlineClients.getOnlineClients();
+               test.put(clientRef.getPhoneNumber(), clientRef);
         System.out.println("Client " + clientRef.getPhoneNumber() + " added");
 
         invitationDao = InvitationDaoImpl.getInstance();
