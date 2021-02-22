@@ -70,13 +70,11 @@ public class HomeController implements Initializable {
     @FXML
     private TextField messageContentTextField;
 
-    // for invitation handling
     @FXML
     private TextField searchTextField;
 
     @FXML
     private VBox chatContentVBox;
-
 
     @FXML
     JFXButton SendJFXButton;
@@ -94,13 +92,12 @@ public class HomeController implements Initializable {
     private ChatClientImpl client;
     private ChatServerInterface chatService;
 
-    // Fields for invitation handling
+
     private ModelsFactory modelsFactory;
     private InvitationServiceInterface invitationService;
     private UserInvitationModel invitationModel;
     private UserAuthModel userAuthModel;
     private CurrentUserModel currentUserModel;
-    //
 
     private ServerMessageServiceInterface friendMessageServiceInterface;
 
@@ -128,21 +125,12 @@ public class HomeController implements Initializable {
         editIcon.setIconSize(22);
         editIcon.setIconColor(Color.WHITE);
         editProfileBtn.setGraphic(editIcon);
-//        try {
-//        logoutService = ServicesLocator.getLogoutService();
-//            register();
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
-
+        logoutService = ServicesLocator.getLogoutService();
         invitationService = ServicesLocator.getInvitationService();
         modelsFactory = ModelsFactory.getInstance();
         invitationModel = modelsFactory.getUserInvitationModel();
         userAuthModel = modelsFactory.getAuthUserModel();
         invitationModel.senderPhoneNumberProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
-
-//        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
-
         scrollPane.vvalueProperty().bind(chatContentVBox.heightProperty());
         chatContentVBox.prefWidthProperty().bind(scrollPane.widthProperty());
     }
@@ -163,7 +151,6 @@ public class HomeController implements Initializable {
         // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
         System.out.println("=====" + userMessageModel);
         sendMessageToMyFriend(userMessageModel);
-
         System.out.println("Message Content is " + messageContentTextField.getText());
         messageContentTextField.setText("");
 
@@ -175,14 +162,11 @@ public class HomeController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/messages/SenderMessageView.fxml"));
         Parent messageSender = fxmlLoader.load();
         SenderMessageController senderMessageController = fxmlLoader.getController();
-
         senderMessageController.getSenderMessageBodyLabel().setText(message.getMessageBody());
         senderMessageController.getSenderNameLabel().setText(message.getName());
         Image image = ImageConverter.getDecodedImage(message.getImageEncoded());
-
         senderMessageController.getSenderImgView().setImage(image);
         senderMessageController.getSenderTimeStampLabel().setText(String.valueOf(new Date()));
-
         this.chatContentVBox.getChildren().add(messageSender);
         UserMessageDto messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
         System.out.println("Message dto" + messageDto);
@@ -202,7 +186,6 @@ public class HomeController implements Initializable {
         receiverMessageController.getReceiverMessageBodyLabel().setText(friendMessage.getMessageBody());
         receiverMessageController.getReceiverTimeStampLabel().setText(String.valueOf(friendMessage.getMessageDate()));
         this.chatContentVBox.getChildren().add(messageReceiver);
-
 
     }
 
@@ -279,7 +262,7 @@ public class HomeController implements Initializable {
     }
 
 
-        public void receiveFile(byte[] fileContent, String fileName) throws IOException {
+    public void receiveFile(byte[] fileContent, String fileName) throws IOException {
             System.out.println("file name receiver" + fileName);
 
         Platform.runLater(() -> {

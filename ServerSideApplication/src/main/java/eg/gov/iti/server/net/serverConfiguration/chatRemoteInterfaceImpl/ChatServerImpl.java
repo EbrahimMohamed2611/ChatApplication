@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInterface {
     private InvitationDao invitationDao;
@@ -69,4 +70,16 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 //        }
 //    }
 
+
+    @Override
+    public void sendAnnouncementToAllOnlineUsers(String announcementMessage) {
+        Map<String, ChatClient> onlineClients = this.onlineClients.getOnlineClients();
+        onlineClients.forEach((k,v)->{
+            try {
+                v.receiveAnnouncementFromServer(announcementMessage);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
