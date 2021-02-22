@@ -6,6 +6,9 @@ import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 //todo sql to util Date
 import java.sql.Date;
 import java.time.LocalDate;
@@ -22,12 +25,30 @@ public class CurrentUserModel {
     private final StringProperty country = new SimpleStringProperty();
     private final StringProperty bio = new SimpleStringProperty();
     private final StringProperty imageEncoded = new SimpleStringProperty();
-    private StringProperty userGender;
+    private Image profileImage;
+    private Circle profilePic=new Circle();
     private StringProperty status;
-    private ObjectProperty<LocalDate> dateOfBirth;
+    private ObjectProperty<LocalDate> dateOfBirth = new SimpleObjectProperty<>();
+    private ObservableList<FriendModel> friends = FXCollections.observableArrayList();
+    private ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
 
-    ObservableList<FriendModel> friends = FXCollections.observableArrayList();
-    ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
+    public Image getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(Image profileImage) {
+        this.profileImage = profileImage;
+        this.profilePic.setFill(new ImagePattern(profileImage));
+    }
+
+    public Circle getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(Circle profilePic) {
+        this.profilePic = profilePic;
+    }
+
 
     private CurrentUserModel() {
     }
@@ -75,17 +96,6 @@ public class CurrentUserModel {
         this.imageEncoded.set(imageEncoded);
     }
 
-    public String getUserGender() {
-        return userGender.get();
-    }
-
-    public StringProperty userGenderProperty() {
-        return userGender;
-    }
-
-    public void setUserGender(String userGender) {
-        this.userGender.set(userGender);
-    }
 
     public String getStatus() {
         return status.get();
@@ -162,7 +172,7 @@ public class CurrentUserModel {
 
     @Override
     public String toString() {
-        return "UserRegisterModel{" +
+        return "CurrentUserModel{" +
                 "userId=" + userId +
                 ", phoneNumber=" + phoneNumber +
                 ", password=" + password +
@@ -171,7 +181,6 @@ public class CurrentUserModel {
                 ", country=" + country +
                 ", bio=" + bio +
                 ", imageEncoded=" + imageEncoded +
-                ", userGender=" + userGender +
                 ", status=" + status +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';

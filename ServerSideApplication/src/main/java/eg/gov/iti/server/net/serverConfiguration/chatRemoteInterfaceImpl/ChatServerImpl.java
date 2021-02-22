@@ -19,17 +19,18 @@ import java.util.List;
 
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInterface {
     private InvitationDao invitationDao;
-    private OnlineClients onlineClients;
     private FriendDao friendDao;
+    private OnlineClients onlineClients = OnlineClients.getInstance();
 
     public ChatServerImpl() throws RemoteException {
-        onlineClients = OnlineClients.getInstance();
+
     }
 
 
     @Override
     public void register(ChatClient clientRef) throws RemoteException {
-        onlineClients.getOnlineClients().put(clientRef.getPhoneNumber(), clientRef);
+        var test = onlineClients.getOnlineClients();
+               test.put(clientRef.getPhoneNumber(), clientRef);
         System.out.println("Client " + clientRef.getPhoneNumber() + " added");
 
         invitationDao = InvitationDaoImpl.getInstance();
@@ -49,12 +50,15 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
                 clientRef.addFriend(userFriendDto);
             }
         }
+        // Receive Announcement To Client
+        clientRef.receiveAnnouncement("Welcome You are Online");
     }
 
     @Override
     public void unRegister(ChatClient clientRef) throws RemoteException {
         onlineClients.getOnlineClients().remove(clientRef.getPhoneNumber());
         System.out.println("Client removed");
+        clientRef.receiveAnnouncement("You are Offline");
     }
 
     @Override
@@ -71,11 +75,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 //
 //        }
 //    }
-    public void tellOthers(String message) throws RemoteException {
-        System.out.println("Message received: " + message);
-        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
+//    public void tellOthers(String message) throws RemoteException {
+//        System.out.println("Message received: " + message);
+//        for (ChatClient clientRef : onlineClients.getOnlineClients().values()) {
 //            clientRef.receiveMessage(message);
-        }
-    }
+//        }
+//    }
 
 }

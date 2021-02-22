@@ -3,12 +3,15 @@ package eg.gov.iti.contract.ui.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import eg.gov.iti.contract.ClientSideApplication;
+import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.CurrentUserAdapter;
 import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
 import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendController;
@@ -17,12 +20,18 @@ import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
 import eg.gov.iti.contract.ui.controllers.messages.SenderMessageController;
 import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.models.*;
+import eg.gov.iti.contract.ui.models.CurrentUserModel;
+import eg.gov.iti.contract.ui.models.UserMessageModel;
 
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +39,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.image.BufferedImage;
@@ -39,16 +49,25 @@ import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.w3c.dom.events.MouseEvent;
 
 import javax.imageio.ImageIO;
 import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
 
     @FXML
     private TextField messageContentTextField;
@@ -60,15 +79,18 @@ public class HomeController implements Initializable {
     @FXML
     private VBox chatContentVBox;
 
-
     @FXML
-    JFXButton SendJFXButton;
-
+    private Circle profilePic;
     @FXML
     ScrollPane scrollPane;
 
     @FXML
     private JFXButton editProfileBtn;
+    @FXML
+    private Label userNameLabel;
+
+    @FXML
+    private Label userPhoneNumberLabel;
 
     @FXML
     ListView<AnchorPane> listView;
@@ -77,26 +99,35 @@ public class HomeController implements Initializable {
 
     BufferedImage img = null;
     private StageCoordinator coordinator;
-    LogoutServiceInterface logoutService;
-    //    ChatClient client;
-    ChatClientImpl client;
-    ChatServerInterface chatService;
+    private LogoutServiceInterface logoutService;
+    private ChatClientImpl client;
+    private ChatServerInterface chatService;
 
     // Fields for invitation handling
-    ModelsFactory modelsFactory;
-    InvitationServiceInterface invitationService;
-    UserInvitationModel invitationModel;
-    UserAuthModel userAuthModel;
-    CurrentUserModel currentUserModel;
-//    ObservableList<UserInvitationModel> invitations;
+    private ModelsFactory modelsFactory;
+    private InvitationServiceInterface invitationService;
+    private UserInvitationModel invitationModel;
+    private UserAuthModel userAuthModel;
+    private CurrentUserModel currentUserModel;
     //
 
-    ServerMessageServiceInterface friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+    private ServerMessageServiceInterface friendMessageServiceInterface;
+    private UpdateProfileServiceInterface updateProfileService;
+    private CachedCredentialsData credentialsData;
+    private Image defaultUserImage;
+    private Image userImage;
 
-    CachedCredentialsData credentialsData;
+    private String receiverPhoneNumber;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
+        updateProfileService = ServicesLocator.getUpdateProfileService();
+        defaultUserImage = new Image("/pictures/avatar.png");
+        if (updateProfileService == null)
+            System.out.println("fuck");
+        client = ChatClientImpl.getInstance();
+        client.setHomeController(this);
         try {
             img = ImageIO.read(new File("/pictures/avatar.png"));
             System.out.println(img.toString());
@@ -106,27 +137,47 @@ public class HomeController implements Initializable {
         coordinator = StageCoordinator.getInstance();
 
         credentialsData = CachedCredentialsData.getInstance();
+        logoutService = ServicesLocator.getLogoutService();
 
-        client = ChatClientImpl.getInstance();
         chatService = ServicesLocator.getChatServerInterface();
         FontIcon editIcon = new FontIcon("mdi2a-account-edit");
         editIcon.setIconSize(22);
         editIcon.setIconColor(Color.WHITE);
         editProfileBtn.setGraphic(editIcon);
-        try {
-            logoutService = ServicesLocator.getLogoutService();
-            register();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
         invitationService = ServicesLocator.getInvitationService();
         modelsFactory = ModelsFactory.getInstance();
         invitationModel = modelsFactory.getUserInvitationModel();
         userAuthModel = modelsFactory.getAuthUserModel();
         currentUserModel = modelsFactory.getCurrentUserModel();
         invitationModel.senderPhoneNumberProperty().bindBidirectional(userAuthModel.phoneNumberProperty());
+        System.out.println(userAuthModel.getPhoneNumber());
+        UserDto user = null;
+        try {
+            user = updateProfileService.getUser(userAuthModel.getPhoneNumber());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userAuthModel);
+        System.out.println("DB user After" + user);
+        var tempModel = CurrentUserAdapter.getUserModelFromUserDtoAdapter(user);
+        currentUserModel.setFullName(tempModel.getFullName());
+        currentUserModel.setEmail(tempModel.getEmail());
+        currentUserModel.setCountry(tempModel.getCountry());
+        currentUserModel.setBio(tempModel.getBio());
+        currentUserModel.setDateOfBirth(tempModel.getDateOfBirth());
+        currentUserModel.setImageEncoded(tempModel.getImageEncoded());
+        if (currentUserModel.getImageEncoded() == null) {
+            currentUserModel.setProfileImage(defaultUserImage);
 
+        } else {
+            userImage = ImageConverter.getDecodedImage(currentUserModel.getImageEncoded());
+            currentUserModel.setProfileImage(userImage);
+        }
+        currentUserModel.setPassword(tempModel.getPassword());
+        currentUserModel.phoneNumberProperty().bind(userAuthModel.phoneNumberProperty());
+        userNameLabel.textProperty().bind(currentUserModel.fullNameProperty());
+        userPhoneNumberLabel.textProperty().bind(userAuthModel.phoneNumberProperty());
+        profilePic.fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
 //        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
 
         scrollPane.vvalueProperty().bind(chatContentVBox.heightProperty());
@@ -137,8 +188,8 @@ public class HomeController implements Initializable {
 
         currentUserModel.getInvitations().addListener((ListChangeListener<UserInvitationModel>) c -> {
             while (c.next()) {
-                    requestsListView.getItems().clear();
-                    requestsListView.setItems(getRequestsListView().getItems());
+                requestsListView.getItems().clear();
+                requestsListView.setItems(getRequestsListView().getItems());
             }
         });
 
@@ -147,29 +198,38 @@ public class HomeController implements Initializable {
                 showFriends();
             }
         });
+
         showFriends();
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AnchorPane>() {
+            @Override
+            public void changed(ObservableValue<? extends AnchorPane> observable, AnchorPane oldValue, AnchorPane newValue) {
+                // Your action here
+                if (newValue != null) {
+                    String text = ((Label) ((HBox) ((VBox) newValue.getChildren().get(0)).getChildren().get(0)).getChildren().get(1)).getText();
+                    if (text != null) {
+                        receiverPhoneNumber = text;
+                        System.out.println("Selected item: " + newValue);
+                        System.out.println(text);
+                    }
+                }
+            }
+        });
     }
 
     public HomeController() throws RemoteException {
-
-
     }
+
 
     @FXML
     private void sendMessage(ActionEvent actionEvent) throws IOException {
-//        String messageText = messageContentTextField.getText();
+
         UserMessageModel userMessageModel = new UserMessageModel();
         userMessageModel.setMessageBody(messageContentTextField.getText());
         userMessageModel.setMessageDate(new Date());
-
-        //  ImageView sourceimage = new ImageView(new Image("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png"));
-        //  Image imageView = new Image(String.valueOf(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
-        //ImageConverter.convertFromImageToString(imageView);
-        //  userMessageModel.setImageView(sourceimage);
-
-        userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("D:\\ITI\\Java Project Specification\\ChatApplication\\ClientSideApplication\\src\\main\\resources\\pictures\\avatar.png")));
-//        System.out.println(ImageConverter.convertToFxImage(img));
-        userMessageModel.setName("Ali");
+        userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("src/main/resources/pictures/avatar.png")));
+//        userMessageModel.setReceiverPhoneNumber("01005425354");
+        userMessageModel.setReceiverPhoneNumber(receiverPhoneNumber);
+        userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
         // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
         System.out.println("=====" + userMessageModel);
         sendMessageToMyFriend(userMessageModel);
@@ -196,7 +256,7 @@ public class HomeController implements Initializable {
         this.chatContentVBox.getChildren().add(messageSender);
         UserMessageDto messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
         System.out.println("Message dto" + messageDto);
-        friendMessageServiceInterface.sendToMyFriend(new ChatClientImpl(this), messageDto);
+        friendMessageServiceInterface.sendToMyFriend(messageDto);
     }
 
     public void displayFriendMessage(UserMessageModel friendMessage) throws IOException {
@@ -213,11 +273,6 @@ public class HomeController implements Initializable {
         receiverMessageController.getReceiverTimeStampLabel().setText(String.valueOf(friendMessage.getMessageDate()));
         this.chatContentVBox.getChildren().add(messageReceiver);
 
-
-    }
-
-    private void register() throws RemoteException {
-        friendMessageServiceInterface.register(new ChatClientImpl(this));
 
     }
 
@@ -252,7 +307,7 @@ public class HomeController implements Initializable {
     @FXML
     void inviteFriend() {
         try {
-            if (searchTextField.getText().equals(userAuthModel.getPhoneNumber())){
+            if (searchTextField.getText().equals(userAuthModel.getPhoneNumber())) {
                 System.out.println("you cannot add yourself");
                 return;
             }
@@ -371,4 +426,58 @@ public class HomeController implements Initializable {
         }
         return friendsListView;
     }
+
+
+    @FXML
+    private void sendAttachments() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        File file;
+        StringBuilder fileContent = new StringBuilder();
+        file = fileChooser.showOpenDialog(null);
+        FileInputStream fileInputStream = null;
+        byte[] bFile = new byte[(int) file.length()];
+        try {    //convert file into array of bytes
+            fileInputStream = new FileInputStream(file);
+            fileInputStream.read(bFile);
+            fileInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        friendMessageServiceInterface.sendFile(bFile, file.getName(), "01024261188");
+
+
+    }
+
+
+    public void receiveFile(byte[] fileContent, String fileName) throws IOException {
+        System.out.println("file name receiver" + fileName);
+
+        Platform.runLater(() -> {
+            FileChooser fileChooser = new FileChooser();
+            File file;
+            fileChooser.setInitialFileName(fileName);
+            file = fileChooser.showSaveDialog(ClientSideApplication.getStage());
+            FileOutputStream fout = null;
+            try {
+                fout = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            byte b[] = fileContent;//converting string into byte array
+            try {
+                fout.write(b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fout.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+    }
+
+
 }

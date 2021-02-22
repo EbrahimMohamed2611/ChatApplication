@@ -1,6 +1,10 @@
 package eg.gov.iti.contract.ui.controllers;
 
 import com.jfoenix.controls.*;
+import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.net.adapters.CurrentUserAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
+import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.CurrentUserModel;
@@ -13,9 +17,13 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -59,36 +67,62 @@ public class UpdateProfileController implements Initializable {
     private StageCoordinator coordinator;
     private CurrentUserModel currentUserModel;
     private ModelsFactory modelsFactory;
+    private UpdateProfileServiceInterface updateProfileService;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         modelsFactory= ModelsFactory.getInstance();
         currentUserModel=modelsFactory.getCurrentUserModel();
-        profilePic.setFill(new ImagePattern(new Image("pictures/close-button.png")));
-//        FontIcon addIcon=new FontIcon("mdi2p-plus-thick");
-//        addIcon.setIconSize(22);
-//        addIcon.setIconColor(Color.WHITE);
-//        choosePhotoBtn.setGraphic(addIcon);
-        currentUserModel.phoneNumberProperty().bindBidirectional(phoneTxtField.textProperty());
-        currentUserModel.fullNameProperty().bindBidirectional(nameTxtField.textProperty());
-        currentUserModel.emailProperty().bindBidirectional(emailTxtField.textProperty());
-        currentUserModel.passwordProperty().bindBidirectional(pwdTxtField.textProperty());
-        currentUserModel.passwordProperty().bindBidirectional(confirmPwdTxtField.textProperty());
-        currentUserModel.countryProperty().bindBidirectional(countryTxtField.textProperty());
-        currentUserModel.bioProperty().bindBidirectional(bioTxtArea.textProperty());
-        currentUserModel.dateOfBirthProperty().bindBidirectional(datePicker.valueProperty());
+
+        updateProfileService= ServicesLocator.getUpdateProfileService();
+        profilePic.fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
+        phoneTxtField.setText(currentUserModel.getPhoneNumber());
+        pwdTxtField.setText(currentUserModel.getPassword());
+        nameTxtField.setText(currentUserModel.getFullName());
+        confirmPwdTxtField.setText(currentUserModel.getPassword());
+        countryTxtField.setText(currentUserModel.getCountry());
+        emailTxtField.setText(currentUserModel.getEmail());
         //todo image loading
-//        currentUserModel.imageEncodedProperty().bindBidirectional();
         coordinator=StageCoordinator.getInstance();
     }
+    @FXML
+    private void selectPic()  {
+        FileChooser fileChooser = new FileChooser();
+        File file;
+        file = fileChooser.showOpenDialog(null);
+        try {
+            currentUserModel.setImageEncoded(ImageConverter.getEncodedImage(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentUserModel.setProfileImage(new Image(file.toURI().toString()));
+    }
+
 
     @FXML
-    void allowUpdate(ActionEvent event) {
+    private void allowUpdate(ActionEvent event) {
         if(updateUserBtn.getText().equals("Update")){
             enableFields(true);
 
         }
         else if(updateUserBtn.getText().equals("Apply")){
             enableFields(false);
+            try {
+                currentUserModel.setPassword(pwdTxtField.getText());
+                currentUserModel.setCountry(countryTxtField.getText());
+                currentUserModel.setDateOfBirth(datePicker.getValue());
+                currentUserModel.setFullName(nameTxtField.getText());
+                currentUserModel.setEmail(emailTxtField.getText());
+                currentUserModel.setBio(bioTxtArea.getText());
+                System.out.println("in Apply");
+                if(updateProfileService.updateProfile(CurrentUserAdapter.getUserDtoFromModelAdapter(currentUserModel))){
+                    System.out.println("update ran successfully");
+                }else {
+                    System.out.println("update failed");
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -100,13 +134,6 @@ public class UpdateProfileController implements Initializable {
         choosePhotoBtn.setDisable(!state);
         bioTxtArea.setEditable(state);
         countryTxtField.setEditable(state);
-//        nameTxtField.setLabelFloat(state);
-//        emailTxtField.setLabelFloat(state);
-//        pwdTxtField.setLabelFloat(state);
-//        confirmPwdTxtField.setLabelFloat(state);
-////        datePicker.setLabelFloat(state);
-//        bioTxtArea.setLabelFloat(state);
-
         if (state) {
             updateUserBtn.setText("Apply");
             backCancelBtn.setText("Cancel");
@@ -118,7 +145,7 @@ public class UpdateProfileController implements Initializable {
     }
 
     @FXML
-    void backToHomeScene(ActionEvent event) {
+    private void backToHomeScene(ActionEvent event) {
         if(backCancelBtn.getText().equals("Back")){
             enableFields(false);
             coordinator.switchToHomeScene();

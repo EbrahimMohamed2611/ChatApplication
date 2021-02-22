@@ -24,6 +24,7 @@ public class ServicesLocator {
     private static RegisterServiceInterface registerServiceInterface;
 
     private static InvitationServiceInterface invitationServiceInterface;
+    private static UpdateProfileServiceInterface updateProfileService;
     private static boolean connectionEstablished;
     private ServicesLocator(){
 
@@ -60,6 +61,11 @@ public class ServicesLocator {
         return invitationServiceInterface;
     }
 
+    public static UpdateProfileServiceInterface getUpdateProfileService(){
+        if(updateProfileService==null)
+            System.out.println("update Not found");
+        return updateProfileService;
+    }
     public static boolean servicesInit(){
         if(!connectionEstablished){
             try {
@@ -78,9 +84,13 @@ public class ServicesLocator {
                 registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
 
                 invitationServiceInterface = (InvitationServiceInterface) registry.lookup("inviteService");
+                updateProfileService = (UpdateProfileServiceInterface) registry.lookup("updateProfileService");
+                if(updateProfileService==null)
+                    System.out.println("fuck server");
                 connectionEstablished = true;
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 connectionEstablished = false;
                 System.out.println("RMI-Registry Couldn't Establish a Connection...");
                 return false;

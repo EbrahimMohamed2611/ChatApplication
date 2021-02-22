@@ -21,7 +21,7 @@ public class UserRegisterModel {
     private final StringProperty imageEncoded = new SimpleStringProperty();
     private StringProperty userGender;
     private StringProperty status;
-    private StringProperty dateOfBirth;
+    private StringProperty dateOfBirth = new SimpleStringProperty();
 
     public String getPhoneNumber() {
         return phoneNumber.get();
