@@ -18,7 +18,6 @@ public class User implements Serializable {
     private Date dateOfBirth;
     private Gender userGender;
     private String bio;
-    private transient ImageView imageView;
     private String imageEncoded;
     private Status status;
 
@@ -105,13 +104,7 @@ public class User implements Serializable {
         this.bio = bio;
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
 
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
 
     public String getImageEncoded() {
         return imageEncoded;
@@ -129,7 +122,7 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public User(int userId, String phoneNumber, String userName, String password, String encryptionPassword, String email, String country, Date dateOfBirth, Gender userGender, String bio, ImageView imageView, String imageEncoded, Status status) {
+    public User(int userId, String phoneNumber, String userName, String password, String encryptionPassword, String email, String country, Date dateOfBirth, Gender userGender, String bio, String imageEncoded, Status status) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.userName = userName;
@@ -140,7 +133,6 @@ public class User implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.userGender = userGender;
         this.bio = bio;
-        this.imageView = imageView;
         this.imageEncoded = imageEncoded;
         this.status = status;
     }
@@ -170,7 +162,6 @@ public class User implements Serializable {
                 ", dateOfBirth=" + dateOfBirth +
                 ", userGender=" + userGender +
                 ", bio='" + bio + '\'' +
-                ", imageView=" + imageView +
                 ", imageEncoded='" + imageEncoded + '\'' +
                 ", status=" + status +
                 '}';

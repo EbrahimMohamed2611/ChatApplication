@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OnlineClients {
-    private final Map<String, ChatClient> onlineClients = new HashMap<>();
+    private Map<String, ChatClient> onlineClients = new HashMap<>();
     private static OnlineClients onlineClientsInstance;
+    private OnlineClients(){
+
+    }
 
     public static OnlineClients getInstance() {
         if (onlineClientsInstance == null) {

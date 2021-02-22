@@ -1,5 +1,6 @@
 package eg.gov.iti.contract.ui.helpers;
 
+import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.UserAuthAdapter;
@@ -24,12 +25,13 @@ public class CachedCredentialsData {
     ModelsFactory modelsFactory;
     UserAuthModel userAuthModel;
     private ChatServerInterface chatService;
-    private ChatClientImpl client;
+    private ChatClient client;
 
     private CachedCredentialsData() {
         loginService = ServicesLocator.getLoginService();
         modelsFactory = ModelsFactory.getInstance();
         userAuthModel = modelsFactory.getAuthUserModel();
+        client =ChatClientImpl.getInstance();
     }
 
     public static CachedCredentialsData getInstance() {

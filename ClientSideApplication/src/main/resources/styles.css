@@ -1,22 +1,24 @@
-/*.jfx-date-picker .jfx-text-field{*/
-/*        -jfx-unfocus-color: #dae4ee;*/
-/*}*/
+.jfx-date-picker .jfx-text-field{
+        -jfx-unfocus-color: #dae4ee;
+}
 
 /*.image{*/
 /*        -fx-background-radius:100;*/
 /*}*/
 .jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error,.jfx-combo-box:error {
-        -jfx-focus-color:  #004dfc;
+        -jfx-focus-color:  red;
+        /*-jfx-text-fill: black;*/
         -jfx-unfocus-color:  #dae4ee;
-        -fx-prompt-text-fill:  #004dfc;
+        /*-fx-prompt-text-fill:  black;*/
 
 }
 .error-label {
-        -fx-text-fill: #F26101;
+        -fx-text-fill: red;
+        /*-fx-text-fill: #004dfc;*/
         -fx-font-size: 0.75em;
 }
 
 .error-icon {
-        -fx-text-fill: #F26101;
+        -fx-text-fill: #004dfc;
         -fx-font-size: 1em;
 }
