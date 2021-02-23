@@ -4,6 +4,7 @@ import eg.gov.iti.contract.server.chatRemoteInterfaces.*;
 
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -14,13 +15,16 @@ public class ServicesLocator {
     //services instances
     private static ChatServerInterface chatServerInterface;
     private static LoginServiceInterface loginService;
-    private static ServerMessageServiceInterface friendMessageServiceInterface;
-    private static LogoutServiceInterface logoutService;
-    private static RegisterServiceInterface registerServiceInterface;
-    private static InvitationServiceInterface invitationServiceInterface;
-    private static UpdateProfileServiceInterface updateProfileService;
-    private static boolean connectionEstablished;
 
+    private static ServerMessageServiceInterface friendMessageServiceInterface;
+
+
+    private static LogoutServiceInterface logoutService;
+
+    private static RegisterServiceInterface registerServiceInterface;
+
+    private static InvitationServiceInterface invitationServiceInterface;
+    private static boolean connectionEstablished;
     private ServicesLocator(){
 
     }
@@ -56,30 +60,27 @@ public class ServicesLocator {
         return invitationServiceInterface;
     }
 
-    public static UpdateProfileServiceInterface getUpdateProfileService(){
-        if(updateProfileService==null)
-            System.out.println("update Not found");
-        return updateProfileService;
-    }
-    public static boolean servicesInit(String serverIp){
+    public static boolean servicesInit(){
         if(!connectionEstablished){
             try {
                 //registry
-                registry = LocateRegistry.getRegistry(serverIp);
+                registry = LocateRegistry.getRegistry("127.0.0.1");
+
                 //services lookup
                 chatServerInterface = (ChatServerInterface) registry.lookup("chatApplication");
                 loginService = (LoginServiceInterface) registry.lookup("loginService");
+
                 friendMessageServiceInterface = (ServerMessageServiceInterface) registry.lookup("messageService");
+
+
                 logoutService = (LogoutServiceInterface) registry.lookup("logoutService");
+
                 registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
+
                 invitationServiceInterface = (InvitationServiceInterface) registry.lookup("inviteService");
-                updateProfileService = (UpdateProfileServiceInterface) registry.lookup("updateProfileService");
-                if(updateProfileService==null)
-                    System.out.println("fuck server");
                 connectionEstablished = true;
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
                 connectionEstablished = false;
                 System.out.println("RMI-Registry Couldn't Establish a Connection...");
                 return false;

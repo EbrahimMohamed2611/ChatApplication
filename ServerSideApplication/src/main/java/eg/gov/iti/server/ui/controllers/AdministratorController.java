@@ -4,7 +4,6 @@ import eg.gov.iti.server.db.dao.AdminDao;
 import eg.gov.iti.server.db.dao.daoImpl.AdminDaoImp;
 import eg.gov.iti.server.db.entities.Admin;
 import eg.gov.iti.server.db.helpers.adapters.AdminAdapter;
-import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import eg.gov.iti.server.ui.models.AdminModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
@@ -20,9 +19,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdministratorController implements Initializable {
-
-    private StageCoordinator stageCoordinator;
-
     @FXML
     private TableView adminTableView;
     @FXML
@@ -37,15 +33,13 @@ public class AdministratorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        stageCoordinator = StageCoordinator.getInstance();
-
         try {
             adminDao = AdminDaoImp.getInstance();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
         adminObservableList = FXCollections.observableArrayList(AdminAdapter.getAdminModelFromEntity(adminDao.getAllAdmins()));
+
         adminIdTextField.setCellValueFactory(new PropertyValueFactory<>("adminId"));
         userNameTextField.setCellValueFactory(new PropertyValueFactory<>("userName"));
         phoneNumberTextField.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
@@ -53,10 +47,4 @@ public class AdministratorController implements Initializable {
         adminTableView.getItems().setAll(adminObservableList);
     }
 
-
-    @FXML
-    private void backToHomePage(){
-        System.out.println("Send backToServerHome");
-        stageCoordinator.switchToHomeScene();
-    }
 }

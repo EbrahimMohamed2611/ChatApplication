@@ -1,7 +1,10 @@
 package eg.gov.iti.contract.ui.helpers;
 
 
-import eg.gov.iti.contract.ui.models.*;
+import eg.gov.iti.contract.ui.models.CurrentUserModel;
+import eg.gov.iti.contract.ui.models.UserAuthModel;
+import eg.gov.iti.contract.ui.models.UserInvitationModel;
+import eg.gov.iti.contract.ui.models.UserRegisterModel;
 
 public class ModelsFactory {
 
@@ -10,7 +13,6 @@ public class ModelsFactory {
     private UserAuthModel userAuthModel;
     private UserRegisterModel userRegisterModel;
     private UserInvitationModel userInvitationModel;
-    private ConnectionModel connectionModel;
 
     private CurrentUserModel currentUserModel;
 
@@ -42,16 +44,8 @@ public class ModelsFactory {
     }
     public CurrentUserModel getCurrentUserModel() {
         if (currentUserModel == null) {
-//            currentUserModel = new CurrentUserModel();
-            currentUserModel = CurrentUserModel.getInstance();
+            currentUserModel = new CurrentUserModel();
         }
         return currentUserModel;
-    }
-
-    public ConnectionModel getConnectionModel(){
-        if (connectionModel == null){
-            connectionModel = ConnectionModel.getInstance();
-        }
-        return connectionModel;
     }
 }

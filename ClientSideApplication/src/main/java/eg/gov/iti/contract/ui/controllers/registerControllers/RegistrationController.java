@@ -13,7 +13,6 @@ import eg.gov.iti.contract.net.adapters.UserRegAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
-import eg.gov.iti.contract.ui.helpers.Validator;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 import eg.gov.iti.contract.ui.models.UserRegisterModel;
 import javafx.fxml.FXML;
@@ -28,7 +27,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
@@ -41,13 +39,13 @@ public class RegistrationController implements Initializable {
     private UserAuthModel userAuthModel;
 
     @FXML
-    private JFXTextField nameText;
+    private JFXTextField  nameText;
     @FXML
     private JFXTextField phoneText;
     @FXML
-    private JFXDatePicker birthText;
+    private JFXDatePicker birthText ;
     @FXML
-    private JFXTextField emailText;
+    private JFXTextField  emailText;
     @FXML
     private JFXButton registerButton;
     @FXML
@@ -61,9 +59,9 @@ public class RegistrationController implements Initializable {
     @FXML
     private Label wrongConfirm;
     @FXML
-    private Label DateCheck;
+    private  Label DateCheck;
     @FXML
-    private Label GenderCheck;
+    private  Label GenderCheck;
     @FXML
     private JFXPasswordField passwordText;
     @FXML
@@ -74,23 +72,15 @@ public class RegistrationController implements Initializable {
     private RadioButton female;
 
 
-    private boolean checkConfirmPass = false;
-    private UserRegisterModel newUser;
-    private RegisterServiceInterface registerService;
-    private Validator validator;
-    boolean isValidUserName = false;
-    boolean isValidPhoneNumber = false;
-    boolean isValidEmail = false;
-    boolean isValidPassword = false;
-    boolean isValidConfirmPassword = false;
-    boolean isValidDate = false;
+    private boolean checkConfirmPass=false;
+    UserRegisterModel newUser;
+    RegisterServiceInterface registerService;
 
-    public String genderDetermination() {
-        if (male.isSelected()) {
-            return "MALE";
-        } else {
-            return "FEMALE";
-        }
+
+    public String genderDetermination(){
+        if(male.isSelected()){return "MALE";}
+        else
+        {return "FEMALE";}
 
     }
 
@@ -111,14 +101,15 @@ public class RegistrationController implements Initializable {
     }
 
 
+
     @FXML
     public boolean userNameValidation() {
 
         String txt1 = nameText.getText();
 
-        String txt = txt1.replaceAll("\\s+", " ");
+        String txt =txt1.replaceAll("\\s+", " ");
 
-        if ((txt.isEmpty() || txt != " ") && txt.matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$")) {
+        if ((txt.isEmpty() ||txt != " ") && txt.matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$")) {
             wrongUserName.setText("");
             nameText.setUnFocusColor(Color.rgb(218, 228, 238));
         } else {
@@ -126,7 +117,7 @@ public class RegistrationController implements Initializable {
             nameText.setUnFocusColor(Color.RED);
         }
 
-        return ((txt.isEmpty() || txt != " ") && txt.matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$"));
+        return ((txt.isEmpty() ||txt != " ") && txt.matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$"));
 
     }
 
@@ -162,7 +153,7 @@ public class RegistrationController implements Initializable {
 
     public boolean validatePasswordMatch() {
 
-        if (strongPassword()) {
+        if(strongPassword()){
 
             if (confirmText.getText().equals(passwordText.getText())) {
                 checkConfirmPass = true;
@@ -174,9 +165,7 @@ public class RegistrationController implements Initializable {
                 confirmText.setUnFocusColor(Color.RED);
             }
 
-        }
-        return checkConfirmPass;
-    }
+        }return checkConfirmPass;}
 
     public boolean genderSelected() {
         if (male.isSelected() || female.isSelected()) {
@@ -205,13 +194,11 @@ public class RegistrationController implements Initializable {
         return phoneValidation() && userNameValidation() && validateEmail() && validateEmail() && validatePasswordMatch() && strongPassword() && genderSelected() && dateSelected();
 
     }
-
-    public void register() {
+    public void register()  {
 
         if (userDataValid()) {
             System.out.println("success");
-        }
-    }
+        }}
 
 
     public void register(UserRegisterModel newUser) {
@@ -235,53 +222,20 @@ public class RegistrationController implements Initializable {
         modelsFactory = ModelsFactory.getInstance();
         userRegisterModel = modelsFactory.getRegisterUserModel();
         userAuthModel = modelsFactory.getAuthUserModel();
-        validator = new Validator();
         phoneText.textProperty().bindBidirectional(userRegisterModel.phoneNumberProperty());
         emailText.textProperty().bindBidirectional(userRegisterModel.emailProperty());
         passwordText.textProperty().bindBidirectional(userRegisterModel.passwordProperty());
         nameText.textProperty().bindBidirectional(userRegisterModel.fullNameProperty());
-        validator.nameValidator(nameText);
-        validator.phoneValidator(phoneText);
-        validator.emailValidator(emailText);
-        validator.passwordValidator(passwordText);
-        validator.confirmPasswordValidator(confirmText);
-        nameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
-                isValidUserName = nameText.validate();
 
-            }
-        });
-        phoneText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
-                isValidPhoneNumber = phoneText.validate();
+//        nameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+//            if(!t1){
+//                nameText.validate();
+//            }
+//        });
 
-            }
-        });
-        emailText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
-                isValidEmail = emailText.validate();
 
-            }
-        });
-        passwordText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
-                isValidPassword = passwordText.validate();
-
-            }
-        });
-        confirmText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
-                var regexValidator = confirmText.getValidators().get(1);
-                if (regexValidator instanceof RegexValidator) {
-                    ((RegexValidator) regexValidator).setRegexPattern(passwordText.getText());
-                }
-                isValidConfirmPassword = confirmText.validate();
-
-            }
-        });
-        male.setSelected(true);
         registerService = ServicesLocator.getRegisterService();
-        birthText.setValue(LocalDate.of(1997, 3, 13));
+
 
         registerButton.setOnAction((event) -> {
 
@@ -292,9 +246,9 @@ public class RegistrationController implements Initializable {
                 newUser = new UserRegisterModel();
                 register(newUser);
 
-                if (male.isSelected()) {
+                if(male.isSelected()){
                     userRegisterModel.setUserGender("MALE");
-                } else {
+                }else {
 
                     userRegisterModel.setUserGender("FEMALE");
                 }
@@ -315,12 +269,27 @@ public class RegistrationController implements Initializable {
                     coordinator.switchToSecondLoginScene();
                     wrongPhone.setText("");
 
-                } else {
+                }
+                else {
                     wrongPhone.setText("This phone is existed");
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
+
+
         });
+//        meth();
     }
+//    void meth(){
+//        RegexValidator regexValidator =new RegexValidator();
+//        regexValidator.setRegexPattern("");
+//        RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
+//        requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+//        requiredFieldValidator.setMessage("fuck jets");
+//        nameText.getValidators().addAll(requiredFieldValidator,regexValidator);
+//
+//    }
+
 }

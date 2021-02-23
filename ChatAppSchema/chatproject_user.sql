@@ -38,7 +38,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `phone_number_UNIQUE` (`phone_number`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'01005425355','ibrahim','ibrahim@gmail.com',NULL,'12345','male','elfayoum','1990-06-15','hema','online'),(2,'01005425354','ArabieIbrahim','email@dfd.com',NULL,'1234','MALE','Egypt','1997-02-25','','AVAILABLE'),(3,'01273073293','Arabie','dsdsa@cvds.csdc',NULL,'1234','MALE',NULL,'2021-02-25',NULL,'AVAILABLE'),(4,'01005352212','Asim','vsvsd',NULL,'1234','MALE',NULL,'2021-02-25',NULL,'AVAILABLE');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-22  0:45:26
+-- Dump completed on 2021-02-12  0:01:36
