@@ -36,16 +36,8 @@ public class FirstLoginController implements Initializable {
         userRegisterModel=modelsFactory.getRegisterUserModel();
     }
 
-
     public void switchToSecondLoginScene() {
-
-
-
-
         coordinator.switchToSecondLoginScene();
-
-//        coordinator.switchToSecondLoginScene();
-
         try {
             if (loginService.checkPhoneNumber(
                     UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
@@ -54,9 +46,8 @@ public class FirstLoginController implements Initializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        //(Boolean)serverLoginService.checkPhoneNumber(userAuthDto);
-        //thread
     }
+
     @FXML
     private void switchToRegisterScene() {
         userRegisterModel.clear();

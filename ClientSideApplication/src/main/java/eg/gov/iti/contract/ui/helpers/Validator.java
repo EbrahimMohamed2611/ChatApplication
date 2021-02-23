@@ -7,7 +7,15 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Validator {
+    private final static Pattern IP_PATTERN = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
+
+    private static Matcher match;
+
+
     public void nameValidator(JFXTextField textField){
         RegexValidator regexValidator =new RegexValidator();
         RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
@@ -61,5 +69,9 @@ public class Validator {
         confirmPasswordField.getValidators().addAll(requiredFieldValidator,regexValidator);
     }
 
+    public static boolean checkIP(String ip){
+        match = IP_PATTERN.matcher(ip);
+        return match.matches();
+    }
 
 }
