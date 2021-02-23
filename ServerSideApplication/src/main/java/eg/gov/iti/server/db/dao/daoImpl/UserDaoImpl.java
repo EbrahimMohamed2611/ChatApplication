@@ -227,6 +227,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1,phoneNumber);
             ResultSet rs=preparedStatement.executeQuery();
             while (rs.next()){
+                System.out.println("user Existed");
                 return true;
             }
         } catch (SQLException e) {

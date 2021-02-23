@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class CurrentUserAdapter {
     private static UserDto userDto;
-    private static CurrentUserModel userModel;
+//    private static CurrentUserModel userModel;
 
     public static UserDto getUserDtoFromModelAdapter(CurrentUserModel userModel) {
 
@@ -25,16 +25,16 @@ public class CurrentUserAdapter {
         return userDto;
     }
 
-    public static CurrentUserModel getUserModelFromUserDtoAdapter(UserDto userDto) {
+    public static CurrentUserModel getUserModelFromUserDtoAdapter(UserDto userDto,CurrentUserModel userModel) {
 
         userModel = CurrentUserModel.getInstance();
-        userModel.setPhoneNumber(userDto.getPhoneNumber());
+//        userModel.setPhoneNumber(userDto.getPhoneNumber());
         userModel.setFullName(userDto.getFullName());
         userModel.setEmail(userDto.getEmail());
         userModel.setPassword(userDto.getPassword());
         userModel.setCountry(userDto.getCountry());
-//        userModel.setDateOfBirth(userDto.getDateOfBirth().toLocalDate());
-        userModel.setDateOfBirth(LocalDate.of(1997,11,20));
+        userModel.setDateOfBirth(userDto.getDateOfBirth().toLocalDate());
+//        userModel.setDateOfBirth(LocalDate.of(1997,11,20));
         userModel.setBio(userDto.getBio());
         userModel.setImageEncoded(userDto.getImageEncoded());
 

@@ -9,7 +9,6 @@ import eg.gov.iti.server.db.dao.daoImpl.FriendDaoImpl;
 import eg.gov.iti.server.db.dao.daoImpl.InvitationDaoImpl;
 import eg.gov.iti.server.db.entities.Friendship;
 import eg.gov.iti.server.db.entities.Invitation;
-import eg.gov.iti.server.db.helpers.adapters.UserFriendAdapter;
 import eg.gov.iti.server.db.helpers.adapters.UserInvitationAdapter;
 import eg.gov.iti.server.net.callbackConfiguration.OnlineClients;
 

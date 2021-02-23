@@ -31,7 +31,7 @@ public class ModelsFactory {
 
     public UserRegisterModel getRegisterUserModel() {
         if (userRegisterModel == null) {
-            userRegisterModel = new UserRegisterModel();
+            userRegisterModel = UserRegisterModel.getInstance();
         }
         return userRegisterModel;
     }

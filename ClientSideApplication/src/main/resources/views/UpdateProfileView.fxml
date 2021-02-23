@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -62,17 +63,17 @@
                   <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="162.0" valignment="TOP" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="538.0" minHeight="10.0" prefHeight="538.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="125.0" valignment="TOP" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="591.0" minHeight="10.0" prefHeight="575.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="156.0" prefWidth="185.0" spacing="15.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="156.0" prefWidth="185.0" spacing="10.0">
                      <children>
-                        <HBox alignment="CENTER" fillHeight="false" prefWidth="185.0" spacing="60.0" style="-fx-background-color: #ffffff;">
+                        <HBox alignment="CENTER" fillHeight="false" prefHeight="102.0" prefWidth="185.0" spacing="60.0" style="-fx-background-color: #ffffff;">
                            <children>
-                              <Pane prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: D4E1FF; -fx-background-radius: 50;">
+                              <Pane prefHeight="53.0" prefWidth="50.0" style="-fx-background-color: D4E1FF; -fx-background-radius: 50;">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                                  <children>
                                     <ImageView fitHeight="31.0" fitWidth="28.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
@@ -94,56 +95,110 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="419.0" prefWidth="320.0" spacing="20.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="419.0" prefWidth="320.0" spacing="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <children>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                              <JFXTextField fx:id="phoneTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="phoneTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Phone Number" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-text-field" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-label" />
+                                 </styleClass></JFXTextField>
                            </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2a-account-circle" iconSize="20" />
-                              <JFXTextField fx:id="nameTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="nameTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="User Name" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-text-field" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-label" />
+                                 </styleClass></JFXTextField>
                            </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2e-email" iconSize="20" />
-                              <JFXTextField fx:id="emailTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                              <JFXTextField fx:id="emailTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="E-Mail" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-text-field" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-label" />
+                                 </styleClass></JFXTextField>
                            </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
-                              <JFXPasswordField fx:id="pwdTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Password" unFocusColor="#dae4ee" />
+                              <JFXPasswordField fx:id="pwdTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Password" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-password-field" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-label" />
+                                 </styleClass></JFXPasswordField>
                            </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-plus" iconSize="20" />
-                              <JFXPasswordField fx:id="confirmPwdTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" unFocusColor="#dae4ee" />
+                              <JFXPasswordField fx:id="confirmPwdTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="450.0" promptText="Confirm Password" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee">
+                                 <styleClass>
+                                    <String fx:value="jfx-password-field" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-icon" />
+                                 </styleClass></JFXPasswordField>
                            </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="320.0" spacing="15.0">
                            <children>
                               <JFXButton fx:id="choosePhotoBtn" alignment="CENTER" disable="true" onAction="#selectPic" prefHeight="43.0" prefWidth="85.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 5;" text="Add/Change Photo" textFill="WHITE" wrapText="true" />
-                              <HBox alignment="CENTER" prefHeight="31.0" prefWidth="173.0" spacing="10.0">
+                              <HBox alignment="CENTER" prefHeight="43.0" prefWidth="209.0" spacing="10.0">
                                  <children>
                                     <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-city-variant" iconSize="20" />
-                                    <JFXTextField fx:id="countryTxtField" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="137.0" promptText="Country" style="-fx-text-fill: #000000;" unFocusColor="#dae4ee" />
+                                    <JFXTextField fx:id="countryTxtField" editable="false" prefHeight="25.0" prefWidth="175.0" promptText="Country" style="-fx-text-fill: black;" stylesheets="@../styles.css">
+                                       <styleClass>
+                                          <String fx:value="jfx-text-field" />
+                                          <String fx:value="error-icon" />
+                                          <String fx:value="error-label" />
+                                       </styleClass>
+                                    </JFXTextField>
                                  </children>
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets />
+                              <Insets top="20.0" />
                            </VBox.margin>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <JFXDatePicker fx:id="datePicker" defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" styleClass="jfx-date-picker" stylesheets="@../styles.css" />
+                        <JFXDatePicker fx:id="datePicker" defaultColor="#004dfc" editable="false" prefHeight="25.0" prefWidth="450.0" promptText="Date Of Birth" style="-fx-text-fill: black;" stylesheets="@../styles.css">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="jfx-date-picker" />
+                              <String fx:value="error-icon" />
+                              <String fx:value="error-label" />
+                           </styleClass></JFXDatePicker>
                         <HBox prefHeight="59.0" prefWidth="320.0" spacing="10.0">
                            <children>
                               <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-card-account-details" iconSize="20">
@@ -151,8 +206,16 @@
                                     <Insets top="3.0" />
                                  </HBox.margin>
                               </FontIcon>
-                              <JFXTextArea fx:id="bioTxtArea" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="73.0" prefWidth="320.0" promptText="Bio" unFocusColor="#dae4ee" wrapText="true" />
+                              <JFXTextArea fx:id="bioTxtArea" editable="false" focusColor="#004dfc" labelFloat="true" prefHeight="73.0" prefWidth="320.0" promptText="Bio" style="-fx-text-fill: black;" stylesheets="@../styles.css" unFocusColor="#dae4ee" wrapText="true">
+                                 <styleClass>
+                                    <String fx:value="jfx-text-area" />
+                                    <String fx:value="error-icon" />
+                                    <String fx:value="error-label" />
+                                 </styleClass></JFXTextArea>
                            </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="24.0" prefWidth="320.0" spacing="15.0">
                            <children>

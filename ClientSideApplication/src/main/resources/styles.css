@@ -1,10 +1,14 @@
-.jfx-date-picker .jfx-text-field{
+.jfx-date-picker,.jfx-text-field,.jfx-combo-box,.jfx-password-field{
         -jfx-unfocus-color: #dae4ee;
+        -jfx-focus-color:  #004dfc;
+        -jfx-text-fill: black;
+
 }
 
 /*.image{*/
 /*        -fx-background-radius:100;*/
 /*}*/
+
 .jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error,.jfx-combo-box:error {
         -jfx-focus-color:  red;
         /*-jfx-text-fill: black;*/

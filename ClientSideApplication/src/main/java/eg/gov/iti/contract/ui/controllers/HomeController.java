@@ -8,63 +8,50 @@ import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.CurrentUserAdapter;
-import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
-import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
+import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
-
 import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendController;
 import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendRequestController;
 import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
 import eg.gov.iti.contract.ui.controllers.messages.SenderMessageController;
-import eg.gov.iti.contract.ui.helpers.ImageConverter;
-import eg.gov.iti.contract.ui.models.*;
-import eg.gov.iti.contract.ui.models.CurrentUserModel;
-import eg.gov.iti.contract.ui.models.UserMessageModel;
-
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
+import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
-
+import eg.gov.iti.contract.ui.helpers.StageCoordinator;
+import eg.gov.iti.contract.ui.models.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.awt.image.BufferedImage;
-import java.io.*;
-
-import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
-import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
-import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.w3c.dom.events.MouseEvent;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -124,8 +111,6 @@ public class HomeController implements Initializable {
         friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
         updateProfileService = ServicesLocator.getUpdateProfileService();
         defaultUserImage = new Image("/pictures/avatar.png");
-        if (updateProfileService == null)
-            System.out.println("fuck");
         client = ChatClientImpl.getInstance();
         client.setHomeController(this);
         try {
@@ -159,13 +144,13 @@ public class HomeController implements Initializable {
         }
         System.out.println(userAuthModel);
         System.out.println("DB user After" + user);
-        var tempModel = CurrentUserAdapter.getUserModelFromUserDtoAdapter(user);
-        currentUserModel.setFullName(tempModel.getFullName());
-        currentUserModel.setEmail(tempModel.getEmail());
-        currentUserModel.setCountry(tempModel.getCountry());
-        currentUserModel.setBio(tempModel.getBio());
-        currentUserModel.setDateOfBirth(tempModel.getDateOfBirth());
-        currentUserModel.setImageEncoded(tempModel.getImageEncoded());
+        CurrentUserAdapter.getUserModelFromUserDtoAdapter(user,currentUserModel);
+//        currentUserModel.setFullName(tempModel.getFullName());
+//        currentUserModel.setEmail(tempModel.getEmail());
+//        currentUserModel.setCountry(tempModel.getCountry());
+//        currentUserModel.setBio(tempModel.getBio());
+//        currentUserModel.setDateOfBirth(tempModel.getDateOfBirth());
+//        currentUserModel.setImageEncoded(tempModel.getImageEncoded());
         if (currentUserModel.getImageEncoded() == null) {
             currentUserModel.setProfileImage(defaultUserImage);
 
@@ -173,7 +158,7 @@ public class HomeController implements Initializable {
             userImage = ImageConverter.getDecodedImage(currentUserModel.getImageEncoded());
             currentUserModel.setProfileImage(userImage);
         }
-        currentUserModel.setPassword(tempModel.getPassword());
+//        currentUserModel.setPassword(tempModel.getPassword());
         currentUserModel.phoneNumberProperty().bind(userAuthModel.phoneNumberProperty());
         userNameLabel.textProperty().bind(currentUserModel.fullNameProperty());
         userPhoneNumberLabel.textProperty().bind(userAuthModel.phoneNumberProperty());
@@ -283,7 +268,7 @@ public class HomeController implements Initializable {
                 chatService.unRegister(client);
 
                 credentialsData.clearCredentials();
-
+                coordinator.sweepScenes();
                 coordinator.switchToSecondLoginScene();
             }
         } catch (RemoteException e) {

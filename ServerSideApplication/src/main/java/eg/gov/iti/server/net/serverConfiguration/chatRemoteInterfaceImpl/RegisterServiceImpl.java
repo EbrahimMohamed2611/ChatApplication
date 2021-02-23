@@ -1,12 +1,10 @@
 package eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl;
 
-import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserRegDto;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.RegisterServiceInterface;
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.server.db.entities.User;
-import eg.gov.iti.server.db.helpers.adapters.UserAdapter;
 import eg.gov.iti.server.db.helpers.adapters.UserRegAdapter;
 
 import java.rmi.RemoteException;
@@ -64,6 +62,19 @@ public class RegisterServiceImpl extends UnicastRemoteObject implements Register
         return false;
     }
 
+    @Override
+    public boolean checkPhoneNumber(String userPhoneNumber) throws RemoteException {
+
+        try {
+
+            userDao=UserDaoImpl.getInstance();
+            return userDao.isExisted(userPhoneNumber);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
 

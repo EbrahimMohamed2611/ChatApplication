@@ -6,7 +6,9 @@ import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.UserAuthAdapter;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LoginServiceInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
 import eg.gov.iti.contract.ui.models.CachedData;
+import eg.gov.iti.contract.ui.models.CurrentUserModel;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 
 import javax.xml.bind.JAXBContext;
@@ -21,16 +23,19 @@ import java.rmi.RemoteException;
 public class CachedCredentialsData {
     private CachedData cachedData;
     private static CachedCredentialsData credentialsDataInstance;
-    LoginServiceInterface loginService;
-    ModelsFactory modelsFactory;
-    UserAuthModel userAuthModel;
+    private LoginServiceInterface loginService;
+    private ModelsFactory modelsFactory;
+    private UserAuthModel userAuthModel;
+    private CurrentUserModel currentUserModel;
     private ChatServerInterface chatService;
     private ChatClient client;
-
+    private UpdateProfileServiceInterface updateProfileService;
     private CachedCredentialsData() {
         loginService = ServicesLocator.getLoginService();
+        updateProfileService = ServicesLocator.getUpdateProfileService();
         modelsFactory = ModelsFactory.getInstance();
         userAuthModel = modelsFactory.getAuthUserModel();
+        currentUserModel = modelsFactory.getCurrentUserModel();
         client =ChatClientImpl.getInstance();
     }
 
@@ -70,6 +75,7 @@ public class CachedCredentialsData {
                 if (loginService.checkPhoneNumber(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))) {
                     if (loginService.checkPassword(UserAuthAdapter.getUserAuthDtoFromModelAdapter(userAuthModel))){
                         chatService.register(client);
+//                        currentUserModelupdateProfileService.getUser(userAuthModel.getPhoneNumber());
                         return true;
                     }
                 }

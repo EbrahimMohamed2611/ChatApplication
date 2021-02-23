@@ -162,4 +162,9 @@ public class StageCoordinator {
             primaryStage.setScene(updateProfileScene);
         }
     }
+
+    public void sweepScenes() {
+        scenes.remove("UpdateProfile");
+        scenes.remove("Home");
+    }
 }
