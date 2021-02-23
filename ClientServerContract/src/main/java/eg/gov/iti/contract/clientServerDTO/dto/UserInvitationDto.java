@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class UserInvitationDto implements Serializable {
     private String senderPhoneNumber;
+    private String senderName;
+    private String senderImageEncoded;
     private String receiverPhoneNumber;
 
     public UserInvitationDto() {
@@ -25,10 +27,27 @@ public class UserInvitationDto implements Serializable {
         this.receiverPhoneNumber = receiverPhoneNumber;
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderImageEncoded() {
+        return senderImageEncoded;
+    }
+
+    public void setSenderImageEncoded(String senderImageEncoded) {
+        this.senderImageEncoded = senderImageEncoded;
+    }
+
     @Override
     public String toString() {
         return "UserInvitationDto{" +
                 "senderPhoneNumber='" + senderPhoneNumber + '\'' +
+                ", senderName='" + senderName + '\'' +
                 ", receiverPhoneNumber='" + receiverPhoneNumber + '\'' +
                 '}';
     }

@@ -11,6 +11,7 @@ import eg.gov.iti.server.db.dao.daoImpl.InvitationDaoImpl;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.server.db.entities.Friendship;
 import eg.gov.iti.server.db.entities.Invitation;
+import eg.gov.iti.server.db.entities.User;
 import eg.gov.iti.server.db.helpers.adapters.UserInvitationAdapter;
 import eg.gov.iti.server.net.callbackConfiguration.OnlineClients;
 
@@ -63,6 +64,9 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
                         UserInvitationDto userInvitationDto = new UserInvitationDto();
                         userInvitationDto.setSenderPhoneNumber(invitationDto.getReceiverPhoneNumber());
                         userInvitationDto.setReceiverPhoneNumber(invitationDto.getSenderPhoneNumber());
+                        User user = userDao.selectByPhoneNumber(invitationDto.getSenderPhoneNumber());
+                        invitationDto.setSenderName(user.getUserName());
+                        invitationDto.setSenderImageEncoded(user.getImageEncoded());
                         if (acceptInvitation(userInvitationDto)) {
                             System.out.println("Invitation exists and accepted");
                             return true;
@@ -77,6 +81,9 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
             ChatClient client = OnlineClients.getInstance().getOnlineClients().get(invitation.getReceiverPhoneNumber());
             try {
                 if (client != null) {
+                    User user = userDao.selectByPhoneNumber(invitation.getSenderPhoneNumber());
+                    invitationDto.setSenderName(user.getUserName());
+                    invitationDto.setSenderImageEncoded(user.getImageEncoded());
                     client.receiveInvitation(invitationDto);
                     System.out.println(client + invitationDto.getReceiverPhoneNumber());
                 }
@@ -111,6 +118,10 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
                 if (senderClient != null) {
                     UserFriendDto userFriendDto = new UserFriendDto();
                     userFriendDto.setFriendPhoneNumber(invitation.getReceiverPhoneNumber());
+                    User receiver = userDao.selectByPhoneNumber(invitation.getReceiverPhoneNumber());
+                    userFriendDto.setName(receiver.getUserName());
+                    userFriendDto.setImageEncoded(receiver.getImageEncoded());
+                    System.out.println("Sender name " + invitationDto.getSenderName());
                     try {
                         senderClient.addFriend(userFriendDto);
                     } catch (RemoteException e) {
@@ -121,6 +132,10 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
                 if (receiverClient != null) {
                     UserFriendDto userFriendDto = new UserFriendDto();
                     userFriendDto.setFriendPhoneNumber(invitation.getSenderPhoneNumber());
+                    User sender = userDao.selectByPhoneNumber(invitation.getSenderPhoneNumber());
+                    userFriendDto.setName(sender.getUserName());
+                    userFriendDto.setImageEncoded(sender.getImageEncoded());
+                    System.out.println("Sender name " + invitationDto.getSenderName());
                     try {
                         receiverClient.addFriend(userFriendDto);
                     } catch (RemoteException e) {

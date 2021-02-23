@@ -25,4 +25,6 @@ public interface ChatClient extends Remote {
     void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException;
 
     void receiveFile(byte[] fileContent, String fileName) throws RemoteException;
+
+    void notifyFriendUpdate(UserFriendDto userFriendDto) throws RemoteException;
 }
