@@ -135,8 +135,6 @@ public class StageCoordinator {
             primaryStage.setScene(secondLoginScene);
         }
     }
-
-
     public void switchToUpdateProfileScene(){
         if (primaryStage == null) {
             throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
@@ -154,39 +152,11 @@ public class StageCoordinator {
 
                 primaryStage.setScene(updateProfileScene);
             } catch (IOException e) {
-                e.printStackTrace();
                 System.out.println("IO Exception: Couldn't load 'Update Profile Scene' FXML file");
             }
         } else {
             System.out.println("Loaded Existing Scene");
             SceneData updateProfileData = scenes.get("UpdateProfile");
-            Scene updateProfileScene = updateProfileData.getScene();
-            primaryStage.setScene(updateProfileScene);
-        }
-    }
-        public void switchConnectionServer(){
-        if (primaryStage == null) {
-            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
-        }
-
-        if (!scenes.containsKey("connectToServer")) {
-            try {
-                System.out.println("Created New Scene");
-
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/ConnectToServerView.fxml"));
-                Parent updateProfile = fxmlLoader.load();
-                Scene updateProfileScene = new Scene(updateProfile);
-                SceneData sceneData = new SceneData(fxmlLoader, updateProfile, updateProfileScene);
-                scenes.put("connectToServer", sceneData);
-
-                primaryStage.setScene(updateProfileScene);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("IO Exception: Couldn't load 'connectToServer Scene' FXML file");
-            }
-        } else {
-            System.out.println("Loaded Existing Scene");
-            SceneData updateProfileData = scenes.get("connectToServer");
             Scene updateProfileScene = updateProfileData.getScene();
             primaryStage.setScene(updateProfileScene);
         }
