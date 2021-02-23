@@ -4,7 +4,6 @@ import eg.gov.iti.contract.server.chatRemoteInterfaces.*;
 
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -15,17 +14,13 @@ public class ServicesLocator {
     //services instances
     private static ChatServerInterface chatServerInterface;
     private static LoginServiceInterface loginService;
-
     private static ServerMessageServiceInterface friendMessageServiceInterface;
-
-
     private static LogoutServiceInterface logoutService;
-
     private static RegisterServiceInterface registerServiceInterface;
-
     private static InvitationServiceInterface invitationServiceInterface;
     private static UpdateProfileServiceInterface updateProfileService;
     private static boolean connectionEstablished;
+
     private ServicesLocator(){
 
     }
@@ -66,23 +61,17 @@ public class ServicesLocator {
             System.out.println("update Not found");
         return updateProfileService;
     }
-    public static boolean servicesInit(){
+    public static boolean servicesInit(String serverIp){
         if(!connectionEstablished){
             try {
                 //registry
-                registry = LocateRegistry.getRegistry("127.0.0.1");
-
+                registry = LocateRegistry.getRegistry(serverIp);
                 //services lookup
                 chatServerInterface = (ChatServerInterface) registry.lookup("chatApplication");
                 loginService = (LoginServiceInterface) registry.lookup("loginService");
-
                 friendMessageServiceInterface = (ServerMessageServiceInterface) registry.lookup("messageService");
-
-
                 logoutService = (LogoutServiceInterface) registry.lookup("logoutService");
-
                 registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
-
                 invitationServiceInterface = (InvitationServiceInterface) registry.lookup("inviteService");
                 updateProfileService = (UpdateProfileServiceInterface) registry.lookup("updateProfileService");
                 if(updateProfileService==null)

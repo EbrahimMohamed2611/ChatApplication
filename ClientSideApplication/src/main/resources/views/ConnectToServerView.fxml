@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(#1130a5, #029ee9);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.ConnectToServerController">
+   <children>
+      <ImageView fitHeight="480.0" fitWidth="500.0" layoutX="367.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pictures/connect.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="textField" layoutX="40.0" layoutY="283.0" prefHeight="37.0" prefWidth="237.0" promptText="Server Ip" style="-fx-background-color: #F3F6FB;" />
+      <Button layoutX="117.0" layoutY="343.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="25.0" prefWidth="88.0" style="-fx-background-color: #F3F6FB;" text="Connect" />
+      <ImageView fitHeight="57.0" fitWidth="57.0" layoutX="126.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../ServerSideApplication/src/main/resources/pictures/backgroundLogo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="139.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pictures/chat-box.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="443.0" layoutY="70.0" prefHeight="63.0" prefWidth="304.0" text="Chatous Application" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalidIpLabel" layoutX="41.0" layoutY="263.0" text="Please Enter a valid IP" textFill="#ff7c7c" visible="false">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <JFXSpinner fx:id="serverSpinner" layoutX="130.0" layoutY="108.0" />
+   </children>
+</AnchorPane>

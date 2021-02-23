@@ -131,4 +131,31 @@ public class StageCoordinator {
         }
 
     }
+
+    public void switchToAnnouncement() {
+        if (primaryStage == null) {
+            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
+        }
+
+        if (!scenes.containsKey("announcement")) {
+            try {
+                System.out.println("Created New Scene");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/AnnouncementView.fxml"));
+                Parent adminView = fxmlLoader.load();
+                Scene homeScene = new Scene(adminView);
+                SceneData homeSceneData = new SceneData(fxmlLoader, adminView, homeScene);
+                scenes.put("announcement", homeSceneData);
+                primaryStage.setScene(homeScene);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("IO Exception: Couldn't load 'announcement View' FXML file");
+            }
+        } else {
+            System.out.println("Loaded Existing Scene");
+            SceneData adminSceneData = scenes.get("announcement");
+            Scene adminsScene = adminSceneData.getScene();
+            primaryStage.setScene(adminsScene);
+        }
+
+    }
 }

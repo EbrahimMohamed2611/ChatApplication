@@ -16,8 +16,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -28,10 +32,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
+
     private Notifications notificationBuilder;
     private Node graphic;
 
     private String clientPhoneNumber = new UserAuthModel().getPhoneNumber();
+
     private HomeController homeController;
     private static ChatClientImpl instance;
     private UserAuthModel userAuthModel;
@@ -39,17 +45,13 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     private ModelsFactory modelsFactory;
     private CurrentUserModel currentUser;
 
-//    public ChatClientImpl(HomeController homeController) throws RemoteException {
-//        this.homeController = homeController;
-//        userAuthModel = ModelsFactory.getInstance().getAuthUserModel();
-//        System.out.println("ChatClientImpl calling : " );
-//    }
-
     private ChatClientImpl() throws RemoteException {
         userAuthModel = ModelsFactory.getInstance().getAuthUserModel();
         modelsFactory = ModelsFactory.getInstance();
         currentUser = modelsFactory.getCurrentUserModel();
+
         System.out.println("userAuthModel : " + userAuthModel);
+
     }
 
     public static ChatClientImpl getInstance() {
@@ -79,7 +81,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
     @Override
     public void receiveAnnouncement(String message) throws RemoteException {
-
         Platform.runLater(() -> {
             notificationBuilder.create()
                     .title("Announcement")
@@ -90,18 +91,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
                     .darkStyle()
                     .showInformation();
         });
-
-    }
-
-    @Override
-    public void notify(String message, int type) throws RemoteException {
-        System.out.println("Notification");
-    }
-
-    @Override
-    public void receiveUserDto(UserDto userDto) throws RemoteException {
-
-
     }
 
 
@@ -121,6 +110,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         });
     }
 
+
     @Override
     public void addFriend(UserFriendDto userFriendShipDto) throws RemoteException {
         Platform.runLater(() -> {
@@ -135,6 +125,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
             }
         });
     }
+
 
 
     // todo replace user auth model with current user model
@@ -180,5 +171,28 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 //                    return friendModel;
 //                }).collect(Collectors.toList());
 //
+    }
+    public void receiveAnnouncementFromServer(String announcementMessage) throws RemoteException {
+
+        Platform.runLater(() -> {
+            Stage owner = new Stage(StageStyle.TRANSPARENT);
+            StackPane root = new StackPane();
+            root.setStyle("-fx-background-color: TRANSPARENT");
+            Scene scene = new Scene(root, 1, 1);
+            scene.setFill(Color.TRANSPARENT);
+            owner.setScene(scene);
+            owner.setWidth(1);
+            owner.setHeight(1);
+            owner.toBack();
+            owner.show();
+            notificationBuilder.create()
+                    .title("Announcement From Server")
+                    .text(announcementMessage)
+                    .graphic(graphic)
+                    .hideAfter(Duration.seconds(5))
+                    .position(Pos.TOP_RIGHT)
+                    .darkStyle()
+                    .showInformation();
+        });
     }
 }

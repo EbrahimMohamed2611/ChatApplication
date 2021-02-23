@@ -32,19 +32,14 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.server.ui.controllers.HomeViewController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.server.ui.controllers.HomeViewController">
   <children>
     <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
@@ -90,7 +85,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #d3dcef; -fx-background-radius: 5;">
+                              <VBox alignment="TOP_CENTER" onMouseClicked="#enterToAdministrators" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #d3dcef; -fx-background-radius: 5;">
                                  <children>
                                     <FontIcon iconColor="#515a71" iconLiteral="mdi2a-account-group-outline" iconSize="40" />
                                     <Label text="Admins" textFill="#515a71">
@@ -110,7 +105,7 @@
                               <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                            </padding>
                            <children>
-                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #D9E4FC; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                              <VBox alignment="TOP_CENTER" onMouseClicked="#enterToAnnouncementPage" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #D9E4FC; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
                                  <children>
                                     <FontIcon iconColor="#004dfc" iconLiteral="mdi2m-message-flash-outline" iconSize="40" />
                                     <Label text="Send announcement" textFill="#004dfc">
