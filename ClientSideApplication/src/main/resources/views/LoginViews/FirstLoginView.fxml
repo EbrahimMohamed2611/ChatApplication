@@ -48,9 +48,14 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
+                        <ImageView fitHeight="308.0" fitWidth="303.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../pictures/loginPicture.png" />
+                           </image>
+                        </ImageView>
                         <ImageView fitHeight="341.0" fitWidth="384.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../pictures/password-security.png" />
+                              <Image url="@../../pictures/circle.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -105,16 +110,16 @@
                         <JFXTextField fx:id="userPhoneNumberTxtField" focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
                      </children>
                   </HBox>
-                  <Label text="Invalid Phone Number" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
+                  <Label text="Invalid Phone Number" textFill="#ff2d2d" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                   <VBox alignment="CENTER" prefHeight="534.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <children>
-                        <JFXButton onAction="#switchToSecondLoginScene" prefHeight="11.0" prefWidth="154.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 50;" text="Next" textFill="WHITE">
+                        <JFXButton onAction="#switchToSecondLoginScene" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Next" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="13.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font>
                         </JFXButton>
                         <Label text="OR" />

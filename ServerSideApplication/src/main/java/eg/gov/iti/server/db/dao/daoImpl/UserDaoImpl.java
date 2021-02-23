@@ -66,22 +66,23 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean update(User user){
-        final String SQL_UPDATE = "UPDATE chatproject.user SET user_name = ?, email = ?, picture = ?, password = ?, " +
-                "country = ?, date_of_birth = ?, bio = ? WHERE phone_number = ?;";
+        final String SQL_UPDATE = "UPDATE `chatproject`.`user` SET `user_name` = ?, `email` = ?, `picture` = ?, `password` = ?, " +
+                "`gender` = ?, `country` = ?, `date_of_birth` = ?, `bio` = ?, `status` = ?, WHERE (`phone_number` = ?);";
 
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
 
             preparedStatement.setString(1,user.getUserName());
             preparedStatement.setString(2,user.getEmail());
-            preparedStatement.setString(3,user.getImageEncoded());
-            preparedStatement.setString(4,user.getPassword());
+            preparedStatement.setString(3,user.getPassword());
+            preparedStatement.setString(4,user.getUserGender().toString());
             preparedStatement.setString(5,user.getCountry());
             preparedStatement.setDate(6,user.getDateOfBirth());
             preparedStatement.setString(7,user.getBio());
-            preparedStatement.setString(8,user.getPhoneNumber());
+            preparedStatement.setString(8,user.getStatus().toString());
+            preparedStatement.setString(9,user.getPhoneNumber());
 
-            System.out.println("row: "+user);
+            System.out.println(user);
             int row = preparedStatement.executeUpdate();
             System.out.println(row);
 
@@ -134,7 +135,7 @@ public class UserDaoImpl implements UserDao {
             while (resultSet.next()){
                 user.setUserName(resultSet.getString("user_name"));
                 user.setEmail(resultSet.getString("email"));
-                user.setImageEncoded(resultSet.getString("picture"));
+//                user.setImageEncoded(resultSet.getBlob("picture").toString());
                 user.setPassword(resultSet.getString("password"));
 
                 if (resultSet.getString("gender").equals("FEMALE"))
@@ -161,7 +162,6 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("DB User"+user);
         return user;
     }
 
@@ -250,5 +250,42 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+    public ResultSet getAllByCountry() {
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT country, COUNT(*) " +
+                    "AS Country_Count FROM user GROUP BY country");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getAllByGender(){
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT gender, COUNT(*) AS " +
+                    "'Gender_Count' FROM user GROUP BY gender");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    public ResultSet getAllOnOff(){
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT status, COUNT(*) AS " +
+                    "'On/offline_Count' FROM user GROUP BY status");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

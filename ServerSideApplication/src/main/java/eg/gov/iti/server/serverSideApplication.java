@@ -15,9 +15,15 @@ public class serverSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
+
+     //   stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToLoginScene();
+       // stageCoordinator.switchToHomeScene();
+
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToHomeScene();
+      //  stageCoordinator.switchToLoginScene();
+      stageCoordinator.switchToHomeScene();
+
         primaryStage.show();
     }
 

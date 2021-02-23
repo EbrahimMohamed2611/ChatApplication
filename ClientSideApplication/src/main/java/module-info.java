@@ -39,9 +39,6 @@ module ClientSideApplication {
     exports eg.gov.iti.contract.ui.controllers.messages;
     opens eg.gov.iti.contract.ui.controllers.messages;
 
-    exports eg.gov.iti.contract.ui.controllers.friendsControllers;
-    opens eg.gov.iti.contract.ui.controllers.friendsControllers;
-
     opens eg.gov.iti.contract.ui.models;// to java.xml.bind;
 
 }

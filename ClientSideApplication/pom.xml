@@ -15,15 +15,6 @@
       <artifactId>javax.activation-api</artifactId>
       <version>1.2.0</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
-    <dependency>
-      <groupId>org.controlsfx</groupId>
-      <artifactId>controlsfx</artifactId>
-      <version>11.0.1</version>
-    </dependency>
-
-
     <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>

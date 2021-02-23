@@ -2,21 +2,12 @@ package eg.gov.iti.contract.ui.models;
 
 import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.contract.clientServerDTO.enums.Status;
-import javafx.beans.Observable;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 //todo sql to util Date
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CurrentUserModel {
-    private static CurrentUserModel instance;
     private final IntegerProperty userId = new SimpleIntegerProperty();
     private final StringProperty phoneNumber = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
@@ -25,40 +16,9 @@ public class CurrentUserModel {
     private final StringProperty country = new SimpleStringProperty();
     private final StringProperty bio = new SimpleStringProperty();
     private final StringProperty imageEncoded = new SimpleStringProperty();
-    private Image profileImage;
-    private Circle profilePic=new Circle();
+    private StringProperty userGender;
     private StringProperty status;
-    private ObjectProperty<LocalDate> dateOfBirth = new SimpleObjectProperty<>();
-    private ObservableList<FriendModel> friends = FXCollections.observableArrayList();
-    private ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
-
-    public Image getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(Image profileImage) {
-        this.profileImage = profileImage;
-        this.profilePic.setFill(new ImagePattern(profileImage));
-    }
-
-    public Circle getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(Circle profilePic) {
-        this.profilePic = profilePic;
-    }
-
-
-    private CurrentUserModel() {
-    }
-
-    public static CurrentUserModel getInstance() {
-        if (instance == null) {
-            instance = new CurrentUserModel();
-        }
-        return instance;
-    }
+    private ObjectProperty<LocalDate> dateOfBirth;
 
     public String getCountry() {
         return country.get();
@@ -96,6 +56,17 @@ public class CurrentUserModel {
         this.imageEncoded.set(imageEncoded);
     }
 
+    public String getUserGender() {
+        return userGender.get();
+    }
+
+    public StringProperty userGenderProperty() {
+        return userGender;
+    }
+
+    public void setUserGender(String userGender) {
+        this.userGender.set(userGender);
+    }
 
     public String getStatus() {
         return status.get();
@@ -172,7 +143,7 @@ public class CurrentUserModel {
 
     @Override
     public String toString() {
-        return "CurrentUserModel{" +
+        return "UserRegisterModel{" +
                 "userId=" + userId +
                 ", phoneNumber=" + phoneNumber +
                 ", password=" + password +
@@ -181,6 +152,7 @@ public class CurrentUserModel {
                 ", country=" + country +
                 ", bio=" + bio +
                 ", imageEncoded=" + imageEncoded +
+                ", userGender=" + userGender +
                 ", status=" + status +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
@@ -196,13 +168,5 @@ public class CurrentUserModel {
 //        dateOfBirth.before(null);
 
 
-    }
-
-    public ObservableList<FriendModel> getFriends() {
-        return friends;
-    }
-
-    public ObservableList<UserInvitationModel> getInvitations() {
-        return invitations;
     }
 }

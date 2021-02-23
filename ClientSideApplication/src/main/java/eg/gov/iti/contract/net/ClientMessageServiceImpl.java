@@ -14,7 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ClientMessageServiceImpl extends UnicastRemoteObject implements ClientMessageService {
 
-    private HomeController homeController ;
+    HomeController homeController ;
     public ClientMessageServiceImpl(HomeController homeController)throws RemoteException {
         this.homeController = homeController;
     }
@@ -26,17 +26,6 @@ public class ClientMessageServiceImpl extends UnicastRemoteObject implements Cli
         Platform.runLater(()->{
             try {
                 homeController.displayFriendMessage(messageModel);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void receiveFile(byte[] fileContent, String fileName) throws RemoteException {
-        Platform.runLater(()->{
-            try {
-                homeController.receiveFile(fileContent,fileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }

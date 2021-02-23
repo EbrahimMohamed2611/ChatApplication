@@ -48,9 +48,14 @@
                         </StackPane>
                         <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
                             <children>
+                                <ImageView fitHeight="308.0" fitWidth="303.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../pictures/loginPicture.png" />
+                                    </image>
+                                </ImageView>
                                 <ImageView fitHeight="354.0" fitWidth="384.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../pictures/password.png" />
+                                        <Image url="@../../pictures/circle.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -101,7 +106,7 @@
                               <JFXPasswordField fx:id="passwordTxtField" focusColor="#004dfc" prefHeight="35.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
                      </children>
                   </HBox>
-                        <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
+                        <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" GridPane.rowIndex="2">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -111,14 +116,14 @@
                         </Label>
                         <VBox alignment="CENTER" prefHeight="275.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                             <children>
-                                <JFXButton onAction="#logIn" prefHeight="30.0" prefWidth="211.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 50;" text="Login" textFill="WHITE">
+                                <JFXButton onAction="#logIn" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Login" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="13.0" />
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#returnBack" prefHeight="31.0" prefWidth="206.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 50; -fx-border-color: #004dfc; -fx-background-radius: 50;" text="Back" textFill="#004dfc">
+                                <JFXButton onAction="#returnBack" prefHeight="30.0" prefWidth="261.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-border-color: #004dfc; -fx-background-radius: 10;" text="Back" textFill="#004dfc">
                                     <font>
-                                        <Font name="System Bold" size="13.0" />
+                                        <Font name="System Bold" size="16.0" />
                                     </font>
                                 </JFXButton>
                                 <Label prefWidth="249.0" text="\@2021 Chatous All right reserver, Design By ITI" />
