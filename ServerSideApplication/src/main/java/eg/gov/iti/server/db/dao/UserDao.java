@@ -18,5 +18,9 @@ public interface UserDao extends Remote {
     ResultSet getAllOnOff();
     ResultSet getAllByCountry();
     ResultSet getAllByGender();
+    public Boolean deleteByPhone(String phone);
+    Boolean EmailIsExisted(String email);
+    Boolean saveTable(User person);
+
 
 }

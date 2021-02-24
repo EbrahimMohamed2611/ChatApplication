@@ -158,4 +158,30 @@ public class StageCoordinator {
         }
 
     }
+    public void switchToUsersView() {
+        if (primaryStage == null) {
+            throw new RuntimeException("Stage Coordinator should be initialized with a Stage before it could be used");
+        }
+
+        if (!scenes.containsKey("UsersView")) {
+            try {
+                System.out.println("Created New Scene");
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/UsersView.fxml"));
+                Parent UserDetails = fxmlLoader.load();
+                Scene UsersScene = new Scene(UserDetails);
+                SceneData sceneData = new SceneData(fxmlLoader, UserDetails, UsersScene);
+                scenes.put("UsersScene", sceneData);
+
+                primaryStage.setScene(UsersScene);
+            } catch (IOException e) {
+                System.out.println("IO Exception: Couldn't load 'Users Scene' FXML file");
+            }
+        } else {
+            System.out.println("Loaded Existing Scene");
+            SceneData UsersScene = scenes.get("UsersScene");
+            Scene UsersViewScene = UsersScene.getScene();
+            primaryStage.setScene(UsersViewScene);
+        }
+    }
 }

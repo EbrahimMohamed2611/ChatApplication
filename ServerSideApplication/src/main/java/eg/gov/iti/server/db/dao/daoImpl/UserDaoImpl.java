@@ -21,6 +21,13 @@ public class UserDaoImpl implements UserDao {
         System.out.println("Databases is running  ....");
     }
 
+    public static UserDaoImpl getInstance(Connection connection) throws SQLException {
+        if (instance == null) {
+            instance = new UserDaoImpl();
+        }
+        return instance;
+    }
+
     public static UserDaoImpl getInstance() throws SQLException {
         if (instance == null) {
 
@@ -281,4 +288,73 @@ public class UserDaoImpl implements UserDao {
         }
         return false;
     }
+    @Override
+    public Boolean EmailIsExisted(String email) {
+        try {
+            final String SQL_SELECT = "Select * from user where email = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
+            preparedStatement.setString(1, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    @Override
+    public Boolean saveTable(User user) {
+        final String SQL_INSERT = "INSERT INTO user (`phone_number`, `user_name`, `email`, `password`, `country`,`gender`, `status`,`date_of_birth` ) VALUES (?, ?, ?, ?, ? , ? , ?, ?);";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
+            preparedStatement.setString(1, user.getPhoneNumber());
+            preparedStatement.setString(2, user.getUserName());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getCountry());
+            preparedStatement.setString(6, String.valueOf(Gender.MALE));
+            preparedStatement.setString(7, String.valueOf(Status.AVAILABLE));
+            preparedStatement.setDate(8, user.getDateOfBirth());
+            System.out.println(user);
+
+            int row = preparedStatement.executeUpdate();
+
+            System.out.println(row);
+
+            if (row != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    @Override
+    public Boolean deleteByPhone(String phone) {
+        final String SQL_DELETE = "DELETE FROM `chatproject`.`user` WHERE (`phone_number` = ?);";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
+            preparedStatement.setString(1, phone);
+
+            System.out.println("Deleted user");
+
+            int row = preparedStatement.executeUpdate();
+            System.out.println(row);
+
+            if (row != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: ", e.getSQLState(), e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

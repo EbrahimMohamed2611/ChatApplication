@@ -32,6 +32,7 @@ public class HomeViewController implements Initializable {
     ObservableList<PieChart.Data> status;
     ObservableList<PieChart.Data> Gender;
     private Node graphic;
+    private StageCoordinator coordinator;
 
 
     private StageCoordinator stageCoordinator;
@@ -152,6 +153,10 @@ public class HomeViewController implements Initializable {
         ChartLbl.setWrapText(true);
 
     }
+    @FXML
+    public void userGo (){
+        coordinator.switchToUsersView();
+    }
 
     @FXML
     public void Statistics() {
@@ -229,7 +234,7 @@ public class HomeViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         stageCoordinator = StageCoordinator.getInstance();
-
+        coordinator = StageCoordinator.getInstance();
         genderS.setVisible(false);
         lineS.setVisible(false);
         countryS.setVisible(false);
