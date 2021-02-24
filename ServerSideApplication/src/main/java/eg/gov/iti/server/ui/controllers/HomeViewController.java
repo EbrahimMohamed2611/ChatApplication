@@ -3,14 +3,21 @@ package eg.gov.iti.server.ui.controllers;
 import com.jfoenix.controls.JFXRadioButton;
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
+import eg.gov.iti.server.net.serverConfiguration.ServicesAssigner;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -18,14 +25,18 @@ import java.util.ResourceBundle;
 
 public class HomeViewController implements Initializable {
 
+    private Notifications notificationBuilder;
     CategoryAxis xAxis = new CategoryAxis();
     NumberAxis yAxis = new NumberAxis();
     XYChart.Series dataSeries1 = new XYChart.Series();
     ObservableList<PieChart.Data> status;
     ObservableList<PieChart.Data> Gender;
+    private Node graphic;
+
 
     private StageCoordinator stageCoordinator;
-
+    @FXML
+    Label ChartLbl;
     @FXML
     JFXRadioButton genderS;
     @FXML
@@ -58,6 +69,7 @@ public class HomeViewController implements Initializable {
             e.printStackTrace();
         }
         View.getChildren().add(countryChart);
+        ChartLbl.setText("");
 
     }
 
@@ -97,6 +109,11 @@ public class HomeViewController implements Initializable {
         statusChart.setData(status);
         statusChart.setLabelLineLength(20);
         View.getChildren().addAll(statusChart);
+        ChartLbl.setText("No of Busy : "+count[0]+"\n"+
+                "No of Available : "+count[1]+"\n"+
+                "No of Away : "+count[2]);
+
+        ChartLbl.setWrapText(true);
 
     }
 
@@ -130,11 +147,15 @@ public class HomeViewController implements Initializable {
         genderChart.setData(Gender);
         genderChart.setLabelLineLength(20);
         View.getChildren().add(genderChart);
+        ChartLbl.setText("No of Males : "+count[0]+"\n"+
+                "No of Females : "+count[1]);
+        ChartLbl.setWrapText(true);
 
     }
 
     @FXML
     public void Statistics() {
+        ChartLbl.setText("");
         View.getChildren().clear();
         if (!genderS.isVisible() && !lineS.isVisible() && !countryS.isVisible()) {
             genderS.setVisible(true);
@@ -144,6 +165,51 @@ public class HomeViewController implements Initializable {
             genderS.setVisible(false);
             lineS.setVisible(false);
             countryS.setVisible(false);
+        }
+    }
+
+    boolean on;
+
+    @FXML
+    public void PowerBtn() {
+
+        if (on == false) {
+            try {
+                Platform.runLater(() -> {
+                    notificationBuilder.create()
+                            .title("Announcement")
+                            .text("The server is on")
+                            .graphic(graphic)
+                            .hideAfter(Duration.seconds(3))
+                            .position(Pos.TOP_CENTER)
+                            .darkStyle()
+                            .showInformation();});
+                ServicesAssigner.getInstance().startConnection();
+                on = true;
+                System.out.println("serveron");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                ServicesAssigner.getInstance().stopServer();
+                on = false;
+                System.out.println("off");
+
+                    Platform.runLater(() -> {
+        notificationBuilder.create()
+                .title("Announcement")
+                .text("The server is off")
+                .graphic(graphic)
+                .hideAfter(Duration.seconds(3))
+                .position(Pos.TOP_CENTER)
+                .darkStyle()
+                .showInformation();});
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 
@@ -199,6 +265,8 @@ public class HomeViewController implements Initializable {
             getStatusData();
 
         });
+
+
 
     }
 }
