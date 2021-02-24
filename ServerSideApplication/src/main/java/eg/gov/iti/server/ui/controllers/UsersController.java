@@ -1,7 +1,9 @@
 package eg.gov.iti.server.ui.controllers;
 
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.server.db.dao.UserDao;
 import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.server.db.entities.User;
@@ -65,12 +67,15 @@ public class UsersController implements Initializable {
     private JFXTextField PassTxt;
     @FXML
     private JFXTextField CountryTxt;
+    @FXML
+    private JFXRadioButton MaleR;
+    @FXML
+    private JFXRadioButton FemaleR;
 
     boolean email;
     boolean pass;
     boolean userN;
     boolean phone;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -242,9 +247,11 @@ public class UsersController implements Initializable {
 
 
         InsertBtn.setOnAction((event) -> {
+
             if (pass == true && email == true && phone == true && userN == true
                     && !CountryTxt.getText().isEmpty() &&
                     UserDate.getValue() != null
+                    &&(MaleR.isSelected()||FemaleR.isSelected())
             ) {
                 User user = new User();
                 if (!userDao.isExisted(PhoneTxt.getText())
@@ -256,6 +263,12 @@ public class UsersController implements Initializable {
                     user.setEmail(EmailTxt.getText());
                     user.setPassword(PassTxt.getText());
                     user.setCountry(CountryTxt.getText());
+                    if (MaleR.isSelected()){
+                        user.setUserGender(Gender.MALE);
+                    }
+                    else {
+                        user.setUserGender(Gender.FEMALE);
+                    }
                     java.util.Date date = java.util.Date.from(UserDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                     Date sqlDate = new Date(date.getTime());
                     user.setDateOfBirth(Date.valueOf(sqlDate.toString()));
