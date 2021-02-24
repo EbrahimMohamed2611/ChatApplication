@@ -14,11 +14,15 @@
          <children>
             <HBox alignment="CENTER" prefHeight="46.0" prefWidth="186.0" snapToPixel="false" spacing="5.0">
                <children>
-                  <Circle fx:id="friendImage" fill="WHITE" radius="20.0" stroke="#eee4e4" strokeType="INSIDE">
+                  <AnchorPane HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </HBox.margin>
-                  </Circle>
+                     <children>
+                        <Circle fx:id="friendImage" fill="WHITE" layoutX="17.0" layoutY="21.0" radius="20.0" stroke="#eee4e4" strokeType="INSIDE" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="1.0" />
+                        <Circle fx:id="status" fill="GREY" layoutX="31.0" layoutY="34.0" radius="6.0" stroke="GREY" strokeType="INSIDE" />
+                     </children>
+                  </AnchorPane>
                   <VBox spacing="10.0">
                      <HBox.margin>
                         <Insets />

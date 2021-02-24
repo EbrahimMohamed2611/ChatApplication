@@ -19,6 +19,7 @@ public class ServicesLocator {
     private static RegisterServiceInterface registerServiceInterface;
     private static InvitationServiceInterface invitationServiceInterface;
     private static UpdateProfileServiceInterface updateProfileService;
+    private static StatusServiceInterface statusService;
     private static boolean connectionEstablished;
 
     private ServicesLocator(){
@@ -61,6 +62,11 @@ public class ServicesLocator {
             System.out.println("update Not found");
         return updateProfileService;
     }
+
+    public static StatusServiceInterface getStatusService() {
+        return statusService;
+    }
+
     public static boolean servicesInit(String serverIp){
         if(!connectionEstablished){
             try {
@@ -74,6 +80,7 @@ public class ServicesLocator {
                 registerServiceInterface = (RegisterServiceInterface) registry.lookup("registerService");
                 invitationServiceInterface = (InvitationServiceInterface) registry.lookup("inviteService");
                 updateProfileService = (UpdateProfileServiceInterface) registry.lookup("updateProfileService");
+                statusService = (StatusServiceInterface) registry.lookup("statusService");
                 if(updateProfileService==null)
                     System.out.println("fuck server");
                 connectionEstablished = true;

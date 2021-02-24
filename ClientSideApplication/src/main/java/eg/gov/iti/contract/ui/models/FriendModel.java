@@ -1,6 +1,7 @@
 package eg.gov.iti.contract.ui.models;
 
 
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,6 +17,9 @@ public class FriendModel {
     private Image image;
     private StringProperty imageEncoded = new SimpleStringProperty();
     private Circle friendImage = new Circle();
+    private StringProperty statusProperty = new SimpleStringProperty();
+    private Status status;
+    private Circle statusCircle = new Circle();
 
     private ObservableList<HBox> messages = FXCollections.observableArrayList();
 
@@ -76,6 +80,35 @@ public class FriendModel {
         this.messages = messages;
     }
 
+    public String getStatusProperty() {
+        return statusProperty.get();
+    }
+
+    public StringProperty statusPropertyProperty() {
+        return statusProperty;
+    }
+
+    public void setStatusProperty(String statusProperty) {
+        this.statusProperty.set(statusProperty);
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+        this.statusCircle.setFill(status.getStatus());
+    }
+
+    public Circle getStatusCircle() {
+        return statusCircle;
+    }
+
+    public void setStatusCircle(Circle statusCircle) {
+        this.statusCircle = statusCircle;
+    }
+
     public ObservableList<HBox> getMessages() {
         return messages;
     }
@@ -83,10 +116,10 @@ public class FriendModel {
     @Override
     public String toString() {
         return "FriendModel{" +
-                "name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", image=" + image +
-                ", imageEncoded='" + imageEncoded + '\'' +
+                "name=" + name +
+                ", phoneNumber=" + phoneNumber +
+                ", statusProperty=" + statusProperty +
+                ", messages=" + messages +
                 '}';
     }
 }
