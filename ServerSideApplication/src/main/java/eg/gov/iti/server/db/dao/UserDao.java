@@ -3,6 +3,7 @@ package eg.gov.iti.server.db.dao;
 import eg.gov.iti.server.db.entities.User;
 
 import java.rmi.Remote;
+import java.sql.ResultSet;
 import java.util.List;
 
 public interface UserDao extends Remote {
@@ -14,4 +15,8 @@ public interface UserDao extends Remote {
     List<User> selectAll() ;
     Boolean isExisted(String phoneNumber);
     Boolean isPasswordValid(String phoneNumber,String password);
+    ResultSet getAllOnOff();
+    ResultSet getAllByCountry();
+    ResultSet getAllByGender();
+
 }

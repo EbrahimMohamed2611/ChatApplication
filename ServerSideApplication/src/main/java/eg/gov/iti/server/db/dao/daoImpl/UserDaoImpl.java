@@ -211,6 +211,44 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    public ResultSet getAllByCountry() {
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT country, COUNT(*) " +
+                    "AS Country_Count FROM user GROUP BY country");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    public ResultSet getAllByGender(){
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT gender, COUNT(*) AS " +
+                    "'Gender_Count' FROM user GROUP BY gender");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getAllOnOff(){
+        ResultSet rs = null;
+        try {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = statement.executeQuery("SELECT status, COUNT(*) AS " +
+                    "'On/offline_Count' FROM user GROUP BY status");
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     @Override
     public Boolean isExisted(String phoneNumber) {
         try {

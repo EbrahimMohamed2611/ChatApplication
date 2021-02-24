@@ -31,7 +31,7 @@ public class ClientSideApplication extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchConnectionServer();
+        stageCoordinator.switchToFirstLoginScene();
         primaryStage.setTitle("Chatous Application");
         primaryStage.show();
     }
