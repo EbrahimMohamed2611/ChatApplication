@@ -3,7 +3,6 @@ package eg.gov.iti.server;
 import eg.gov.iti.server.net.serverConfiguration.ServicesAssigner;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class serverSideApplication extends Application {
@@ -16,11 +15,16 @@ public class serverSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
+
+     //   stageCoordinator.initStage(primaryStage);
 //        stageCoordinator.switchToLoginScene();
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
+       // stageCoordinator.switchToHomeScene();
+
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToHomeScene();
-        primaryStage.setTitle("Chatous Server");
+//        stageCoordinator.switchToLoginScene();
+       stageCoordinator.switchToHomeScene();
+   //     stageCoordinator.switchToAdministratorInformation();
+
         primaryStage.show();
     }
 

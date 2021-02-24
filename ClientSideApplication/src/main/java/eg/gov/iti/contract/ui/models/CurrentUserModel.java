@@ -1,17 +1,13 @@
 package eg.gov.iti.contract.ui.models;
 
+import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 //todo sql to util Date
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class CurrentUserModel {
-    private static CurrentUserModel instance;
     private final IntegerProperty userId = new SimpleIntegerProperty();
     private final StringProperty phoneNumber = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
@@ -20,42 +16,9 @@ public class CurrentUserModel {
     private final StringProperty country = new SimpleStringProperty();
     private final StringProperty bio = new SimpleStringProperty();
     private final StringProperty imageEncoded = new SimpleStringProperty();
-    private Image profileImage;
-    private Circle profilePic=new Circle();
-    private StringProperty statusProperty = new SimpleStringProperty();
-    private Status status;
-    private Circle statusCircle = new Circle();
-    private ObjectProperty<LocalDate> dateOfBirth = new SimpleObjectProperty<>();
-    private ObservableList<FriendModel> friends = FXCollections.observableArrayList();
-    private ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
-
-    public Image getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(Image profileImage) {
-        this.profileImage = profileImage;
-        this.profilePic.setFill(new ImagePattern(profileImage));
-    }
-
-    public Circle getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(Circle profilePic) {
-        this.profilePic = profilePic;
-    }
-
-
-    private CurrentUserModel() {
-    }
-
-    public static CurrentUserModel getInstance() {
-        if (instance == null) {
-            instance = new CurrentUserModel();
-        }
-        return instance;
-    }
+    private StringProperty userGender;
+    private StringProperty status;
+    private ObjectProperty<LocalDate> dateOfBirth;
 
     public String getCountry() {
         return country.get();
@@ -93,34 +56,28 @@ public class CurrentUserModel {
         this.imageEncoded.set(imageEncoded);
     }
 
-
-    public String getStatusProperty() {
-        return statusProperty.get();
+    public String getUserGender() {
+        return userGender.get();
     }
 
-    public StringProperty statusPropertyProperty() {
-        return statusProperty;
+    public StringProperty userGenderProperty() {
+        return userGender;
     }
 
-    public void setStatusProperty(String statusProperty) {
-        this.statusProperty.set(statusProperty);
+    public void setUserGender(String userGender) {
+        this.userGender.set(userGender);
     }
 
-    public Status getStatus() {
+    public String getStatus() {
+        return status.get();
+    }
+
+    public StringProperty statusProperty() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-        this.statusCircle.setFill(status.getStatus());
-    }
-
-    public Circle getStatusCircle() {
-        return statusCircle;
-    }
-
-    public void setStatusCircle(Circle statusCircle) {
-        this.statusCircle = statusCircle;
+    public void setStatus(String status) {
+        this.status.set(status);
     }
 
     public LocalDate getDateOfBirth() {
@@ -184,10 +141,9 @@ public class CurrentUserModel {
     }
 
 
-
     @Override
     public String toString() {
-        return "CurrentUserModel{" +
+        return "UserRegisterModel{" +
                 "userId=" + userId +
                 ", phoneNumber=" + phoneNumber +
                 ", password=" + password +
@@ -196,7 +152,8 @@ public class CurrentUserModel {
                 ", country=" + country +
                 ", bio=" + bio +
                 ", imageEncoded=" + imageEncoded +
-                ", status=" + statusProperty +
+                ", userGender=" + userGender +
+                ", status=" + status +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
@@ -211,13 +168,5 @@ public class CurrentUserModel {
 //        dateOfBirth.before(null);
 
 
-    }
-
-    public ObservableList<FriendModel> getFriends() {
-        return friends;
-    }
-
-    public ObservableList<UserInvitationModel> getInvitations() {
-        return invitations;
     }
 }

@@ -7,6 +7,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.server.ui.controllers.AdministratorController">
@@ -33,16 +34,20 @@
             <Font name="System Bold" size="39.0" />
          </font>
       </Label>
-      <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToHomePage" prefHeight="31.0" prefWidth="82.0" style="-fx-background-color: #F3F6FB;" text="Back" textFill="#004dfc">
+      <Button layoutX="34.0" layoutY="21.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="87.0" style="-fx-background-color: #004dfc;" text="Back" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
       <Label layoutX="496.0" layoutY="565.0" text="\@2021 Chatous All right reserver, Design By ITI" />
-      <ImageView fitHeight="111.0" fitWidth="110.0" layoutX="389.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/chat-ico.png" />
-         </image>
-      </ImageView>
+      <Pane layoutX="395.0" layoutY="26.0" prefHeight="85.0" prefWidth="85.0" style="-fx-background-color: D4E1FF; -fx-background-radius: 50;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="47.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pictures/chat-box.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

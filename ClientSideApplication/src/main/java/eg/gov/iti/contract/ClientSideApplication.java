@@ -4,21 +4,16 @@ import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
-import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
-import eg.gov.iti.contract.ui.models.ConnectionModel;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ClientSideApplication extends Application {
-    CachedCredentialsData cachedCredentialsData;
+     CachedCredentialsData cachedCredentialsData;
     private static Stage stage;
-    private ConnectionModel connectionModel;
 
     public static void main(String[] args) {
         launch();
@@ -28,20 +23,25 @@ public class ClientSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchConnectionServer();
-        primaryStage.setTitle("Chatous Application");
+//       stageCoordinator.switchToHomeScene();
+//        cachedCredentialsData = CachedCredentialsData.getInstance();
+//        if (cachedCredentialsData.validateCredentials())
+//            stageCoordinator.switchToHomeScene();
+//        else
+            stageCoordinator.switchToFirstLoginScene();
+
+//        stageCoordinator.switchToSignupScene();
+//        ChatClient chatClient;
+//        chatClient.receiveUserDto();
         primaryStage.show();
     }
 
     @Override
     public void init() {
-//        ServicesLocator.servicesInit();
-//        connectionModel = ModelsFactory.getInstance().getConnectionModel();
-//        String hostIp = connectionModel.getServerIp();
-//
+
+        ServicesLocator.servicesInit();
 
         // Initialize Database & Network Connections
 //        try{
@@ -58,7 +58,7 @@ public class ClientSideApplication extends Application {
     @Override
     public void stop() {
         // Terminate Database & Network Connections
-        //  chatServerInterface.unRegister();
+      //  chatServerInterface.unRegister();
     }
 
     public static Stage getStage() {

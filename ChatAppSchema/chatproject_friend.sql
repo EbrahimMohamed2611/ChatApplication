@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `friend`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `friend` (
-  `id` varchar(11) NOT NULL,
-  `friend_id` varchar(11) NOT NULL,
+  `id` int NOT NULL,
+  `friend_id` int NOT NULL,
   PRIMARY KEY (`id`,`friend_id`),
   KEY `friend_id_idx` (`friend_id`),
-  CONSTRAINT `friend_id` FOREIGN KEY (`friend_id`) REFERENCES `user` (`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `user` (`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `friend_id` FOREIGN KEY (`friend_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +38,6 @@ CREATE TABLE `friend` (
 
 LOCK TABLES `friend` WRITE;
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
-INSERT INTO `friend` VALUES ('01005425355','01005352212'),('01273073293','01005352212'),('01005352212','01005425355'),('01273073293','01005425355'),('01005352212','01273073293'),('01005425355','01273073293');
 /*!40000 ALTER TABLE `friend` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-22  0:45:26
+-- Dump completed on 2021-02-12  0:01:36

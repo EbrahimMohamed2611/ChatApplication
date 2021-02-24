@@ -25,4 +25,8 @@ module ServerSideApplication {
     opens eg.gov.iti.server.db.entities;
 
 
+
+    requires ab;
+
+
 }

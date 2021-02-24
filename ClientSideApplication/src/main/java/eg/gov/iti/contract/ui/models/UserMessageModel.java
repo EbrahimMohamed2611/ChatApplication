@@ -3,7 +3,7 @@ import javafx.scene.image.ImageView;
 import java.util.Date;
 
 public class UserMessageModel {
-//    private StringProperty name;
+
     private String name;
     private String messageBody;
     private String imageEncoded;
@@ -11,7 +11,6 @@ public class UserMessageModel {
     private ImageView imageView;
     private String senderPHoneNumber;
     private String receiverPhoneNumber;
-
 
     public UserMessageModel() {
     }
