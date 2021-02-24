@@ -47,6 +47,7 @@ public class UpdateProfileServiceImpl extends UnicastRemoteObject implements Upd
             userFriendDto.setName(userDto.getFullName());
             userFriendDto.setFriendPhoneNumber(userDto.getPhoneNumber());
             userFriendDto.setImageEncoded(userDto.getImageEncoded());
+            userFriendDto.setFriendStatus(userDto.getStatus());
             client.notifyFriendUpdate(userFriendDto);
         }
 

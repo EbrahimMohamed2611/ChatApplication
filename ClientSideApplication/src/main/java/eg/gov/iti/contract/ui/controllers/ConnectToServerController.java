@@ -36,12 +36,11 @@ public class ConnectToServerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         coordinator = StageCoordinator.getInstance();
         connectionModel = ModelsFactory.getInstance().getConnectionModel();
-        chatService = ServicesLocator.getChatServerInterface();
         client = ChatClientImpl.getInstance();
     }
 
     @FXML
-    private void connectToServer () {
+    private void connectToServer() {
 
 //        serverSpinner.setVisible(true);
         String serverIp = textField.getText();
@@ -54,6 +53,7 @@ public class ConnectToServerController implements Initializable {
         ServicesLocator.servicesInit(serverIp);
         cachedCredentialsData = CachedCredentialsData.getInstance();
 //        serverSpinner.setVisible(false);
+        chatService = ServicesLocator.getChatServerInterface();
         if (cachedCredentialsData.validateCredentials()) {
             try {
                 chatService.register(client);
@@ -61,14 +61,10 @@ public class ConnectToServerController implements Initializable {
                 e.printStackTrace();
             }
             coordinator.switchToHomeScene();
-        }
-        else
+        } else
             coordinator.switchToFirstLoginScene();
 
     }
-
-
-
 
 
 }

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.SenderMessageController">
+<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.SenderMessageController">
    <children>
       <VBox alignment="TOP_RIGHT" maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
          <children>
             <Label fx:id="senderNameLabel" text="UserName" textAlignment="RIGHT" textFill="#252d3b">
                <font>
-                  <Font size="8.0" />
+                  <Font size="10.0" />
                </font>
                <VBox.margin>
                   <Insets right="20.0" />
@@ -35,14 +36,14 @@
             </Label>
             <HBox alignment="CENTER_RIGHT">
                <children>
-                  <FontIcon fx:id="statusIcon" iconColor="#252d3b" iconLiteral="mdi2e-eye-off-outline">
+                  <FontIcon fx:id="statusIcon" iconColor="#252d3b" iconLiteral="mdi2e-eye-off-outline" iconSize="10">
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </FontIcon>
                   <Label fx:id="senderTimeStampLabel" style="-fx-text-fill: #252D3B;" text="timeStamp" textFill="#252d3b">
                      <font>
-                        <Font size="8.0" />
+                        <Font size="10.0" />
                      </font>
                      <HBox.margin>
                         <Insets />
@@ -55,21 +56,14 @@
             </HBox>
          </children>
       </VBox>
-      <Label alignment="TOP_LEFT" maxHeight="Infinity" prefHeight="89.0" prefWidth="49.0">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <graphic>
-            <ImageView fx:id="senderImgView" fitHeight="62.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../pictures/profilePicture.png" />
-               </image>
-            </ImageView>
-         </graphic>
+      <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
-      </Label>
+         <children>
+            <Circle fx:id="senderImage" fill="WHITE" radius="20.0" stroke="#e1e1e1" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

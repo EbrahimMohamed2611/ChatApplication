@@ -30,7 +30,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -53,9 +52,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import javax.imageio.ImageIO;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.Date;
@@ -127,7 +123,6 @@ public class HomeController implements Initializable {
         client.setHomeController(this);
         try {
             img = ImageIO.read(new File("/pictures/avatar.png"));
-//            System.out.println(img.toString());
         } catch (IOException e) {
         }
 
@@ -156,8 +151,6 @@ public class HomeController implements Initializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-//        System.out.println(userAuthModel);
-//        System.out.println("DB user After" + user);
         var tempModel = CurrentUserAdapter.getUserModelFromUserDtoAdapter(user);
         currentUserModel.setFullName(tempModel.getFullName());
         currentUserModel.setEmail(tempModel.getEmail());
@@ -246,15 +239,21 @@ public class HomeController implements Initializable {
 
     @FXML
     private void sendMessage(ActionEvent actionEvent) throws IOException {
-        UserMessageModel userMessageModel = new UserMessageModel();
-        userMessageModel.setMessageBody(messageContentTextField.getText());
-        userMessageModel.setMessageDate(new Date());
-        userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("src/main/resources/pictures/avatar.png")));
-        userMessageModel.setReceiverPhoneNumber(currentFriend.getPhoneNumber());
-        userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
-        System.out.println("Message Content is " + messageContentTextField.getText());
-        sendMessageToMyFriend(userMessageModel);
-        messageContentTextField.setText("");
+        if (!messageContentTextField.getText().isEmpty()) {
+            UserMessageModel messageModel = new UserMessageModel();
+            messageModel.setSenderName(currentUserModel.getFullName());
+            messageModel.setMessageDate(new Date());
+            messageModel.setMessageBody(messageContentTextField.getText());
+            if (currentUserModel.getProfileImage() != null)
+                messageModel.setImage(currentUserModel.getProfileImage());
+            else
+                messageModel.setImage(defaultUserImage);
+            messageModel.setReceiverPhoneNumber(currentFriend.getPhoneNumber());
+            messageModel.setSenderPHoneNumber(currentUserModel.getPhoneNumber());
+            System.out.println("Message is " + messageModel);
+            sendMessageToMyFriend(messageModel);
+            messageContentTextField.setText("");
+        }
     }
 
     private void sendMessageToMyFriend(UserMessageModel message) {
@@ -266,12 +265,15 @@ public class HomeController implements Initializable {
                     Parent messageSender = null;
                     messageSender = fxmlLoader.load();
                     SenderMessageController senderMessageController = fxmlLoader.getController();
+
                     senderMessageController.getSenderMessageBodyLabel().setText(message.getMessageBody());
-                    senderMessageController.getSenderNameLabel().setText(message.getName());
-                    Image image = ImageConverter.getDecodedImage(message.getImageEncoded());
-                    senderMessageController.getSenderImgView().setImage(image);
+                    senderMessageController.getSenderNameLabel().textProperty().bind(currentUserModel.fullNameProperty());
                     senderMessageController.getSenderTimeStampLabel().setText(String.valueOf(new Date()));
+                    senderMessageController.getSenderImage().fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
+
                     currentFriend.getMessages().add((HBox) messageSender);
+                    int index = chatListView.getItems().size();
+                    chatListView.scrollTo(index);
                     messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
                     friendMessageServiceInterface.sendToMyFriend(messageDto);
                 } catch (IOException e) {
@@ -286,10 +288,8 @@ public class HomeController implements Initializable {
         Parent messageReceiver = fxmlLoader.load();
         ReceiverMessageController receiverMessageController = fxmlLoader.getController();
 
-        receiverMessageController.getReceiverNameLabel().setText(friendMessage.getName());
-        Image image = ImageConverter.getDecodedImage(friendMessage.getImageEncoded());
-
-        receiverMessageController.getReceiverImgView().setImage(image);
+        receiverMessageController.getReceiverNameLabel().textProperty().bind(currentFriend.nameProperty());
+        receiverMessageController.getReceiverImage().fillProperty().bind(currentFriend.getFriendImage().fillProperty());
         receiverMessageController.getReceiverMessageBodyLabel().setText(friendMessage.getMessageBody());
         receiverMessageController.getReceiverTimeStampLabel().setText(String.valueOf(friendMessage.getMessageDate()));
 
@@ -300,8 +300,8 @@ public class HomeController implements Initializable {
                     return friendModel;
                 }).count();
 
-//        currentFriend.getMessages().add((HBox) messageReceiver);
-
+        int index = chatListView.getItems().size();
+        chatListView.scrollTo(index);
     }
 
     @FXML
@@ -331,11 +331,6 @@ public class HomeController implements Initializable {
         currentUserModel.getInvitations().clear();
 //        Platform.exit();
         System.exit(0);
-        try {
-            chatService.unRegister(client);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

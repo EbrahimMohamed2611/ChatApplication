@@ -64,7 +64,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     @Override
     public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
         UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
-//        System.out.println("messageModelFromMessageDto " + messageModelFromMessageDto);
         Platform.runLater(() -> {
             try {
                 homeController.displayFriendMessage(messageModelFromMessageDto);

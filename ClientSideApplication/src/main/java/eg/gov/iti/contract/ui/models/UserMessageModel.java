@@ -1,28 +1,35 @@
 package eg.gov.iti.contract.ui.models;
-import javafx.scene.image.ImageView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+
 import java.util.Date;
 
 public class UserMessageModel {
-//    private StringProperty name;
-    private String name;
+    private StringProperty senderName = new SimpleStringProperty();
     private String messageBody;
-    private String imageEncoded;
+    private StringProperty imageEncoded = new SimpleStringProperty();
+    private Image image;
+    private Circle senderImage = new Circle();
     private Date messageDate;
-    private ImageView imageView;
     private String senderPHoneNumber;
     private String receiverPhoneNumber;
-
 
     public UserMessageModel() {
     }
 
-
-    public String getName() {
-        return name;
+    public String getSenderName() {
+        return senderName.get();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public StringProperty senderNameProperty() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName.set(senderName);
     }
 
     public String getMessageBody() {
@@ -33,28 +40,12 @@ public class UserMessageModel {
         this.messageBody = messageBody;
     }
 
-    public String getImageEncoded() {
-        return imageEncoded;
-    }
-
-    public void setImageEncoded(String imageEncoded) {
-        this.imageEncoded = imageEncoded;
-    }
-
     public Date getMessageDate() {
         return messageDate;
     }
 
     public void setMessageDate(Date messageDate) {
         this.messageDate = messageDate;
-    }
-
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
     }
 
     public String getSenderPHoneNumber() {
@@ -73,15 +64,41 @@ public class UserMessageModel {
         this.receiverPhoneNumber = receiverPhoneNumber;
     }
 
+    public String getImageEncoded() {
+        return imageEncoded.get();
+    }
+
+    public StringProperty imageEncodedProperty() {
+        return imageEncoded;
+    }
+
+    public void setImageEncoded(String imageEncoded) {
+        this.imageEncoded.set(imageEncoded);
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+        this.senderImage.setFill(new ImagePattern(image));
+    }
+
+    public Circle getSenderImage() {
+        return senderImage;
+    }
+
+    public void setSenderImage(Circle senderImage) {
+        this.senderImage = senderImage;
+    }
 
     @Override
     public String toString() {
         return "UserMessageModel{" +
-                "name='" + name + '\'' +
+                "senderName=" + senderName +
                 ", messageBody='" + messageBody + '\'' +
-                ", imageEncoded='" + imageEncoded + '\'' +
                 ", messageDate=" + messageDate +
-                ", imageView=" + imageView +
                 ", senderPHoneNumber='" + senderPHoneNumber + '\'' +
                 ", receiverPhoneNumber='" + receiverPhoneNumber + '\'' +
                 '}';

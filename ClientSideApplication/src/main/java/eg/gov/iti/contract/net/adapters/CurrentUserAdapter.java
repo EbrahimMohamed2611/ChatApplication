@@ -21,6 +21,7 @@ public class CurrentUserAdapter {
         userDto.setDateOfBirth(Date.valueOf(userModel.getDateOfBirth().toString()));
         userDto.setBio(userModel.getBio());
         userDto.setImageEncoded(userModel.getImageEncoded());
+        userDto.setStatus(userModel.getStatus());
 
 
         return userDto;

@@ -1,6 +1,7 @@
 package eg.gov.iti.contract.net.adapters;
 
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
+import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 
 public class MessageAdapter {
@@ -9,9 +10,9 @@ public class MessageAdapter {
 
     private static final UserMessageModel userMessageModel = new UserMessageModel();
 
-    public static UserMessageDto getMessageDtoFromMessageModel (UserMessageModel userMessageModel){
+    public static UserMessageDto getMessageDtoFromMessageModel(UserMessageModel userMessageModel) {
 
-        userMessageDto.setName(userMessageModel.getName());
+        userMessageDto.setName(userMessageModel.getSenderName());
         userMessageDto.setMessageBody(userMessageModel.getMessageBody());
         userMessageDto.setImageEncoded(userMessageModel.getImageEncoded());
         userMessageDto.setMessageDate(userMessageModel.getMessageDate());
@@ -21,12 +22,12 @@ public class MessageAdapter {
         return userMessageDto;
     }
 
-    public static UserMessageModel getMessageModelFromMessageDto(UserMessageDto userMessageDto){
-        userMessageModel.setName(userMessageDto.getName());
+    public static UserMessageModel getMessageModelFromMessageDto(UserMessageDto userMessageDto) {
+        userMessageModel.setSenderName(userMessageDto.getName());
         userMessageModel.setMessageBody(userMessageDto.getMessageBody());
+//        userMessageModel.setImage(ImageConverter.getDecodedImage(userMessageDto.getImageEncoded()));
         userMessageModel.setImageEncoded(userMessageDto.getImageEncoded());
         userMessageModel.setMessageDate(userMessageDto.getMessageDate());
-
         userMessageModel.setSenderPHoneNumber(userMessageDto.getSenderPHoneNumber());
         userMessageModel.setReceiverPhoneNumber(userMessageDto.getReceiverPhoneNumber());
 

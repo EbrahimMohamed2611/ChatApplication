@@ -4,12 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ReceiverMessageController implements Initializable {
-
     @FXML
     private Label receiverNameLabel;
     @FXML
@@ -17,7 +17,7 @@ public class ReceiverMessageController implements Initializable {
     @FXML
     private Label receiverTimeStampLabel;
     @FXML
-    private ImageView receiverImgView;
+    private Circle receiverImage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,13 +48,7 @@ public class ReceiverMessageController implements Initializable {
         this.receiverTimeStampLabel = receiverTimeStampLabel;
     }
 
-    public ImageView getReceiverImgView() {
-        return receiverImgView;
+    public Circle getReceiverImage() {
+        return receiverImage;
     }
-
-    public void setReceiverImgView(ImageView receiverImgView) {
-        this.receiverImgView = receiverImgView;
-    }
-
-
 }

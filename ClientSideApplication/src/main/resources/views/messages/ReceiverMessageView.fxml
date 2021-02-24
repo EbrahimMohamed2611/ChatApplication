@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox snapToPixel="false" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController">
+<HBox snapToPixel="false" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController">
    <children>
-      <Label alignment="TOP_LEFT" maxHeight="Infinity" prefHeight="89.0" prefWidth="49.0">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <graphic>
-            <ImageView fx:id="receiverImgView" fitHeight="62.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../pictures/profilePicture.png" />
-               </image>
-            </ImageView>
-         </graphic>
+      <VBox alignment="CENTER">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
-      </Label>
+         <children>
+            <Circle fx:id="receiverImage" fill="WHITE" radius="20.0" stroke="#c9c4c4" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
       <VBox maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
          <children>
             <Label fx:id="receiverNameLabel" style="-fx-text-fill: #252D3B " text="UserName">
                <font>
-                  <Font size="8.0" />
+                  <Font size="10.0" />
                </font>
                <VBox.margin>
                   <Insets right="20.0" />
@@ -51,7 +45,7 @@
                   </FontIcon>
                   <Label fx:id="receiverTimeStampLabel" style="-fx-text-fill: #252D3B " text="timeStamp">
                      <font>
-                        <Font size="8.0" />
+                        <Font size="10.0" />
                      </font>
                      <HBox.margin>
                         <Insets />

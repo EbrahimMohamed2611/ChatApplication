@@ -3,7 +3,7 @@ package eg.gov.iti.contract.ui.controllers.messages;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,8 +17,7 @@ public class SenderMessageController implements Initializable {
     @FXML
     private Label senderTimeStampLabel;
     @FXML
-    private  ImageView senderImgView ;
-
+    private Circle senderImage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,11 +48,8 @@ public class SenderMessageController implements Initializable {
         this.senderTimeStampLabel = senderTimeStampLabel;
     }
 
-    public ImageView getSenderImgView() {
-        return senderImgView;
+    public Circle getSenderImage() {
+        return senderImage;
     }
 
-    public void setSenderImgView(ImageView senderImgView) {
-        this.senderImgView = senderImgView;
-    }
 }
