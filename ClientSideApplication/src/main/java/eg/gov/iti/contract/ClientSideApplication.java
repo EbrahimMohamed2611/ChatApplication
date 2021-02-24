@@ -32,6 +32,7 @@ public class ClientSideApplication extends Application {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
         stageCoordinator.switchConnectionServer();
+        primaryStage.setTitle("Chatous Application");
         primaryStage.show();
     }
 

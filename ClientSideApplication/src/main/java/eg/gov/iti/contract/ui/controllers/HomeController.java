@@ -5,13 +5,13 @@ import com.jfoenix.controls.JFXButton;
 import eg.gov.iti.contract.ClientSideApplication;
 import eg.gov.iti.contract.clientServerDTO.dto.UserDto;
 import eg.gov.iti.contract.clientServerDTO.dto.UserMessageDto;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
 import eg.gov.iti.contract.net.adapters.CurrentUserAdapter;
 import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
-import eg.gov.iti.contract.server.chatRemoteInterfaces.InvitationServiceInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.*;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
-import eg.gov.iti.contract.server.chatRemoteInterfaces.UpdateProfileServiceInterface;
 import eg.gov.iti.contract.server.messageServices.ServerMessageServiceInterface;
 
 import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendController;
@@ -24,13 +24,9 @@ import eg.gov.iti.contract.ui.models.CurrentUserModel;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,7 +34,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -48,6 +43,7 @@ import java.io.*;
 
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
+import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -56,86 +52,82 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import javax.imageio.ImageIO;
 import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
     @FXML
     private TextField messageContentTextField;
-
     @FXML
     private TextField searchTextField;
-
-//    @FXML
-//    private VBox chatContentVBox;
-
     @FXML
     private Circle profilePic;
     @FXML
     ScrollPane scrollPane;
-
     @FXML
     private JFXButton editProfileBtn;
     @FXML
     private Label userNameLabel;
-
     @FXML
     private Label userPhoneNumberLabel;
-
     @FXML
-    ListView<HBox> chatListView;
-
+    private Label errorsLabel;
     @FXML
-    ListView<AnchorPane> listView;
+    private Label messageLabel;
+    @FXML
+    private ComboBox<Status> statusComboBox;
+    @FXML
+    private ListView<HBox> chatListView;
+    @FXML
+    private ListView<AnchorPane> listView;
+    @FXML
+    private Circle status;
+
     ListView<AnchorPane> requestsListView;
     ListView<AnchorPane> friendsListView;
 
+    // RMI Services
+    private ChatServerInterface chatService;
+    private LogoutServiceInterface logoutService;
+    private ServerMessageServiceInterface friendMessageServiceInterface;
+    private UpdateProfileServiceInterface updateProfileService;
+    private InvitationServiceInterface invitationService;
+    private StatusServiceInterface statusService;
+    private ChatClientImpl client;
+
     BufferedImage img = null;
     private StageCoordinator coordinator;
-    private LogoutServiceInterface logoutService;
-    private ChatClientImpl client;
-    private ChatServerInterface chatService;
-
 
     private ModelsFactory modelsFactory;
-    private InvitationServiceInterface invitationService;
+    private FriendModel currentFriend;
     private UserInvitationModel invitationModel;
     private UserAuthModel userAuthModel;
     private CurrentUserModel currentUserModel;
 
-    private ServerMessageServiceInterface friendMessageServiceInterface;
-    private UpdateProfileServiceInterface updateProfileService;
     private CachedCredentialsData credentialsData;
     private Image defaultUserImage;
     private Image userImage;
 
     private List<UserMessageModel> messageSessions;
 
-    //    private String receiverPhoneNumber;
-    private FriendModel currentFriend;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         friendMessageServiceInterface = ServicesLocator.getFriendMessageServiceInterface();
         updateProfileService = ServicesLocator.getUpdateProfileService();
+        statusService = ServicesLocator.getStatusService();
+
         defaultUserImage = new Image("/pictures/avatar.png");
-        if (updateProfileService == null)
-            System.out.println("fuck");
         client = ChatClientImpl.getInstance();
         client.setHomeController(this);
         try {
             img = ImageIO.read(new File("/pictures/avatar.png"));
-            System.out.println(img.toString());
+//            System.out.println(img.toString());
         } catch (IOException e) {
         }
 
@@ -164,8 +156,8 @@ public class HomeController implements Initializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        System.out.println(userAuthModel);
-        System.out.println("DB user After" + user);
+//        System.out.println(userAuthModel);
+//        System.out.println("DB user After" + user);
         var tempModel = CurrentUserAdapter.getUserModelFromUserDtoAdapter(user);
         currentUserModel.setFullName(tempModel.getFullName());
         currentUserModel.setEmail(tempModel.getEmail());
@@ -182,10 +174,33 @@ public class HomeController implements Initializable {
         }
         currentUserModel.setPassword(tempModel.getPassword());
         currentUserModel.phoneNumberProperty().bind(userAuthModel.phoneNumberProperty());
+
+        currentUserModel.setStatus(Status.AVAILABLE);
+        try {
+            statusService.updateStatus(client, user.getStatus());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         userNameLabel.textProperty().bind(currentUserModel.fullNameProperty());
         userPhoneNumberLabel.textProperty().bind(userAuthModel.phoneNumberProperty());
         profilePic.fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
-//        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
+
+
+        statusComboBox.getItems().add(Status.AVAILABLE);
+        statusComboBox.getItems().add(Status.BUSY);
+        statusComboBox.getItems().add(Status.AWAY);
+        statusComboBox.getSelectionModel().selectFirst();
+
+        statusComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            currentUserModel.setStatus(newValue);
+            status.setFill(newValue.getStatus());
+            try {
+                statusService.updateStatus(client, newValue);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
 
         requestsListView = new ListView<>();
         friendsListView = new ListView<>();
@@ -229,44 +244,44 @@ public class HomeController implements Initializable {
     public HomeController() throws RemoteException {
     }
 
-
     @FXML
     private void sendMessage(ActionEvent actionEvent) throws IOException {
-
         UserMessageModel userMessageModel = new UserMessageModel();
         userMessageModel.setMessageBody(messageContentTextField.getText());
         userMessageModel.setMessageDate(new Date());
         userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("src/main/resources/pictures/avatar.png")));
         userMessageModel.setReceiverPhoneNumber(currentFriend.getPhoneNumber());
-
         userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
-        // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
-        System.out.println("=====" + userMessageModel);
-        sendMessageToMyFriend(userMessageModel);
         System.out.println("Message Content is " + messageContentTextField.getText());
+        sendMessageToMyFriend(userMessageModel);
         messageContentTextField.setText("");
-
     }
 
-    private void sendMessageToMyFriend(UserMessageModel message) throws IOException {
-
-        System.out.println(message);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/messages/SenderMessageView.fxml"));
-        Parent messageSender = fxmlLoader.load();
-        SenderMessageController senderMessageController = fxmlLoader.getController();
-        senderMessageController.getSenderMessageBodyLabel().setText(message.getMessageBody());
-        senderMessageController.getSenderNameLabel().setText(message.getName());
-        Image image = ImageConverter.getDecodedImage(message.getImageEncoded());
-        senderMessageController.getSenderImgView().setImage(image);
-        senderMessageController.getSenderTimeStampLabel().setText(String.valueOf(new Date()));
-        currentFriend.getMessages().add((HBox) messageSender);
-        UserMessageDto messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
-        System.out.println("Message dto" + messageDto);
-        friendMessageServiceInterface.sendToMyFriend(messageDto);
+    private void sendMessageToMyFriend(UserMessageModel message) {
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                    UserMessageDto messageDto;
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/messages/SenderMessageView.fxml"));
+                    Parent messageSender = null;
+                    messageSender = fxmlLoader.load();
+                    SenderMessageController senderMessageController = fxmlLoader.getController();
+                    senderMessageController.getSenderMessageBodyLabel().setText(message.getMessageBody());
+                    senderMessageController.getSenderNameLabel().setText(message.getName());
+                    Image image = ImageConverter.getDecodedImage(message.getImageEncoded());
+                    senderMessageController.getSenderImgView().setImage(image);
+                    senderMessageController.getSenderTimeStampLabel().setText(String.valueOf(new Date()));
+                    currentFriend.getMessages().add((HBox) messageSender);
+                    messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
+                    friendMessageServiceInterface.sendToMyFriend(messageDto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }).start();
     }
 
     public void displayFriendMessage(UserMessageModel friendMessage) throws IOException {
-        System.out.println(friendMessage);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/messages/ReceiverMessageView.fxml"));
         Parent messageReceiver = fxmlLoader.load();
         ReceiverMessageController receiverMessageController = fxmlLoader.getController();
@@ -277,7 +292,15 @@ public class HomeController implements Initializable {
         receiverMessageController.getReceiverImgView().setImage(image);
         receiverMessageController.getReceiverMessageBodyLabel().setText(friendMessage.getMessageBody());
         receiverMessageController.getReceiverTimeStampLabel().setText(String.valueOf(friendMessage.getMessageDate()));
-        currentFriend.getMessages().add((HBox) messageReceiver);
+
+        currentUserModel.getFriends().stream()
+                .filter(friendModel -> friendModel.getPhoneNumber().equals(friendMessage.getSenderPHoneNumber()))
+                .map(friendModel -> {
+                    friendModel.getMessages().add((HBox) messageReceiver);
+                    return friendModel;
+                }).count();
+
+//        currentFriend.getMessages().add((HBox) messageReceiver);
 
     }
 
@@ -286,9 +309,9 @@ public class HomeController implements Initializable {
         try {
             if (logoutService.logout()) {
                 chatService.unRegister(client);
-
                 credentialsData.clearCredentials();
-
+                currentUserModel.getFriends().clear();
+                currentUserModel.getInvitations().clear();
                 coordinator.switchToSecondLoginScene();
             }
         } catch (RemoteException e) {
@@ -297,9 +320,15 @@ public class HomeController implements Initializable {
         coordinator.switchToSecondLoginScene();
     }
 
-    // todo complete exit method implementation
     @FXML
     private void exit() {
+        try {
+            chatService.unRegister(client);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        currentUserModel.getFriends().clear();
+        currentUserModel.getInvitations().clear();
 //        Platform.exit();
         System.exit(0);
         try {
@@ -311,30 +340,31 @@ public class HomeController implements Initializable {
 
     @FXML
     void inviteFriend() {
-        try {
-            if (searchTextField.getText().equals(userAuthModel.getPhoneNumber())) {
-                System.out.println("you cannot add yourself");
-                return;
-            }
-
-            for (FriendModel friendModel : currentUserModel.getFriends()) {
-                if (searchTextField.getText().equals(friendModel.getPhoneNumber())) {
-                    System.out.println("This is your friend");
+        new Thread(() -> {
+            try {
+                if (searchTextField.getText().equals(userAuthModel.getPhoneNumber())) {
+                    Platform.runLater(() -> showError("you cannot add yourself"));
                     return;
                 }
+
+                for (FriendModel friendModel : currentUserModel.getFriends()) {
+                    if (searchTextField.getText().equals(friendModel.getPhoneNumber())) {
+                        Platform.runLater(() -> showError("This is your friend"));
+                        return;
+                    }
+                }
+
+                invitationModel.setReceiverPhoneNumber(searchTextField.getText());
+
+                if (invitationService.sendInvitation(UserInvitationAdapter.getInvitationDtoFromModel(invitationModel))) {
+                    Platform.runLater(() -> showMessage("Invitation sent."));
+                } else {
+                    Platform.runLater(() -> showError("Not valid invitation!!"));
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-
-            invitationModel.setReceiverPhoneNumber(searchTextField.getText());
-
-            if (invitationService.sendInvitation(UserInvitationAdapter.getInvitationDtoFromModel(invitationModel))) {
-                System.out.println(invitationModel + " sent.");
-            } else {
-                System.out.println("Not valid invitation!!");
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
+        }).start();
     }
 
     @FXML
@@ -348,7 +378,6 @@ public class HomeController implements Initializable {
         listView.setItems(getFriendsListView().getItems());
         listView.getSelectionModel().select(0);
         listView.getFocusModel().focus(0);
-        System.out.println("Marhabaaa");
     }
 
     @FXML
@@ -379,11 +408,9 @@ public class HomeController implements Initializable {
                 else {
                     friendRequest.getFriendImage().setFill(new ImagePattern(defaultUserImage));
                 }
-                System.out.println(invitationModel.senderNameProperty().get());
                 friendRequest.getFriendName().textProperty().bind(invitationModel.senderNameProperty());
                 friendRequest.getFriendImage().fillProperty().bind(invitationModel.getSenderPicCircle().fillProperty());
-                System.out.println(friendRequest.getFriendName().getText() + " Added");
-                Parent finalRequstInstance = requstInstance;
+                Parent finalRequestInstance = requstInstance;
 
                 friendRequest.getAcceptButton().setOnAction(e -> {
                     FriendModel friendModel = new FriendModel();
@@ -394,8 +421,7 @@ public class HomeController implements Initializable {
                     } catch (RemoteException remoteException) {
                         remoteException.printStackTrace();
                     }
-                    System.out.println(friendModel + "Added");
-                    requestsListView.getItems().remove(finalRequstInstance);
+                    requestsListView.getItems().remove(finalRequestInstance);
                 });
 
                 friendRequest.getDeclineButton().setOnAction(e -> {
@@ -404,12 +430,11 @@ public class HomeController implements Initializable {
                     } catch (RemoteException remoteException) {
                         remoteException.printStackTrace();
                     }
-                    System.out.println(invitationModel.getSenderPhoneNumber() + "rejected");
                     System.out.println("List size before " + requestsListView.getItems().size());
-                    requestsListView.getItems().remove(finalRequstInstance);
+                    requestsListView.getItems().remove(finalRequestInstance);
                     System.out.println("List size after " + requestsListView.getItems().size());
 
-                    System.out.println("Invitations befor " + currentUserModel.getInvitations().size());
+                    System.out.println("Invitations before " + currentUserModel.getInvitations().size());
                     currentUserModel.getInvitations().remove(invitationModel);
                     System.out.println("Invitations after " + currentUserModel.getInvitations().size());
                 });
@@ -446,13 +471,13 @@ public class HomeController implements Initializable {
                 friendController.getFriendImage().fillProperty().bind(friendModel.getFriendImage().fillProperty());
                 friendController.getFriendName().textProperty().bind(friendModel.nameProperty());
                 friendController.getPhoneNumber().textProperty().bind(friendModel.phoneNumberProperty());
+                friendController.getStatus().fillProperty().bind(friendModel.getStatusCircle().fillProperty());
 
                 friendsListView.getItems().add((AnchorPane) friendInstance);
             }
         }
         return friendsListView;
     }
-
 
     @FXML
     private void sendAttachments() throws IOException {
@@ -473,7 +498,6 @@ public class HomeController implements Initializable {
 
 
     }
-
 
     public void receiveFile(byte[] fileContent, String fileName) throws IOException {
 
@@ -505,12 +529,12 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void saveSessionButton(){
+    private void saveSessionButton() {
         Thread saveSessionThread = new Thread(() -> {
             ObservableList<HBox> items = chatListView.getItems();
             ArrayList<Object> messages = items.stream().map(hb -> {
-                    UserMessageModel messages1 = getMessages(hb);
-                    messageSessions.add(messages1);
+                UserMessageModel messages1 = getMessages(hb);
+                messageSessions.add(messages1);
                 return messageSessions;
             }).collect(Collectors.toCollection(ArrayList::new));
             SaveSession.saveSession(messageSessions);
@@ -518,22 +542,22 @@ public class HomeController implements Initializable {
         saveSessionThread.start();
     }
 
-    private UserMessageModel getMessages(HBox hBox)   {
+    private UserMessageModel getMessages(HBox hBox) {
         UserMessageModel message = new UserMessageModel();
-        if(hBox.getChildren().get(0) instanceof VBox) {
+        if (hBox.getChildren().get(0) instanceof VBox) {
             VBox outerVbox = (VBox) hBox.getChildren().get(0);
             Label messageContent = (Label) outerVbox.getChildren().get(1);
-            HBox hbox = (HBox)outerVbox.getChildren().get(2);
+            HBox hbox = (HBox) outerVbox.getChildren().get(2);
             Label time = (Label) hbox.getChildren().get(1);
             System.out.println(messageContent.getText() + time.getText());
             message.setMessageBody(messageContent.getText());
             message.setMessageDate(new Date());
-        }else{
+        } else {
             VBox outerVbox = (VBox) hBox.getChildren().get(1);
             Label messageContent = (Label) outerVbox.getChildren().get(1);
-            HBox hbox = (HBox)outerVbox.getChildren().get(2);
+            HBox hbox = (HBox) outerVbox.getChildren().get(2);
             Label time = (Label) hbox.getChildren().get(1);
-            System.out.println(messageContent.getText()  + time.getText());
+            System.out.println(messageContent.getText() + time.getText());
             System.out.println(messageContent.getText() + time.getText());
             message.setMessageBody(messageContent.getText());
             message.setMessageDate(new Date());
@@ -541,5 +565,29 @@ public class HomeController implements Initializable {
         return message;
     }
 
+    public void showError(String errorMessage) {
+        errorsLabel.setText(errorMessage);
+        new Thread(() -> {
+            errorsLabel.setVisible(true);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            errorsLabel.setVisible(false);
+        }).start();
+    }
 
+    public void showMessage(String message) {
+        messageLabel.setText(message);
+        new Thread(() -> {
+            messageLabel.setVisible(true);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            messageLabel.setVisible(false);
+        }).start();
+    }
 }

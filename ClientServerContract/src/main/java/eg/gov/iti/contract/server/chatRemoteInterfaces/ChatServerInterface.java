@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
 public interface ChatServerInterface extends Remote {
     void register(ChatClient chatClient)throws RemoteException;
     void unRegister(ChatClient chatClient)throws RemoteException;
-    void changeStatus(String username, String status) throws RemoteException;
     void sendAnnouncementToAllOnlineUsers(String announcementMessage) throws RemoteException;
 
 }

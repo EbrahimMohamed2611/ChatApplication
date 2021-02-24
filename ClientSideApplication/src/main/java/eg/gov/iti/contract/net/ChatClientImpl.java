@@ -12,14 +12,11 @@ import eg.gov.iti.contract.ui.models.*;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -28,8 +25,6 @@ import org.controlsfx.control.Notifications;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
@@ -50,7 +45,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         modelsFactory = ModelsFactory.getInstance();
         currentUser = modelsFactory.getCurrentUserModel();
 
-        System.out.println("userAuthModel : " + userAuthModel);
+//        System.out.println("userAuthModel : " + userAuthModel);
 
     }
 
@@ -69,7 +64,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     @Override
     public void receiveMessage(UserMessageDto userMessage) throws RemoteException {
         UserMessageModel messageModelFromMessageDto = MessageAdapter.getMessageModelFromMessageDto(userMessage);
-        System.out.println("messageModelFromMessageDto " + messageModelFromMessageDto);
+//        System.out.println("messageModelFromMessageDto " + messageModelFromMessageDto);
         Platform.runLater(() -> {
             try {
                 homeController.displayFriendMessage(messageModelFromMessageDto);
@@ -79,6 +74,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
         });
     }
 
+    // todo create stage
     @Override
     public void receiveAnnouncement(String message) throws RemoteException {
         Platform.runLater(() -> {
@@ -105,7 +101,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     public void receiveInvitation(UserInvitationDto userInvitationDto) throws RemoteException {
         Platform.runLater(() -> {
             userInvitationModel = UserInvitationAdapter.getInvitationModelFromDto(userInvitationDto);
-            System.out.println(userInvitationModel + " invited you!");
+            System.out.println(userInvitationModel.getSenderName() + " invited you!");
             currentUser.getInvitations().add(userInvitationModel);
         });
     }
@@ -125,7 +121,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
             }
         });
     }
-
 
 
     // todo replace user auth model with current user model
@@ -153,25 +148,27 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
 
     @Override
     public void notifyFriendUpdate(UserFriendDto userFriendDto) throws RemoteException {
+//        currentUser.getFriends()
+//                .stream()
+//                .filter(friendModel -> friendModel.getPhoneNumber().equals(userFriendDto.getFriendPhoneNumber()))
+//                .map(friendModel -> {
+//                    friendModel.setName(userFriendDto.getName());
+//                    friendModel.setImage(ImageConverter.getDecodedImage(userFriendDto.getImageEncoded()));
+//                    friendModel.setImageEncoded(userFriendDto.getImageEncoded());
+//                    friendModel.setStatusProperty(userFriendDto.getFriendStatus().getStatus());
+//                    return friendModel;
+//                }).findFirst().get();
+
         for (FriendModel friendModel : currentUser.getFriends()) {
             if (friendModel.getPhoneNumber().equals(userFriendDto.getFriendPhoneNumber())) {
                 friendModel.setName(userFriendDto.getName());
                 friendModel.setImage(ImageConverter.getDecodedImage(userFriendDto.getImageEncoded()));
                 friendModel.setImageEncoded(userFriendDto.getImageEncoded());
+                friendModel.setStatus(userFriendDto.getFriendStatus());
             }
         }
-
-        //        List<FriendModel> collect = currentUser.getFriends().stream()
-//                .filter(f -> f.getPhoneNumber().equals(userFriendDto.getFriendPhoneNumber()))
-//                .map(f -> {
-//                    FriendModel friendModel = new FriendModel();
-//                    friendModel.setName(userFriendDto.getName());
-//                    friendModel.setImageEncoded(userFriendDto.getImageEncoded());
-//                    friendModel.setImage(ImageConverter.getDecodedImage(userFriendDto.getImageEncoded()));
-//                    return friendModel;
-//                }).collect(Collectors.toList());
-//
     }
+
     public void receiveAnnouncementFromServer(String announcementMessage) throws RemoteException {
 
         Platform.runLater(() -> {

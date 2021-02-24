@@ -1,7 +1,9 @@
 package eg.gov.iti.contract.ui.controllers;
 
-import com.jfoenix.controls.JFXSpinner;
+import eg.gov.iti.contract.client.ChatClient;
+import eg.gov.iti.contract.net.ChatClientImpl;
 import eg.gov.iti.contract.net.ServicesLocator;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
@@ -13,11 +15,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class ConnectToServerController implements Initializable {
     private StageCoordinator coordinator;
     private CachedCredentialsData cachedCredentialsData;
+    private ChatServerInterface chatService;
+    private ChatClient client;
     @FXML
     private Label invalidIpLabel;
     @FXML
@@ -27,11 +32,12 @@ public class ConnectToServerController implements Initializable {
 
     private ConnectionModel connectionModel;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         coordinator = StageCoordinator.getInstance();
         connectionModel = ModelsFactory.getInstance().getConnectionModel();
+        chatService = ServicesLocator.getChatServerInterface();
+        client = ChatClientImpl.getInstance();
     }
 
     @FXML
@@ -48,8 +54,14 @@ public class ConnectToServerController implements Initializable {
         ServicesLocator.servicesInit(serverIp);
         cachedCredentialsData = CachedCredentialsData.getInstance();
 //        serverSpinner.setVisible(false);
-        if (cachedCredentialsData.validateCredentials())
+        if (cachedCredentialsData.validateCredentials()) {
+            try {
+                chatService.register(client);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             coordinator.switchToHomeScene();
+        }
         else
             coordinator.switchToFirstLoginScene();
 

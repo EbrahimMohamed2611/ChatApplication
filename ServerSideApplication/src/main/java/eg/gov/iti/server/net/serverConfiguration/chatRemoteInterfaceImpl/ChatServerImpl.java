@@ -2,7 +2,9 @@ package eg.gov.iti.server.net.serverConfiguration.chatRemoteInterfaceImpl;
 
 import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.clientServerDTO.dto.UserFriendDto;
+import eg.gov.iti.contract.clientServerDTO.enums.Status;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
+import eg.gov.iti.contract.server.chatRemoteInterfaces.StatusServiceInterface;
 import eg.gov.iti.server.db.dao.FriendDao;
 import eg.gov.iti.server.db.dao.InvitationDao;
 import eg.gov.iti.server.db.dao.UserDao;
@@ -12,7 +14,6 @@ import eg.gov.iti.server.db.dao.daoImpl.UserDaoImpl;
 import eg.gov.iti.server.db.entities.Friendship;
 import eg.gov.iti.server.db.entities.Invitation;
 import eg.gov.iti.server.db.entities.User;
-import eg.gov.iti.server.db.helpers.adapters.UserFriendAdapter;
 import eg.gov.iti.server.db.helpers.adapters.UserInvitationAdapter;
 import eg.gov.iti.server.net.callbackConfiguration.OnlineClients;
 
@@ -25,12 +26,16 @@ import java.util.Map;
 public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInterface {
     private InvitationDao invitationDao;
     private FriendDao friendDao;
-    private OnlineClients onlineClients = OnlineClients.getInstance();
+    private final OnlineClients onlineClients = OnlineClients.getInstance();
     private UserDao userDao;
+    private StatusServiceInterface statusService;
 
     public ChatServerImpl() throws RemoteException {
         try {
             userDao = UserDaoImpl.getInstance();
+            invitationDao = InvitationDaoImpl.getInstance();
+            friendDao = FriendDaoImpl.getInstance();
+            statusService = StatusServiceImpl.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,22 +45,25 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
     @Override
     public void register(ChatClient clientRef) throws RemoteException {
         var test = onlineClients.getOnlineClients();
-               test.put(clientRef.getPhoneNumber(), clientRef);
+        test.put(clientRef.getPhoneNumber(), clientRef);
+        // Update status in DB to available
+        User user1 = userDao.selectByPhoneNumber(clientRef.getPhoneNumber());
+        user1.setStatus(Status.AVAILABLE);
+        userDao.update(user1);
+
+        statusService.updateStatus(clientRef, Status.AVAILABLE);
+
         System.out.println("Client " + clientRef.getPhoneNumber() + " added");
 
-        invitationDao = InvitationDaoImpl.getInstance();
         if (invitationDao.hasInvitation(clientRef.getPhoneNumber())) {
             List<Invitation> invitations = invitationDao.retrieveInvitations(clientRef.getPhoneNumber());
             for (Invitation invitation : invitations) {
                 User sender = userDao.selectByPhoneNumber(invitation.getSenderPhoneNumber());
-                System.out.println(sender);
-                System.out.println(invitation);
                 clientRef.receiveInvitation(UserInvitationAdapter.getInvitationDtoFromInvitation(invitation, sender));
             }
         }
 
-        friendDao = FriendDaoImpl.getInstance();
-        if(friendDao.hasFriendship(clientRef.getPhoneNumber())) {
+        if (friendDao.hasFriendship(clientRef.getPhoneNumber())) {
             List<Friendship> friendships = friendDao.retrieveFriendsOf(clientRef.getPhoneNumber());
             for (Friendship friendship : friendships) {
                 UserFriendDto userFriendDto = new UserFriendDto();
@@ -63,6 +71,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
                 userFriendDto.setFriendPhoneNumber(friendship.getFriendPhoneNumber());
                 userFriendDto.setName(user.getUserName());
                 userFriendDto.setImageEncoded(user.getImageEncoded());
+                if (OnlineClients.getInstance().getOnlineClients().containsKey(user.getPhoneNumber())) {
+                    userFriendDto.setFriendStatus(user.getStatus());
+                } else {
+                    userFriendDto.setFriendStatus(Status.AWAY);
+                }
                 clientRef.addFriend(userFriendDto);
             }
         }
@@ -72,14 +85,15 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 
     @Override
     public void unRegister(ChatClient clientRef) throws RemoteException {
+        // Save him as away
+        User user = userDao.selectByPhoneNumber(clientRef.getPhoneNumber());
+        user.setStatus(Status.AWAY);
+        userDao.update(user);
+        // remove from online list
         onlineClients.getOnlineClients().remove(clientRef.getPhoneNumber());
-        System.out.println("Client removed");
+        statusService.updateStatus(clientRef, Status.AWAY);
+        System.out.println(clientRef.getPhoneNumber() + " removed");
         clientRef.receiveAnnouncement("You are Offline");
-    }
-
-    @Override
-    public void changeStatus(String username, String status) throws RemoteException {
-
     }
 
     //    public void tellOthers(ChatClient chatClient ,UserMessageDto userMessageDto)throws RemoteException
@@ -102,7 +116,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
     @Override
     public void sendAnnouncementToAllOnlineUsers(String announcementMessage) {
         Map<String, ChatClient> onlineClients = this.onlineClients.getOnlineClients();
-        onlineClients.forEach((k,v)->{
+        onlineClients.forEach((k, v) -> {
             try {
                 v.receiveAnnouncementFromServer(announcementMessage);
             } catch (RemoteException e) {

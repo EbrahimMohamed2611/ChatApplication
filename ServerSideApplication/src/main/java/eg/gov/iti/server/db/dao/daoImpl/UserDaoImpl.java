@@ -14,7 +14,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     DataSource dataSource = MyDataSourceFactory.getMySQLDataSource();
     Connection connection;
-    private static UserDaoImpl instance=null;
+    private static UserDaoImpl instance = null;
 
     private UserDaoImpl() throws SQLException {
         connection = dataSource.getConnection();
@@ -22,9 +22,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     public static UserDaoImpl getInstance() throws SQLException {
-        if(instance == null){
+        if (instance == null) {
 
-                instance=new UserDaoImpl();
+            instance = new UserDaoImpl();
 
 
         }
@@ -35,25 +35,25 @@ public class UserDaoImpl implements UserDao {
     public Boolean save(User user) {
         final String SQL_INSERT = "INSERT INTO user (`phone_number`, `user_name`, `email`, `password`, `gender`, `country`, `date_of_birth`, `bio`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
-            preparedStatement.setString(1,user.getPhoneNumber());
-            preparedStatement.setString(2,user.getUserName());
-            preparedStatement.setString(3,user.getEmail());
-            preparedStatement.setString(4,user.getPassword());
-            preparedStatement.setString(5,user.getUserGender().toString());
-            preparedStatement.setString(6,user.getCountry());
-            preparedStatement.setDate(7,user.getDateOfBirth());
-            preparedStatement.setString(8,user.getBio());
-            preparedStatement.setString(9,user.getStatus().toString());
+            preparedStatement.setString(1, user.getPhoneNumber());
+            preparedStatement.setString(2, user.getUserName());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getUserGender().toString());
+            preparedStatement.setString(6, user.getCountry());
+            preparedStatement.setDate(7, user.getDateOfBirth());
+            preparedStatement.setString(8, user.getBio());
+            preparedStatement.setString(9, user.getStatus().toString());
 
-            System.out.println(user);
+//            System.out.println(user);
 
             int row = preparedStatement.executeUpdate();
 
             System.out.println(row);
 
-            if(row != 0){
+            if (row != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -65,27 +65,27 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean update(User user){
-        final String SQL_UPDATE = "UPDATE chatproject.user SET user_name = ?, email = ?, picture = ?, password = ?, " +
-                "country = ?, date_of_birth = ?, bio = ? WHERE phone_number = ?;";
+    public boolean update(User user) {
+        final String SQL_UPDATE = "UPDATE user SET user_name = ?, email = ?, picture = ?, password = ?, " +
+                "country = ?, date_of_birth = ?, bio = ?, status = ? WHERE phone_number = ?;";
 
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
 
-            preparedStatement.setString(1,user.getUserName());
-            preparedStatement.setString(2,user.getEmail());
-            preparedStatement.setString(3,user.getImageEncoded());
-            preparedStatement.setString(4,user.getPassword());
-            preparedStatement.setString(5,user.getCountry());
-            preparedStatement.setDate(6,user.getDateOfBirth());
-            preparedStatement.setString(7,user.getBio());
-            preparedStatement.setString(8,user.getPhoneNumber());
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getImageEncoded());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getCountry());
+            preparedStatement.setDate(6, user.getDateOfBirth());
+            preparedStatement.setString(7, user.getBio());
+            preparedStatement.setString(8, user.getStatus().toString());
+            preparedStatement.setString(9, user.getPhoneNumber());
 
-            System.out.println("row: "+user);
             int row = preparedStatement.executeUpdate();
-            System.out.println(row);
+            System.out.println("Updated rows : " + row);
 
-            if(row != 0){
+            if (row != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -96,20 +96,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Boolean delete(User user){
+    public Boolean delete(User user) {
         final String SQL_DELETE = "DELETE FROM `chatproject`.`user` WHERE (`phone_number` = ?);";
 
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-            preparedStatement.setString(1,user.getPhoneNumber());
+            preparedStatement.setString(1, user.getPhoneNumber());
 
             System.out.println("Deleted user");
-            System.out.println(user);
+//            System.out.println(user);
 
             int row = preparedStatement.executeUpdate();
             System.out.println(row);
 
-            if(row != 0){
+            if (row != 0) {
                 return true;
             }
         } catch (SQLException e) {
@@ -127,11 +127,12 @@ public class UserDaoImpl implements UserDao {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
-            preparedStatement.setString(1,phoneNumber);
+            preparedStatement.setString(1, phoneNumber);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
+                user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setUserName(resultSet.getString("user_name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setImageEncoded(resultSet.getString("picture"));
@@ -146,22 +147,11 @@ public class UserDaoImpl implements UserDao {
                 user.setDateOfBirth(resultSet.getDate("date_of_birth"));
                 user.setBio(resultSet.getString("bio"));
 
-                switch (resultSet.getString("status")) {
-                    case "AVAILABLE":
-                        user.setStatus(Status.AVAILABLE);
-                        break;
-                    case "AWAY":
-                        user.setStatus(Status.AWAY);
-                        break;
-                    case "BUSY":
-                        user.setStatus(Status.BUSY);
-                        break;
-                }
+                user.setStatus(getStatus(resultSet.getString("status")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("DB User"+user);
         return user;
     }
 
@@ -185,7 +175,7 @@ public class UserDaoImpl implements UserDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User(resultSet.getString("phone_number"),
                         resultSet.getString("user_name"),
                         resultSet.getString("password"),
@@ -199,18 +189,7 @@ public class UserDaoImpl implements UserDao {
                 else if (resultSet.getString("gender").equals("MALE"))
                     user.setUserGender(Gender.MALE);
 
-                switch (resultSet.getString("status")) {
-                    case "AVAILABLE":
-                        user.setStatus(Status.AVAILABLE);
-                        break;
-                    case "AWAY":
-                        user.setStatus(Status.AWAY);
-                        break;
-                    case "BUSY":
-                        user.setStatus(Status.BUSY);
-                        break;
-                }
-
+                user.setStatus(getStatus(resultSet.getString("status")));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -219,14 +198,27 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    private Status getStatus(String status) {
+        switch (status) {
+            case "AVAILABLE":
+                return Status.AVAILABLE;
+            case "AWAY":
+                return Status.AWAY;
+            case "BUSY":
+                return Status.BUSY;
+            default:
+                return null;
+        }
+    }
+
     @Override
     public Boolean isExisted(String phoneNumber) {
         try {
             final String SQL_SELECT = "Select * from user where phone_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
-            preparedStatement.setString(1,phoneNumber);
-            ResultSet rs=preparedStatement.executeQuery();
-            while (rs.next()){
+            preparedStatement.setString(1, phoneNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
                 return true;
             }
         } catch (SQLException e) {
@@ -236,14 +228,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Boolean isPasswordValid(String phoneNumber,String enteredPassword) {
+    public Boolean isPasswordValid(String phoneNumber, String enteredPassword) {
         try {
             final String SQL_SELECT = "Select * from user where phone_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT);
-            preparedStatement.setString(1,phoneNumber);
-            ResultSet rs=preparedStatement.executeQuery();
+            preparedStatement.setString(1, phoneNumber);
+            ResultSet rs = preparedStatement.executeQuery();
             rs.next();
-            if(rs.getString("password").equals(enteredPassword)){
+            if (rs.getString("password").equals(enteredPassword)) {
                 return true;
             }
         } catch (SQLException e) {

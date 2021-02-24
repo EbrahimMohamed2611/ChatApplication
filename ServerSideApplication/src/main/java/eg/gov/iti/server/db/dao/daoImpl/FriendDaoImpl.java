@@ -49,7 +49,7 @@ public class FriendDaoImpl implements FriendDao {
                 row = preparedStatement.executeUpdate();
                 if (row != 0) {
                     System.out.println(row);
-                    System.out.println(friendship + "Added Successfully");
+//                    System.out.println(friendship + "Added Successfully");
                     return true;
                 }
             }

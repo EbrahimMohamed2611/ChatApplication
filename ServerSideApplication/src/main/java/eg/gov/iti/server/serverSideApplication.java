@@ -20,6 +20,7 @@ public class serverSideApplication extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         stageCoordinator.initStage(primaryStage);
         stageCoordinator.switchToHomeScene();
+        primaryStage.setTitle("Chatous Server");
         primaryStage.show();
     }
 

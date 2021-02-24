@@ -19,6 +19,7 @@ public class UserFriendAdapter {
         friendModel.setImageEncoded(userFriendDto.getImageEncoded());
         if (userFriendDto.getImageEncoded() != null)
             friendModel.setImage(ImageConverter.getDecodedImage(userFriendDto.getImageEncoded()));
+        friendModel.setStatus(userFriendDto.getFriendStatus());
 
         return friendModel;
     }

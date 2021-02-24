@@ -121,6 +121,7 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
                     User receiver = userDao.selectByPhoneNumber(invitation.getReceiverPhoneNumber());
                     userFriendDto.setName(receiver.getUserName());
                     userFriendDto.setImageEncoded(receiver.getImageEncoded());
+                    userFriendDto.setFriendStatus(receiver.getStatus());
                     System.out.println("Sender name " + invitationDto.getSenderName());
                     try {
                         senderClient.addFriend(userFriendDto);
@@ -135,6 +136,7 @@ public class InvitationServiceImpl extends UnicastRemoteObject implements Invita
                     User sender = userDao.selectByPhoneNumber(invitation.getSenderPhoneNumber());
                     userFriendDto.setName(sender.getUserName());
                     userFriendDto.setImageEncoded(sender.getImageEncoded());
+                    userFriendDto.setFriendStatus(sender.getStatus());
                     System.out.println("Sender name " + invitationDto.getSenderName());
                     try {
                         receiverClient.addFriend(userFriendDto);

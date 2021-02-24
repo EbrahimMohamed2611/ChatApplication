@@ -19,6 +19,7 @@ public class ServicesAssigner {
     private RegisterServiceImpl registerService = RegisterServiceImpl.getInstance();
     private LogoutServiceImpl logoutService = LogoutServiceImpl.getInstance();
     private UpdateProfileServiceImpl updateProfileService = UpdateProfileServiceImpl.getInstance();
+    private final StatusServiceImpl statusService = StatusServiceImpl.getInstance();
 
     private InetAddress ip;
     private InvitationServiceImpl invitationService = InvitationServiceImpl.getInstance();
@@ -67,6 +68,7 @@ public class ServicesAssigner {
             registry.rebind("registerService",registerService);
             registry.rebind("inviteService", invitationService);
             registry.rebind("updateProfileService",updateProfileService);
+            registry.rebind("statusService", statusService);
             System.out.println("Server running ......");
 
         }catch (Exception e){

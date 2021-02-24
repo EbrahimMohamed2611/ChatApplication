@@ -22,6 +22,7 @@ public class CurrentUserAdapter {
         userDto.setBio(userModel.getBio());
         userDto.setImageEncoded(userModel.getImageEncoded());
 
+
         return userDto;
     }
 
@@ -37,8 +38,8 @@ public class CurrentUserAdapter {
         userModel.setDateOfBirth(LocalDate.of(1997,11,20));
         userModel.setBio(userDto.getBio());
         userModel.setImageEncoded(userDto.getImageEncoded());
+        userModel.setStatusProperty(userDto.getStatus().toString());
 
-        System.out.println(userModel);
         return userModel;
     }
 

@@ -3,7 +3,7 @@ import javafx.scene.image.ImageView;
 import java.util.Date;
 
 public class UserMessageModel {
-
+//    private StringProperty name;
     private String name;
     private String messageBody;
     private String imageEncoded;

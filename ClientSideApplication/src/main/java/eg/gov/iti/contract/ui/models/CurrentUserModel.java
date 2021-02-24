@@ -1,8 +1,6 @@
 package eg.gov.iti.contract.ui.models;
 
-import eg.gov.iti.contract.clientServerDTO.enums.Gender;
 import eg.gov.iti.contract.clientServerDTO.enums.Status;
-import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 //todo sql to util Date
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CurrentUserModel {
     private static CurrentUserModel instance;
@@ -27,7 +22,9 @@ public class CurrentUserModel {
     private final StringProperty imageEncoded = new SimpleStringProperty();
     private Image profileImage;
     private Circle profilePic=new Circle();
-    private StringProperty status;
+    private StringProperty statusProperty = new SimpleStringProperty();
+    private Status status;
+    private Circle statusCircle = new Circle();
     private ObjectProperty<LocalDate> dateOfBirth = new SimpleObjectProperty<>();
     private ObservableList<FriendModel> friends = FXCollections.observableArrayList();
     private ObservableList<UserInvitationModel> invitations = FXCollections.observableArrayList();
@@ -97,16 +94,33 @@ public class CurrentUserModel {
     }
 
 
-    public String getStatus() {
-        return status.get();
+    public String getStatusProperty() {
+        return statusProperty.get();
     }
 
-    public StringProperty statusProperty() {
+    public StringProperty statusPropertyProperty() {
+        return statusProperty;
+    }
+
+    public void setStatusProperty(String statusProperty) {
+        this.statusProperty.set(statusProperty);
+    }
+
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status.set(status);
+    public void setStatus(Status status) {
+        this.status = status;
+        this.statusCircle.setFill(status.getStatus());
+    }
+
+    public Circle getStatusCircle() {
+        return statusCircle;
+    }
+
+    public void setStatusCircle(Circle statusCircle) {
+        this.statusCircle = statusCircle;
     }
 
     public LocalDate getDateOfBirth() {
@@ -170,6 +184,7 @@ public class CurrentUserModel {
     }
 
 
+
     @Override
     public String toString() {
         return "CurrentUserModel{" +
@@ -181,7 +196,7 @@ public class CurrentUserModel {
                 ", country=" + country +
                 ", bio=" + bio +
                 ", imageEncoded=" + imageEncoded +
-                ", status=" + status +
+                ", status=" + statusProperty +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
