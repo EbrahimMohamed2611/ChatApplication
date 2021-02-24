@@ -1,19 +1,24 @@
 package eg.gov.iti.contract.ui.controllers.friendsControllers;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
-public class FriendController {
+public class AddFriendController {
+
     @FXML
-    AnchorPane requestAnchorPane;
+    private AnchorPane requestAnchorPane;
+
     @FXML
     private Circle friendImage;
+
     @FXML
     private Label friendName;
+
     @FXML
-    private Label phoneNumber;
+    private JFXButton addButton;
 
     public AnchorPane getRequestAnchorPane() {
         return requestAnchorPane;
@@ -27,7 +32,7 @@ public class FriendController {
         return friendName;
     }
 
-    public Label getPhoneNumber() {
-        return phoneNumber;
+    public JFXButton getAddButton() {
+        return addButton;
     }
 }

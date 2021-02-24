@@ -3,6 +3,7 @@ package eg.gov.iti.server;
 import eg.gov.iti.server.net.serverConfiguration.ServicesAssigner;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class serverSideApplication extends Application {
@@ -16,6 +17,7 @@ public class serverSideApplication extends Application {
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
 //        stageCoordinator.switchToLoginScene();
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         stageCoordinator.initStage(primaryStage);
         stageCoordinator.switchToHomeScene();
         primaryStage.show();

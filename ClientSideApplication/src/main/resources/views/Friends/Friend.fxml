@@ -14,19 +14,24 @@
          <children>
             <HBox alignment="CENTER" prefHeight="46.0" prefWidth="186.0" snapToPixel="false" spacing="5.0">
                <children>
-                  <Circle fx:id="friendImage" fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE">
+                  <Circle fx:id="friendImage" fill="WHITE" radius="20.0" stroke="#eee4e4" strokeType="INSIDE">
                      <HBox.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </HBox.margin>
                   </Circle>
-                  <Label fx:id="friendName" alignment="CENTER" prefHeight="27.0" prefWidth="127.0">
+                  <VBox spacing="10.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
+                     <children>
+                        <Label fx:id="friendName" alignment="TOP_LEFT" prefHeight="27.0" prefWidth="127.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="phoneNumber" prefHeight="17.0" prefWidth="125.0" />
+                     </children>
+                  </VBox>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

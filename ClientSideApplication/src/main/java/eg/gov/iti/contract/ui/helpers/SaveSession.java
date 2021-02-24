@@ -2,10 +2,18 @@ package eg.gov.iti.contract.ui.helpers;
 
 import eg.gov.iti.contract.ui.models.UserMessageModel;
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +28,13 @@ public class SaveSession {
         return builder.newDocument();
     }
 
-    private static void populateDocumentWithDate (Document document)
+    private static void populateDocumentWithDate (Document document, List<UserMessageModel> userMessageModels)
     {
         Element messages = document.createElement("messages");
-
-        Element message1 = createMessage(document, "Ebrahim", "Amin", "Thank's", "en");
-        messages.appendChild(message1);
-
-        Element message2 = createMessage(document, "Mahmoud", "Amin", "Thank's", "en");
-        messages.appendChild(message2);
-
-        Element message3 = createMessage(document, "Hamada", "Amin", "Thank's", "en");
-        messages.appendChild(message3);
-
+        userMessageModels.stream().forEach(message->{
+            Element message1 = createMessage(document, "Ebrahim", "Assem", message.getMessageBody(), "en");
+            messages.appendChild(message1);
+        });
         document.appendChild(messages);
     }
 
@@ -117,15 +119,42 @@ public class SaveSession {
     }
 
 
-    public static void saveSession(){
+    public static void saveSession(List<UserMessageModel> userMessageModels){
         try {
             Document document = createEmptyDocument();
-            populateDocumentWithDate(document);
+            populateDocumentWithDate(document,userMessageModels);
             printDocumentContents(document);
+            genderedHTMLUsingTraxAPI(document);
         } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
             e.printStackTrace();
         }
     }
 
+    // Generate HTML From Dom source
+
+    private static void genderedHTMLUsingTraxAPI(Document domSource) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+        DOMSource xmlSource = new DOMSource(domSource);
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        documentFactory.setNamespaceAware(true);
+
+        DocumentBuilder builder = documentFactory.newDocumentBuilder();
+        Document document1 = builder.parse(new File("chat-style.xsl"));
+        DOMSource xsltSource = new DOMSource(document1);
+
+        StreamResult result = new StreamResult(new File("ChatSession.html"));
+        Transformer transformer = factory.newTransformer();
+//        Transformer transformer = factory.newTransformer(xsltSource);
+        transformer.transform(xmlSource,result);
+
+    }
 
 }

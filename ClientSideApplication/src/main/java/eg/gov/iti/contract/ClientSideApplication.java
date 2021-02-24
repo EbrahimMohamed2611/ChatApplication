@@ -8,6 +8,7 @@ import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.ConnectionModel;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class ClientSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
         stageCoordinator.initStage(primaryStage);
         stageCoordinator.switchConnectionServer();

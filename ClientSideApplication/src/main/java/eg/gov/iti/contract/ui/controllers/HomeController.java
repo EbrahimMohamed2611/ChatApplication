@@ -18,26 +18,27 @@ import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendController;
 import eg.gov.iti.contract.ui.controllers.friendsControllers.FriendRequestController;
 import eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController;
 import eg.gov.iti.contract.ui.controllers.messages.SenderMessageController;
-import eg.gov.iti.contract.ui.helpers.ImageConverter;
+import eg.gov.iti.contract.ui.helpers.*;
 import eg.gov.iti.contract.ui.models.*;
 import eg.gov.iti.contract.ui.models.CurrentUserModel;
 import eg.gov.iti.contract.ui.models.UserMessageModel;
-
-import eg.gov.iti.contract.ui.helpers.CachedCredentialsData;
-import eg.gov.iti.contract.ui.helpers.ModelsFactory;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -47,13 +48,11 @@ import java.io.*;
 
 import eg.gov.iti.contract.server.chatRemoteInterfaces.ChatServerInterface;
 import eg.gov.iti.contract.server.chatRemoteInterfaces.LogoutServiceInterface;
-import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.w3c.dom.events.MouseEvent;
 
 import javax.imageio.ImageIO;
 import java.net.URL;
@@ -63,9 +62,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
 
@@ -75,8 +76,8 @@ public class HomeController implements Initializable {
     @FXML
     private TextField searchTextField;
 
-    @FXML
-    private VBox chatContentVBox;
+//    @FXML
+//    private VBox chatContentVBox;
 
     @FXML
     private Circle profilePic;
@@ -90,6 +91,9 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label userPhoneNumberLabel;
+
+    @FXML
+    ListView<HBox> chatListView;
 
     @FXML
     ListView<AnchorPane> listView;
@@ -115,7 +119,10 @@ public class HomeController implements Initializable {
     private Image defaultUserImage;
     private Image userImage;
 
-    private String receiverPhoneNumber;
+    private List<UserMessageModel> messageSessions;
+
+    //    private String receiverPhoneNumber;
+    private FriendModel currentFriend;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -180,10 +187,6 @@ public class HomeController implements Initializable {
         profilePic.fillProperty().bind(currentUserModel.getProfilePic().fillProperty());
 //        chatContentVBox.maxWidthProperty().bind(chatSpace.widthProperty());
 
-
-        scrollPane.vvalueProperty().bind(chatContentVBox.heightProperty());
-        chatContentVBox.prefWidthProperty().bind(scrollPane.widthProperty());
-
         requestsListView = new ListView<>();
         friendsListView = new ListView<>();
 
@@ -201,20 +204,26 @@ public class HomeController implements Initializable {
         });
 
         showFriends();
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AnchorPane>() {
-            @Override
-            public void changed(ObservableValue<? extends AnchorPane> observable, AnchorPane oldValue, AnchorPane newValue) {
-                // Your action here
-                if (newValue != null) {
-                    String text = ((Label) ((HBox) ((VBox) newValue.getChildren().get(0)).getChildren().get(0)).getChildren().get(1)).getText();
-                    if (text != null) {
-                        receiverPhoneNumber = text;
-                        System.out.println("Selected item: " + newValue);
-                        System.out.println(text);
-                    }
+
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Your action here
+            if (newValue != null) {
+                VBox outerVbox = (VBox) newValue.getChildren().get(0);
+                HBox outerHBox = (HBox) outerVbox.getChildren().get(0);
+                VBox innerVbox = (VBox) outerHBox.getChildren().get(1);
+                Label friendPhoneNumber = (Label) innerVbox.getChildren().get(1);
+
+                if (!currentUserModel.getFriends().isEmpty()) {
+                    currentFriend = currentUserModel.getFriends()
+                            .stream()
+                            .filter(f -> f.getPhoneNumber().equals(friendPhoneNumber.getText()))
+                            .findFirst().get();
+
+                    chatListView.setItems(currentFriend.getMessages());
                 }
             }
         });
+        messageSessions = new ArrayList<>();
     }
 
     public HomeController() throws RemoteException {
@@ -228,8 +237,8 @@ public class HomeController implements Initializable {
         userMessageModel.setMessageBody(messageContentTextField.getText());
         userMessageModel.setMessageDate(new Date());
         userMessageModel.setImageEncoded(ImageConverter.getEncodedImage(new File("src/main/resources/pictures/avatar.png")));
-//        userMessageModel.setReceiverPhoneNumber("01005425354");
-        userMessageModel.setReceiverPhoneNumber(receiverPhoneNumber);
+        userMessageModel.setReceiverPhoneNumber(currentFriend.getPhoneNumber());
+
         userMessageModel.setSenderPHoneNumber(userAuthModel.getPhoneNumber());
         // this.chatContentVBox.getChildren().add(new Label(messageContentTextField.getText()));
         System.out.println("=====" + userMessageModel);
@@ -250,7 +259,7 @@ public class HomeController implements Initializable {
         Image image = ImageConverter.getDecodedImage(message.getImageEncoded());
         senderMessageController.getSenderImgView().setImage(image);
         senderMessageController.getSenderTimeStampLabel().setText(String.valueOf(new Date()));
-        this.chatContentVBox.getChildren().add(messageSender);
+        currentFriend.getMessages().add((HBox) messageSender);
         UserMessageDto messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
         System.out.println("Message dto" + messageDto);
         friendMessageServiceInterface.sendToMyFriend(messageDto);
@@ -268,7 +277,7 @@ public class HomeController implements Initializable {
         receiverMessageController.getReceiverImgView().setImage(image);
         receiverMessageController.getReceiverMessageBodyLabel().setText(friendMessage.getMessageBody());
         receiverMessageController.getReceiverTimeStampLabel().setText(String.valueOf(friendMessage.getMessageDate()));
-        this.chatContentVBox.getChildren().add(messageReceiver);
+        currentFriend.getMessages().add((HBox) messageReceiver);
 
     }
 
@@ -365,7 +374,15 @@ public class HomeController implements Initializable {
                     e.printStackTrace();
                 }
                 friendRequest = loader.getController();
-                friendRequest.getFriendName().setText(invitationModel.getSenderPhoneNumber());
+                if (invitationModel.getSenderImageEncoded() != null)
+                    friendRequest.getFriendImage().setFill(new ImagePattern(ImageConverter.getDecodedImage(invitationModel.getSenderImageEncoded())));
+                else {
+                    friendRequest.getFriendImage().setFill(new ImagePattern(defaultUserImage));
+                }
+                System.out.println(invitationModel.senderNameProperty().get());
+                friendRequest.getFriendName().textProperty().bind(invitationModel.senderNameProperty());
+                friendRequest.getFriendImage().fillProperty().bind(invitationModel.getSenderPicCircle().fillProperty());
+                System.out.println(friendRequest.getFriendName().getText() + " Added");
                 Parent finalRequstInstance = requstInstance;
 
                 friendRequest.getAcceptButton().setOnAction(e -> {
@@ -388,7 +405,13 @@ public class HomeController implements Initializable {
                         remoteException.printStackTrace();
                     }
                     System.out.println(invitationModel.getSenderPhoneNumber() + "rejected");
+                    System.out.println("List size before " + requestsListView.getItems().size());
                     requestsListView.getItems().remove(finalRequstInstance);
+                    System.out.println("List size after " + requestsListView.getItems().size());
+
+                    System.out.println("Invitations befor " + currentUserModel.getInvitations().size());
+                    currentUserModel.getInvitations().remove(invitationModel);
+                    System.out.println("Invitations after " + currentUserModel.getInvitations().size());
                 });
 
                 requestsListView.getItems().add((AnchorPane) requstInstance);
@@ -415,7 +438,14 @@ public class HomeController implements Initializable {
                     e.printStackTrace();
                 }
                 friendController = loader.getController();
-                friendController.getFriendName().setText(friendModel.getPhoneNumber());
+                if (friendModel.getImageEncoded() != null)
+                    friendController.getFriendImage().setFill(new ImagePattern(ImageConverter.getDecodedImage(friendModel.getImageEncoded())));
+                else {
+                    friendController.getFriendImage().setFill(new ImagePattern(defaultUserImage));
+                }
+                friendController.getFriendImage().fillProperty().bind(friendModel.getFriendImage().fillProperty());
+                friendController.getFriendName().textProperty().bind(friendModel.nameProperty());
+                friendController.getPhoneNumber().textProperty().bind(friendModel.phoneNumberProperty());
 
                 friendsListView.getItems().add((AnchorPane) friendInstance);
             }
@@ -476,8 +506,40 @@ public class HomeController implements Initializable {
 
     @FXML
     private void saveSessionButton(){
-        System.out.println("Save Session .. ");
-
+        Thread saveSessionThread = new Thread(() -> {
+            ObservableList<HBox> items = chatListView.getItems();
+            ArrayList<Object> messages = items.stream().map(hb -> {
+                    UserMessageModel messages1 = getMessages(hb);
+                    messageSessions.add(messages1);
+                return messageSessions;
+            }).collect(Collectors.toCollection(ArrayList::new));
+            SaveSession.saveSession(messageSessions);
+        });
+        saveSessionThread.start();
     }
+
+    private UserMessageModel getMessages(HBox hBox)   {
+        UserMessageModel message = new UserMessageModel();
+        if(hBox.getChildren().get(0) instanceof VBox) {
+            VBox outerVbox = (VBox) hBox.getChildren().get(0);
+            Label messageContent = (Label) outerVbox.getChildren().get(1);
+            HBox hbox = (HBox)outerVbox.getChildren().get(2);
+            Label time = (Label) hbox.getChildren().get(1);
+            System.out.println(messageContent.getText() + time.getText());
+            message.setMessageBody(messageContent.getText());
+            message.setMessageDate(new Date());
+        }else{
+            VBox outerVbox = (VBox) hBox.getChildren().get(1);
+            Label messageContent = (Label) outerVbox.getChildren().get(1);
+            HBox hbox = (HBox)outerVbox.getChildren().get(2);
+            Label time = (Label) hbox.getChildren().get(1);
+            System.out.println(messageContent.getText()  + time.getText());
+            System.out.println(messageContent.getText() + time.getText());
+            message.setMessageBody(messageContent.getText());
+            message.setMessageDate(new Date());
+        }
+        return message;
+    }
+
 
 }

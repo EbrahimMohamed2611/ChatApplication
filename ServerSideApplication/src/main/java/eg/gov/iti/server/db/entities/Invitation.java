@@ -1,10 +1,10 @@
 package eg.gov.iti.server.db.entities;
 
-import java.io.Serializable;
 
-public class Invitation implements Serializable {
+public class Invitation {
     private String senderPhoneNumber;
     private String receiverPhoneNumber;
+
 
     public Invitation() {
     }
