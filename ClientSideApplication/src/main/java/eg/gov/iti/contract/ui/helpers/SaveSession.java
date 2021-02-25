@@ -32,7 +32,7 @@ public class SaveSession {
     {
         Element messages = document.createElement("messages");
         userMessageModels.stream().forEach(message->{
-            Element message1 = createMessage(document, "Ebrahim", "Assem", message.getMessageBody(), "en");
+            Element message1 = createMessage(document, message.getSenderName(), message.getReceiverPhoneNumber(), message.getMessageBody(), "en");
             messages.appendChild(message1);
         });
         document.appendChild(messages);
@@ -118,7 +118,6 @@ public class SaveSession {
         }
     }
 
-
     public static void saveSession(List<UserMessageModel> userMessageModels){
         try {
             Document document = createEmptyDocument();
@@ -151,8 +150,8 @@ public class SaveSession {
         DOMSource xsltSource = new DOMSource(document1);
 
         StreamResult result = new StreamResult(new File("ChatSession.html"));
-        Transformer transformer = factory.newTransformer();
-//        Transformer transformer = factory.newTransformer(xsltSource);
+//        Transformer transformer = factory.newTransformer();
+        Transformer transformer = factory.newTransformer(xsltSource);
         transformer.transform(xmlSource,result);
 
     }

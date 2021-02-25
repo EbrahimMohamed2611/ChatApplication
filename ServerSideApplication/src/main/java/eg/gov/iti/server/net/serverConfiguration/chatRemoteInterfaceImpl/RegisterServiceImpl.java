@@ -64,7 +64,15 @@ public class RegisterServiceImpl extends UnicastRemoteObject implements Register
         return false;
     }
 
-
-
+    @Override
+    public boolean checkPhoneNumber(String userPhoneNumber) throws RemoteException {
+        try {
+            userDao=UserDaoImpl.getInstance();
+            return userDao.isExisted(userPhoneNumber);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

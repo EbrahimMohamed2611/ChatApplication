@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output method="html"/>
-    <xsl:template match="/*">
+    <xsl:template match="messages">
         <html>
             <head>
                 <style type="text/css">
@@ -135,42 +135,42 @@
                     -ms-user-select: none;
                     }
                 </style>
+                <head>
+                    <meta charset="UTF-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"/>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css"/>
+
+                </head>
             </head>
             <body>
-
+                <div class="container" style="width:50%">
+        <h1 class="text-center">Chat Session</h1>
                 <ol class="chat">
                     <xsl:for-each select="messages">
-<!--                        <div class="menu">-->
-<!--                            <div class="logo"><p>Chat session on <xsl:value-of select="SessionDate"/></p></div>-->
-<!--                        </div>-->
-                        <xsl:for-each select="messages">
-                            <xsl:choose>
-                                <xsl:when test="@pos='left'">
-                                    <li class="self">
-                                        <div class="msg" >
-                                            <h2> <xsl:value-of select="from"/></h2>
-                                            <p>
 
+                                        <div class="msg justify-content" >
+                                            <div>From</div>
+                                            <h5 class="alert alert-primary d-flex justify-content-start" style="width:30%">
+
+                                                <xsl:value-of  select="from"/></h5>
+                                            <p class="alert-secondary d-flex justify-content-center">
                                                 <xsl:value-of select="body"/>
                                             </p>
-                                        </div>
-                                    </li>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <li class="other">
-                                        <div class="msg" >
-                                            <h2> <xsl:value-of select="from"/></h2>
-                                            <p>
+<!--                                            <div>-->
+<!--                                                <div>To</div>-->
+<!--                                                <h5 class="alert alert-warning rigth" style="width:30%">-->
+<!--                                                    <xsl:value-of select="to"/>-->
+<!--                                                </h5>-->
+<!--                                            </div>-->
 
-                                                <xsl:value-of select="body"/>
-                                            </p>
+
                                         </div>
-                                    </li>
-                                </xsl:otherwise>
-                            </xsl:choose>
+
                         </xsl:for-each>
-                    </xsl:for-each>
                 </ol>
+                </div>
             </body>
         </html>
     </xsl:template>

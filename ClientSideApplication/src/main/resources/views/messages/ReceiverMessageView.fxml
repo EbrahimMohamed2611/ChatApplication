@@ -8,17 +8,17 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox snapToPixel="false" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController">
+<HBox snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.ReceiverMessageController">
    <children>
       <VBox alignment="CENTER">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
          <children>
-            <Circle fx:id="receiverImage" fill="WHITE" radius="20.0" stroke="#c9c4c4" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
+            <Circle fx:id="receiverImage" fill="WHITE" radius="20.0" stroke="#dae4ee" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <VBox maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
+      <VBox maxHeight="Infinity" prefWidth="369.0">
          <children>
             <Label fx:id="receiverNameLabel" style="-fx-text-fill: #252D3B " text="UserName">
                <font>
@@ -28,21 +28,19 @@
                   <Insets right="20.0" />
                </VBox.margin>
             </Label>
-            <Label fx:id="receiverMessageBodyLabel" style="-fx-text-fill: #252D3B " text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" wrapText="true" VBox.vgrow="ALWAYS">
+            <Label fx:id="receiverMessageBodyLabel" style="-fx-text-fill: #252D3B; -fx-border-color: #dae4ee; -fx-border-radius: 5; -fx-background-color: #D9E4FC; -fx-background-radius: 5;" text="MsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsgMsg" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="11.0" />
                </font>
                <VBox.margin>
-                  <Insets right="20.0" />
+                  <Insets left="5.0" right="20.0" />
                </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </Label>
             <HBox alignment="CENTER_LEFT">
                <children>
-                  <FontIcon fx:id="statusIcon" iconLiteral="mdi2e-eye-off-outline">
-                     <HBox.margin>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </FontIcon>
                   <Label fx:id="receiverTimeStampLabel" style="-fx-text-fill: #252D3B " text="timeStamp">
                      <font>
                         <Font size="10.0" />
@@ -54,12 +52,17 @@
                         <Insets right="5.0" />
                      </padding>
                   </Label>
+                  <FontIcon fx:id="statusIcon" iconLiteral="mdi2e-eye-off-outline">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </FontIcon>
                </children>
             </HBox>
          </children>
       </VBox>
    </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
    </padding>
 </HBox>

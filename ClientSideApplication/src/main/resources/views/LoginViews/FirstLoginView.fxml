@@ -102,7 +102,7 @@
                      </GridPane.margin>
                      <children>
                         <FontIcon iconColor="#004dfc" iconLiteral="mdi2c-cellphone-iphone" iconSize="20" />
-                        <JFXTextField fx:id="userPhoneNumberTxtField" focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
+                        <JFXTextField fx:id="userPhoneNumberTxtField" focusColor="#004dfc" labelFloat="true" prefHeight="25.0" prefWidth="230.0" promptText="Phone Number" style="-fx-text-fill: black;" styleClass="jfx-text-field" stylesheets="@../../styles.css" unFocusColor="#dae4ee" />
                      </children>
                   </HBox>
                   <Label text="Invalid Phone Number" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
@@ -112,7 +112,7 @@
                   </Label>
                   <VBox alignment="CENTER" prefHeight="534.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <children>
-                        <JFXButton onAction="#switchToSecondLoginScene" prefHeight="11.0" prefWidth="154.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 50;" text="Next" textFill="WHITE">
+                        <JFXButton onAction="#switchToSecondLoginScene" prefHeight="30.0" prefWidth="155.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 5;" text="Next" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>

@@ -19,11 +19,11 @@ public class Validator {
     public void nameValidator(JFXTextField textField){
         RegexValidator regexValidator =new RegexValidator();
         RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
-        regexValidator.setRegexPattern("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$");
+        regexValidator.setRegexPattern("^[a-zA-Z_-][ a-zA-Z0-9_-]{2,14}$");
         regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setMessage("Required");
-        regexValidator.setMessage("Invalid Name");
+        regexValidator.setMessage("Invalid Name. Must be 3:15 character");
         textField.getValidators().addAll(requiredFieldValidator,regexValidator);
 
     }
@@ -34,8 +34,12 @@ public class Validator {
         regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setMessage("Required");
-        regexValidator.setMessage("Invalid Phone Number");
-        textField.getValidators().addAll(requiredFieldValidator,regexValidator);
+        regexValidator.setMessage("Invalid Phone Number. eg: 01(0,1,2,5)********");
+        RegexValidator checkExistenceValidator=new RegexValidator();
+        checkExistenceValidator.setRegexPattern("");
+        checkExistenceValidator.setMessage("Phone Number is already exist");
+        checkExistenceValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+        textField.getValidators().addAll(requiredFieldValidator,regexValidator,checkExistenceValidator);
 
     }
     public void emailValidator(JFXTextField textField){
@@ -45,7 +49,7 @@ public class Validator {
         regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setMessage("Required");
-        regexValidator.setMessage("Invalid Email");
+        regexValidator.setMessage("Invalid Email. eg: user@mail.com");
         textField.getValidators().addAll(requiredFieldValidator,regexValidator);
     }
     public void passwordValidator(JFXPasswordField textField){
@@ -55,7 +59,7 @@ public class Validator {
         regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setMessage("Required");
-        regexValidator.setMessage("Weak Password");
+        regexValidator.setMessage("Weak Password. eg: 1997@Ahmed");
         textField.getValidators().addAll(requiredFieldValidator,regexValidator);
     }
     public void confirmPasswordValidator(JFXPasswordField confirmPasswordField){
@@ -65,10 +69,30 @@ public class Validator {
         regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
         requiredFieldValidator.setMessage("Required");
-        regexValidator.setMessage("Unmatched Password");
+        regexValidator.setMessage("Unmatched Password.");
         confirmPasswordField.getValidators().addAll(requiredFieldValidator,regexValidator);
     }
 
+    public void countryValidator(JFXTextField textField) {
+        RegexValidator regexValidator = new RegexValidator();
+        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+        regexValidator.setRegexPattern("");
+        regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+        requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+        requiredFieldValidator.setMessage("Required");
+        regexValidator.setMessage("Invalid Country Name.");
+        textField.getValidators().addAll(requiredFieldValidator, regexValidator);
+    }
+    public void loginPasswordValidator(JFXPasswordField textField){
+        RegexValidator regexValidator =new RegexValidator();
+        RequiredFieldValidator requiredFieldValidator =new RequiredFieldValidator();
+        regexValidator.setRegexPattern("");
+        regexValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+        requiredFieldValidator.setIcon(new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE));
+        requiredFieldValidator.setMessage("Required");
+        regexValidator.setMessage("Weak Password. eg: 1997@Ahmed");
+        textField.getValidators().addAll(requiredFieldValidator,regexValidator);
+    }
     public static boolean checkIP(String ip){
         match = IP_PATTERN.matcher(ip);
         return match.matches();

@@ -8,16 +8,16 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox alignment="TOP_RIGHT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.SenderMessageController">
+<HBox alignment="CENTER_LEFT" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eg.gov.iti.contract.ui.controllers.messages.SenderMessageController">
    <children>
-      <VBox alignment="TOP_RIGHT" maxHeight="Infinity" prefHeight="89.0" prefWidth="369.0">
+      <VBox alignment="TOP_RIGHT" maxHeight="Infinity" prefWidth="369.0">
          <children>
             <Label fx:id="senderNameLabel" text="UserName" textAlignment="RIGHT" textFill="#252d3b">
                <font>
                   <Font size="10.0" />
                </font>
                <VBox.margin>
-                  <Insets right="20.0" />
+                  <Insets right="5.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -28,10 +28,10 @@
                   <Font size="11.0" />
                </font>
                <VBox.margin>
-                  <Insets right="20.0" />
+                  <Insets right="10.0" />
                </VBox.margin>
                <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                  <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                </padding>
             </Label>
             <HBox alignment="CENTER_RIGHT">
@@ -55,17 +55,20 @@
                </children>
             </HBox>
          </children>
+         <HBox.margin>
+            <Insets left="5.0" />
+         </HBox.margin>
       </VBox>
       <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
          <children>
-            <Circle fx:id="senderImage" fill="WHITE" radius="20.0" stroke="#e1e1e1" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
+            <Circle fx:id="senderImage" fill="WHITE" radius="20.0" stroke="#dae4ee" strokeType="INSIDE" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
    </padding>
 </HBox>

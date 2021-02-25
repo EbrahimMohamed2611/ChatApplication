@@ -29,7 +29,7 @@ public class ModelsFactory {
 
     public UserRegisterModel getRegisterUserModel() {
         if (userRegisterModel == null) {
-            userRegisterModel = new UserRegisterModel();
+            userRegisterModel = UserRegisterModel.getInstance();
         }
         return userRegisterModel;
     }
@@ -42,7 +42,6 @@ public class ModelsFactory {
     }
     public CurrentUserModel getCurrentUserModel() {
         if (currentUserModel == null) {
-//            currentUserModel = new CurrentUserModel();
             currentUserModel = CurrentUserModel.getInstance();
         }
         return currentUserModel;

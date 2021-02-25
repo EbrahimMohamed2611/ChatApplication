@@ -30,6 +30,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -65,7 +66,7 @@ public class HomeController implements Initializable {
     @FXML
     private Circle profilePic;
     @FXML
-    ScrollPane scrollPane;
+    private ScrollPane scrollPane;
     @FXML
     private JFXButton editProfileBtn;
     @FXML
@@ -84,6 +85,12 @@ public class HomeController implements Initializable {
     private ListView<AnchorPane> listView;
     @FXML
     private Circle status;
+    @FXML
+    private JFXButton logOutBtn;
+    @FXML
+    private JFXButton closeBtn;
+    @FXML
+    private JFXButton sendBtn;
 
     ListView<AnchorPane> requestsListView;
     ListView<AnchorPane> friendsListView;
@@ -97,7 +104,7 @@ public class HomeController implements Initializable {
     private StatusServiceInterface statusService;
     private ChatClientImpl client;
 
-    BufferedImage img = null;
+//    BufferedImage img = null;
     private StageCoordinator coordinator;
 
     private ModelsFactory modelsFactory;
@@ -121,10 +128,10 @@ public class HomeController implements Initializable {
         defaultUserImage = new Image("/pictures/avatar.png");
         client = ChatClientImpl.getInstance();
         client.setHomeController(this);
-        try {
-            img = ImageIO.read(new File("/pictures/avatar.png"));
-        } catch (IOException e) {
-        }
+//        try {
+//            img = ImageIO.read(new File("/pictures/avatar.png"));
+//        } catch (IOException e) {
+//        }
 
         coordinator = StageCoordinator.getInstance();
 
@@ -136,6 +143,24 @@ public class HomeController implements Initializable {
         editIcon.setIconSize(22);
         editIcon.setIconColor(Color.WHITE);
         editProfileBtn.setGraphic(editIcon);
+
+        FontIcon exitIcon = new FontIcon("mdi2l-logout");
+        exitIcon.setIconSize(22);
+        exitIcon.setIconColor(Color.WHITE);
+        logOutBtn.setGraphic(exitIcon);
+//        logOutBtn.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon closeIcon = new FontIcon("mdi2c-close-box");
+        closeIcon.setIconSize(22);
+        closeIcon.setIconColor(Color.WHITE);
+        closeBtn.setGraphic(closeIcon);
+//        closeBtn.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon sendIcon = new FontIcon("fab-telegram-plane");
+        sendIcon.setIconSize(20);
+        sendIcon.setIconColor(Color.WHITE);
+        sendBtn.setGraphic(sendIcon);
+//        sendBtn.setAlignment(Pos.BASELINE_RIGHT);
 
         invitationService = ServicesLocator.getInvitationService();
         modelsFactory = ModelsFactory.getInstance();
@@ -274,6 +299,8 @@ public class HomeController implements Initializable {
                     currentFriend.getMessages().add((HBox) messageSender);
                     int index = chatListView.getItems().size();
                     chatListView.scrollTo(index);
+//                    chatListView.setMouseTransparent( true );
+//                    chatListView
                     messageDto = MessageAdapter.getMessageDtoFromMessageModel(message);
                     friendMessageServiceInterface.sendToMyFriend(messageDto);
                 } catch (IOException e) {
@@ -489,7 +516,7 @@ public class HomeController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        friendMessageServiceInterface.sendFile(bFile, file.getName(), "01024261188");
+        friendMessageServiceInterface.sendFile(bFile, file.getName(), currentFriend.getPhoneNumber());
 
 
     }
@@ -539,22 +566,26 @@ public class HomeController implements Initializable {
 
     private UserMessageModel getMessages(HBox hBox) {
         UserMessageModel message = new UserMessageModel();
-        if (hBox.getChildren().get(0) instanceof VBox) {
+        if (((VBox)hBox.getChildren().get(0)).getChildren().get(0) instanceof Label) {
             VBox outerVbox = (VBox) hBox.getChildren().get(0);
             Label messageContent = (Label) outerVbox.getChildren().get(1);
+            Label senderName = (Label) outerVbox.getChildren().get(0);
             HBox hbox = (HBox) outerVbox.getChildren().get(2);
             Label time = (Label) hbox.getChildren().get(1);
             System.out.println(messageContent.getText() + time.getText());
             message.setMessageBody(messageContent.getText());
+            message.setSenderName(senderName.getText());
             message.setMessageDate(new Date());
         } else {
             VBox outerVbox = (VBox) hBox.getChildren().get(1);
             Label messageContent = (Label) outerVbox.getChildren().get(1);
+            Label receiverName = (Label) outerVbox.getChildren().get(0);
             HBox hbox = (HBox) outerVbox.getChildren().get(2);
-            Label time = (Label) hbox.getChildren().get(1);
+            Label time = (Label) hbox.getChildren().get(0);
             System.out.println(messageContent.getText() + time.getText());
             System.out.println(messageContent.getText() + time.getText());
             message.setMessageBody(messageContent.getText());
+            message.setSenderName(receiverName.getText());
             message.setMessageDate(new Date());
         }
         return message;

@@ -9,20 +9,28 @@ import eg.gov.iti.server.ui.models.AdminAuthentication;
 import eg.gov.iti.server.ui.helpers.StageCoordinator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServerLoginController implements Initializable {
-    StageCoordinator coordinator;
-    AdminDao adminDao;
-    AdminAuthentication adminAuthModel;
-    ModelsFactory modelsFactory;
+    private StageCoordinator coordinator;
+    private AdminDao adminDao;
+    private AdminAuthentication adminAuthModel;
+    private ModelsFactory modelsFactory;
     @FXML
     private JFXTextField adminPhoneNumberTextField;
+
+    @FXML
+    private Label phoneNumberValidationLabel;
+
     @FXML
     private JFXPasswordField adminPasswordTextField;
+
+    @FXML
+    private Label passwordValidationLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,9 +46,15 @@ public class ServerLoginController implements Initializable {
         try {
             adminDao = AdminDaoImp.getInstance();
             if (adminDao.isExisted(adminAuthModel.getPhoneNumber())) {
+                phoneNumberValidationLabel.setVisible(false);
                 if (adminDao.isPasswordValid(adminAuthModel.getPhoneNumber(), adminAuthModel.getPassword())) {
+                    passwordValidationLabel.setVisible(false);
                     coordinator.switchToHomeScene();
+                }else {
+                    passwordValidationLabel.setVisible(true);
                 }
+            }else {
+                phoneNumberValidationLabel.setVisible(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();

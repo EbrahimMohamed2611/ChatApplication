@@ -1,6 +1,7 @@
 package eg.gov.iti.contract.net;
 
 
+import eg.gov.iti.contract.ClientSideApplication;
 import eg.gov.iti.contract.client.ChatClient;
 import eg.gov.iti.contract.clientServerDTO.dto.*;
 import eg.gov.iti.contract.net.adapters.UserFriendAdapter;
@@ -8,6 +9,7 @@ import eg.gov.iti.contract.net.adapters.UserInvitationAdapter;
 import eg.gov.iti.contract.ui.controllers.HomeController;
 import eg.gov.iti.contract.ui.helpers.ImageConverter;
 import eg.gov.iti.contract.ui.helpers.ModelsFactory;
+import eg.gov.iti.contract.ui.helpers.StageCoordinator;
 import eg.gov.iti.contract.ui.models.*;
 import eg.gov.iti.contract.net.adapters.MessageAdapter;
 import eg.gov.iti.contract.ui.models.UserAuthModel;
@@ -77,6 +79,16 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     @Override
     public void receiveAnnouncement(String message) throws RemoteException {
         Platform.runLater(() -> {
+//            Stage owner = new Stage(StageStyle.TRANSPARENT);
+//            StackPane root = new StackPane();
+//            root.setStyle("-fx-background-color: TRANSPARENT");
+//            Scene scene = new Scene(root, 1, 1);
+//            scene.setFill(Color.TRANSPARENT);
+//            owner.setScene(scene);
+//            owner.setWidth(1);
+//            owner.setHeight(1);
+//            owner.toBack();
+//            owner.show();
             notificationBuilder.create()
                     .title("Announcement")
                     .text(message)
@@ -84,6 +96,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
                     .hideAfter(Duration.seconds(5))
                     .position(Pos.TOP_RIGHT)
                     .darkStyle()
+                    .owner(ClientSideApplication.getStage())
                     .showInformation();
         });
     }
@@ -171,16 +184,16 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
     public void receiveAnnouncementFromServer(String announcementMessage) throws RemoteException {
 
         Platform.runLater(() -> {
-            Stage owner = new Stage(StageStyle.TRANSPARENT);
-            StackPane root = new StackPane();
-            root.setStyle("-fx-background-color: TRANSPARENT");
-            Scene scene = new Scene(root, 1, 1);
-            scene.setFill(Color.TRANSPARENT);
-            owner.setScene(scene);
-            owner.setWidth(1);
-            owner.setHeight(1);
-            owner.toBack();
-            owner.show();
+//            Stage owner = new Stage(StageStyle.TRANSPARENT);
+//            StackPane root = new StackPane();
+//            root.setStyle("-fx-background-color: TRANSPARENT");
+//            Scene scene = new Scene(root, 1, 1);
+//            scene.setFill(Color.TRANSPARENT);
+//            owner.setScene(scene);
+//            owner.setWidth(1);
+//            owner.setHeight(1);
+//            owner.toBack();
+//            owner.show();
             notificationBuilder.create()
                     .title("Announcement From Server")
                     .text(announcementMessage)
@@ -188,6 +201,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClient {
                     .hideAfter(Duration.seconds(5))
                     .position(Pos.TOP_RIGHT)
                     .darkStyle()
+                    .owner(ClientSideApplication.getStage())
                     .showInformation();
         });
     }

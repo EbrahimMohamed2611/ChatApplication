@@ -100,7 +100,7 @@
                         <JFXTextField fx:id="adminPhoneNumberTextField" focusColor="#004dfc" prefHeight="25.0" prefWidth="230.0" promptText="Admin phone number" style="-fx-text-fill: #004dfc;" unFocusColor="#dae4ee" />
                      </children>
                   </HBox>
-                  <Label text="Invalid Phone Number" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
+                  <Label fx:id="phoneNumberValidationLabel" text="Invalid Phone Number" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -112,10 +112,10 @@
                      <children>
                         <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
       
-                              <JFXPasswordField fx:id="adminPasswordTextField" focusColor="#004dfc" prefHeight="35.0" prefWidth="230.0" promptText="Admin password" style="-fx-text-fill: #004dfc;" unFocusColor="#dae4ee" />
+                              <JFXPasswordField fx:id="adminPasswordTextField" focusColor="#004dfc" prefHeight="21.0" prefWidth="230.0" promptText="Admin password" style="-fx-text-fill: #004dfc;" unFocusColor="#dae4ee" />
                      </children>
                   </HBox>
-                        <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" visible="false" GridPane.rowIndex="4">
+                        <Label fx:id="passwordValidationLabel" text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" visible="false" GridPane.rowIndex="4">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -125,12 +125,12 @@
                         </Label>
                         <VBox alignment="CENTER" prefHeight="275.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                             <children>
-                                <JFXButton onAction="#login" prefHeight="30.0" prefWidth="261.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 10;" text="Login" textFill="WHITE">
+                                <JFXButton onAction="#login" prefHeight="30.0" prefWidth="155.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 5;" text="Login" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton prefHeight="20.0" prefWidth="261.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-border-color: #004dfc; -fx-background-radius: 10;" text="Back" textFill="#004dfc">
+                                <JFXButton prefHeight="30.0" prefWidth="155.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 5; -fx-border-color: #004dfc; -fx-background-radius: 5;" text="Back" textFill="#004dfc">
                                     <font>
                                         <Font name="System Bold" size="16.0" />
                                     </font>

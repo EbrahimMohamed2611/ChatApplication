@@ -19,9 +19,20 @@ public class UserRegisterModel {
     private final StringProperty country = new SimpleStringProperty();
     private final StringProperty bio = new SimpleStringProperty();
     private final StringProperty imageEncoded = new SimpleStringProperty();
-    private StringProperty userGender;
-    private StringProperty status;
+    private StringProperty userGender= new SimpleStringProperty();
+    private StringProperty status = new SimpleStringProperty();
     private StringProperty dateOfBirth = new SimpleStringProperty();
+    private static UserRegisterModel instance;
+
+    private UserRegisterModel() {
+    }
+
+    public static UserRegisterModel getInstance() {
+        if (instance == null) {
+            instance = new UserRegisterModel();
+        }
+        return instance;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber.get();
@@ -129,7 +140,6 @@ public class UserRegisterModel {
         password.set("");
         fullName.set("");
         email.set("");
-        dateOfBirth.set("");
 
 
     }

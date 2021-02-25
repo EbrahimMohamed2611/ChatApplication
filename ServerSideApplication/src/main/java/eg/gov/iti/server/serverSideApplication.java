@@ -16,10 +16,10 @@ public class serverSideApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         StageCoordinator stageCoordinator = StageCoordinator.getInstance();
-//        stageCoordinator.switchToLoginScene();
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/pictures/chat-ico.png")));
         stageCoordinator.initStage(primaryStage);
-        stageCoordinator.switchToHomeScene();
+        stageCoordinator.switchToLoginScene();
+//        stageCoordinator.switchToHomeScene();
         primaryStage.setTitle("Chatous Server");
         primaryStage.show();
     }

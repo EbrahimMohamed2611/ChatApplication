@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -96,9 +97,14 @@
                         <Insets top="30.0" />
                      </GridPane.margin>
                      <children>
-                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock-outline" iconSize="20" />
+                        <FontIcon iconColor="#004dfc" iconLiteral="mdi2l-lock" iconSize="20" />
 
-                              <JFXPasswordField fx:id="passwordTxtField" focusColor="#004dfc" prefHeight="35.0" prefWidth="230.0" style="-fx-text-fill: #004dfc;" />
+                              <JFXPasswordField fx:id="passwordTxtField" focusColor="#004dfc" labelFloat="true" prefHeight="19.0" prefWidth="230.0" promptText="Password" style="-fx-text-fill: black;" stylesheets="@../../styles.css">
+                           <styleClass>
+                              <String fx:value="jfx-password-field" />
+                              <String fx:value="error-icon" />
+                              <String fx:value="error-label" />
+                           </styleClass></JFXPasswordField>
                      </children>
                   </HBox>
                         <Label text="Invalid Password" textAlignment="CENTER" textFill="#ff2d2d" visible="false" GridPane.rowIndex="2">
@@ -111,12 +117,12 @@
                         </Label>
                         <VBox alignment="CENTER" prefHeight="275.0" prefWidth="264.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                             <children>
-                                <JFXButton onAction="#logIn" prefHeight="30.0" prefWidth="211.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 50;" text="Login" textFill="WHITE">
+                                <JFXButton fx:id="loginBtn" onAction="#logIn" prefHeight="30.0" prefWidth="155.0" ripplerFill="#f0f5ff" style="-fx-background-color: #004dfc; -fx-background-radius: 5;" text="Login" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#returnBack" prefHeight="31.0" prefWidth="206.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 50; -fx-border-color: #004dfc; -fx-background-radius: 50;" text="Back" textFill="#004dfc">
+                                <JFXButton onAction="#returnBack" prefHeight="30.0" prefWidth="155.0" ripplerFill="#004dfc" style="-fx-background-color: #ffffff; -fx-border-radius: 5; -fx-border-color: #004dfc; -fx-background-radius: 5;" text="Back" textFill="#004dfc">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>

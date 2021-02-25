@@ -23,7 +23,7 @@
                         <Circle fx:id="status" fill="GREY" layoutX="31.0" layoutY="34.0" radius="6.0" stroke="GREY" strokeType="INSIDE" />
                      </children>
                   </AnchorPane>
-                  <VBox spacing="10.0">
+                  <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

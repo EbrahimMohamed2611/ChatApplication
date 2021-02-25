@@ -1,10 +1,10 @@
-.jfx-date-picker .jfx-text-field{
+.jfx-date-picker,.jfx-text-field,.jfx-combo-box,.jfx-password-field{
         -jfx-unfocus-color: #dae4ee;
+        -jfx-focus-color:  #004dfc;
+        -jfx-text-fill: black;
+
 }
 
-/*.image{*/
-/*        -fx-background-radius:100;*/
-/*}*/
 .jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error,.jfx-combo-box:error {
         -jfx-focus-color:  red;
         /*-jfx-text-fill: black;*/
@@ -12,6 +12,12 @@
         /*-fx-prompt-text-fill:  black;*/
 
 }
+#chatListView, #chatListView .list-cell:odd, #chatListView .list-cell:even {
+        -fx-background-color: #f5f5f5;
+}
+/*#chatListView .list-cell:odd, #chatListView .list-cell:even {*/
+/*        -fx-cell-size: 56px;*/
+/*}*/
 .error-label {
         -fx-text-fill: red;
         /*-fx-text-fill: #004dfc;*/
